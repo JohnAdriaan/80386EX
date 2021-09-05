@@ -7,9 +7,6 @@
 ; will have far-reaching impacts.
 ;
 
-; This %define changes things to invoke the BIOS to show more text:
-;%define         BIOS.VGA.90x60 ; Allow use of 90x60 VGA (not universal!)
-
 ; Change these to (almost) whatever you'd like. If you're too extreme, you'll
 ; get assemble-time errors. Others you won't know until you try...
 ; For example, Timer.Tick is limited on virtualisation programs like VMware,
@@ -53,6 +50,7 @@ Data.Base       EQU             IDT.Base + IDT.Max
 Data.Size       EQU             IDT.Base - Data.Base
 
 Code.Base       EQU             1000h
+Code.Size       EQU             1000h
 
 ; This will be the first-available RAM after everything else is initialised
 Demo.First      EQU             Code.Base + Code.Size + GDT.Size + Exec.Stack.Size
