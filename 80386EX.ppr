@@ -1,26 +1,28 @@
 [Config]
 Compilator.FileName=C:\NASM\NASM.exe
-Compilator.PSPar=-l %Name%.lst %Name%%Ext%
-Compilator.Log=%Name%.lst
-Compilator.Run=CMD /c COPY %Name% %Name%.iso && COPY %Name% %Name%.flp && PAUSE
+Compilator.PSPar=-fith -l%Name%.lst -o%Name%.hex %Name%%Ext%
+Compilator.Log=%Name%.log
 Compilator.SaveAll=1
 Compilator.Capture=1
 Compilator.ParsLog=%F:%L:* ; NASM
-Compilator.HideOutput=1
+Compilator.CompileOnBackground=0
+Compilator.ProgSaveAll=0
+Compilator.ProgRunSelection=0
 Compilator.LogType=0
-DefaultCPIndex=0
+Compilator.LogEncoding=0
+DefaultCP=0
 LogtoEnd=0
 DontOpen=0
 AbsolutePath=0
 FileFormat=0
 ProjectFilesOnly=0
+HTServer=localhost
 [Project tree]
 Demo
-	Demo.asm
-	Demo.inc
-	Demo.lst
-	Demo.map
-	Demo
+	80386EX.asm
+	80386EX.lst
+	80386EX.map
+	80386EX.hex
 	-x86
 		x86\x86.inc
 		x86\EFlags.inc
@@ -29,16 +31,6 @@ Demo
 		x86\Desc.inc
 		x86\TSS.inc
 		x86\IVT.inc
-	-BIOS
-		BIOS\BIOS.inc
-		BIOS\A20.inc
-		BIOS\RAMMap.inc
-		BIOS\Key.inc
-		BIOS\VGA.inc
-		BIOS\Disk.inc
-		BIOS\MBR.inc
-		BIOS\BPB.inc
-		BIOS\MemMap.inc
 	-Dev
 		Dev\Dev.inc
 		Dev\A20.inc
@@ -46,19 +38,9 @@ Demo
 		Dev\Timer.inc
 		Dev\Key.inc
 		Dev\VGA.inc
-	-Boot
-		Boot\Boot.inc
-		Boot\Entry.inc
-		Boot\CPU.inc
-		Boot\Load.inc
-		Boot\IDT.inc
-		Boot\RAM.inc
-		Boot\A20.inc
-		Boot\Key.inc
-		Boot\VGA.inc
-		Boot\PM.inc
+	80386EX.inc
 	Data.inc
-	+Ints
+	-Ints
 		Ints\Ints.inc
 		Ints\IDT.inc
 		Ints\Vectors.inc
@@ -75,13 +57,13 @@ Demo
 		Ints\Timer.inc
 		Ints\Key.inc
 		Ints\Util.inc
-	+User
+	-User
 		User\User.inc
 		User\LDT.inc
 		User\Data.inc
 		User\Code.inc
 		User\Frame.inc
-	+Exec
+	-Exec
 		Exec\Exec.inc
 		Exec\Init.inc
 		-Ints
@@ -96,11 +78,11 @@ Demo
 		Exec\PICs.inc
 		Exec\Timer.inc
 		Exec\Key.inc
-		+User
+		-User
 			Exec\User\User.inc
 			Exec\User\LDT.inc
 			Exec\User\TSS.inc
-		+Alloc
+		-Alloc
 			Exec\Alloc\Alloc.inc
 			Exec\Alloc\RAM.inc
 			Exec\Alloc\DT.inc
@@ -110,24 +92,13 @@ Demo
 			Exec\Alloc\TSS.inc
 		Exec\LDT.inc
 		Exec\GDT.inc
-	+Pad
-		Pad\Sizes.inc
-		Pad\HardDisk.inc
-		-ISO
-			Pad\ISO\ISO.inc
-			Pad\ISO\Defn.inc
-			Pad\ISO\Primary.inc
-			Pad\ISO\Boot.inc
-			Pad\ISO\Terminator.inc
-			Pad\ISO\Catalog.inc
-			Pad\ISO\PathTable.inc
-			Pad\ISO\RootDir.inc
-		Pad\Floppy.inc
+	-Boot
+		Boot\Boot.inc
 [Open project files]
-0=Demo.asm
+0=80386EX.asm
 [Selected Project Files]
-Main=Demo.asm
-Selected=Demo.asm
-[Demo.asm]
-TopLine=1
-Caret=1,1
+Main=80386EX.asm
+Selected=80386EX.asm
+[80386EX.asm]
+TopLine=23
+Caret=53,23

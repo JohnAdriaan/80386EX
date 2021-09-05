@@ -45,25 +45,17 @@ Debug.Key       EQU             Dev.Key.Pause   ; Also labelled "Break"
                 POPFD
 %endmacro
 
-; The following is the memory map for this Demonstration. Note that some of the
-; areas are left over from the BIOS - I'm simply working around those.
-IVT.Base        EQU             x86.IVT.Base
-IVT.Size        EQU             x86.IVT.Size
-BDA.Base        EQU             BIOS.BDA.Base
-BDA.Size        EQU             BIOS.BDA.Size
-Data.Base       EQU             BDA.Base + BDA.Size
-Data.Size       EQU             IDT.Base - Data.Base
-
-IDT.Base        EQU             Code.Base - IDT.Max ; Final address of IDT
+; The following is the memory map for this Demonstration.
+IDT.Base        EQU             0000_0000h ; Final address of IDT
 IDT.Max         EQU             x86.Ints * x86.Desc_size ; Full size of IDT
+
+Data.Base       EQU             IDT.Base + IDT.Max
+Data.Size       EQU             IDT.Base - Data.Base
 
 Code.Base       EQU             1000h
 
-Load.Base       EQU             IDT.Start       ; Load from start of defined IDT
-Load.Max        EQU             9 * BIOS.Disk.Sector.Size ; See Boot/Load.inc for why
-
 ; This will be the first-available RAM after everything else is initialised
-Demo.First      EQU             Load.Base + Load.Size + GDT.Size + Exec.Stack.Size
+Demo.First      EQU             Code.Base + Code.Size + GDT.Size + Exec.Stack.Size
 
 Exec.Stack.Top  EQU             Demo.First      ; This is the TOP of an Expand-Down stack
 Exec.Stack.Size EQU             1000h
