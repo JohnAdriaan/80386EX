@@ -1,4 +1,4 @@
-Demo.lst
-Demo.map
-Demo
-Demo.flp
+*.lst
+*.map
+*.bin
+*.hex
