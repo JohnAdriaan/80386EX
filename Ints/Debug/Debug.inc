@@ -54,10 +54,10 @@ Debug.Key.Prev   EQU            Dev.Key.Left  ; Previous Segment
 Debug.Key.Next   EQU            Dev.Key.Right ; Next Segment
 
 ; Screen coordinates to use
-Debug.VGA.Top    EQU            (VGA.Rows-Debug.VGA.Height+1)/2
-Debug.VGA.Left   EQU            (VGA.Cols-Debug.VGA.Width+1)/2
+Debug.VGA.Top    EQU            (Dev.VGA.Rows-Debug.VGA.Height+1)/2
+Debug.VGA.Left   EQU            (Dev.VGA.Cols-Debug.VGA.Width+1)/2
 Debug.VGA.Width  EQU            Debug.Width.Addr+Debug.Width.Byte
-Debug.VGA.Height EQU            VGA.Rows-1
+Debug.VGA.Height EQU            Dev.VGA.Rows-1
 Debug.Show.Height EQU           Debug.VGA.Height-Debug.Regs.Rows
 Debug.Regs.Rows  EQU            4
 
@@ -84,7 +84,7 @@ Ints.Debug:
                 MOV             DS,AX
                 CALL            .Desc.Next      ; Get first (real) Descriptor to Show
 .Refresh:
-                INC     BYTE    [ES:WORD (VGA.Cols-1)*2] ; Display Dingle(tm)
+                INC     BYTE    [ES:WORD (Dev.VGA.Cols-1)*2] ; Display Dingle(tm)
 
                 CALL            .Show           ; Display memory
                 CALL            .Key            ; Look at keys

@@ -7,7 +7,7 @@
 
 Ints.Debug.Regs:
 
-.Window         EQU             ((Debug.VGA.Top+Debug.Show.Height)*VGA.Cols+Debug.VGA.Left) * 2
+.Window         EQU             ((Debug.VGA.Top+Debug.Show.Height)*Dev.VGA.Cols+Debug.VGA.Left) * 2
 
                 PUSH            CS              ; Point to Ints.Names
                 POP             DS              ; With DS
@@ -20,7 +20,7 @@ Ints.Debug.Regs:
                 MOV             EDX,ECX
                 AND             ECX,3Fh         ; XLoc
                 SHR             EDX,6           ; YLoc
-                IMUL            EDX,VGA.Cols    ; RowLoc
+                IMUL            EDX,Dev.VGA.Cols    ; RowLoc
                 ADD             EDX,ECX         ; Combined
 
                 MOV             AH,Debug.Colour.Label

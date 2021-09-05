@@ -27,6 +27,9 @@
 
 Dev.VGA.Base      EQU           000B_8000h      ; Base memory address
 
+Dev.VGA.Cols      EQU           80
+Dev.VGA.Rows      EQU           25
+
 Dev.VGA.Foregruond EQU          0000_1111b
 Dev.VGA.Bright     EQU          0000_1000b
 Dev.VGA.Background EQU          0111_0000b

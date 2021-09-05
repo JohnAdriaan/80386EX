@@ -11,7 +11,7 @@
 ; Everything else can be stored in each Task's Local Descriptor Table.
 ;
 ; That means that the Executive has nothing: no Code to run, no Stacks to use,
-; and no Data to reference. To solve this, we give the Executive its own LDT.
+; and no Data to reference. To solve this, we gave the Executive its own LDT.
 
                 SEGMENT         GDT  VSTART=0  ALIGN=16
 
@@ -38,7 +38,7 @@ GDT.Data.Type   EQU             Type.Mem(Data, DPL0, RW)
 GDT.Data.Gran   EQU             Gran.Mem(Byte, Big)
 
 GDT.VGA.Base    EQU             Dev.VGA.Base
-GDT.VGA.Limit   EQU             VGA.Rows * VGA.Cols * 2 - 1
+GDT.VGA.Limit   EQU             Dev.VGA.Rows * Dev.VGA.Cols * 2 - 1
 GDT.VGA.Type    EQU             Type.Mem(Data, DPL3, RW) ; Let anyone access it!
 GDT.VGA.Gran    EQU             Gran.Mem(Byte, Big)
 

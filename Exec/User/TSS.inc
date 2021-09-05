@@ -34,7 +34,7 @@ Exec.User.TSS:
 ;               MOV    DWORD    [EBX + x86.TSS.ESP], 0
                 MOV     WORD    [EBX + x86.TSS.ES],  Selector(GDT.VGA,         GDT, RPL3)
                 MOV     WORD    [EBX + x86.TSS.DS],  Selector(User.LDT.Data,   LDT, RPL3)
-                MOV     WORD    [EBX + x86.TSS.EBX], VGA.Cols * 2
+                MOV     WORD    [EBX + x86.TSS.EBX], Dev.VGA.Cols * 2
                 MOV             [EBX + x86.TSS.ECX], ECX
                 MOV             [EBX + x86.TSS.EDX], EDX
 

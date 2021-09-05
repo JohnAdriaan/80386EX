@@ -48,12 +48,12 @@ Exec.User:
 
                 MOV             EDX,[%$Pos]              ; Current position
                 ADD             DL,Window.Width          ; Next Window
-                CMP             DL,VGA.Cols-Window.Width ; Too far?
+                CMP             DL,Dev.VGA.Cols-Window.Width ; Too far?
                 JBE             .Loop                    ; Not yet...
 
                 MOV             DL,0            ; Start at left again
                 ADD             DH,Window.Height          ; Next row
-                CMP             DH,VGA.Rows-Window.Height ; Too far?
+                CMP             DH,Dev.VGA.Rows-Window.Height ; Too far?
                 JBE             .Loop                     ; Not yet...
 
 .Finished:

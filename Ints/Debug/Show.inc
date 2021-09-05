@@ -19,7 +19,7 @@ Ints.Debug.Show:
                 PUSH            ESI
 
                 MOV             CX,Debug.Show.Height
-                MOV             DI,(Debug.VGA.Top*VGA.Cols+Debug.VGA.Left)*2
+                MOV             DI,(Debug.VGA.Top*Dev.VGA.Cols+Debug.VGA.Left)*2
 .Row:
                 PUSH            ECX               ; Need this later
 
@@ -45,7 +45,7 @@ Ints.Debug.Show:
                 CALL            EBP               ; Call current Row function
 
 .Row.Next:
-                ADD             DI,(VGA.Cols-Debug.VGA.Width)*2
+                ADD             DI,(Dev.VGA.Cols-Debug.VGA.Width)*2
                 POP             ECX               ; More rows?
                 LOOP            .Row
 
