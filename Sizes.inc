@@ -1,0 +1,121 @@
+;
+; Sizes.inc
+;
+
+; Calculate final IDT Segment size
+                SEGMENT         IDT  ALIGN=16
+
+IDT.Addr        EQU             Code.Base - IDT.Size
+
+IDT.Limit       EQU             $ - $$ - 1
+
+                ALIGN           16, DB 0
+
+IDT.Size        EQU             $ - $$
+
+%assign         Image.Size      Image.Size + IDT.Size
+;-------------------------------------------------------------------------------
+; Calculate final Ints Segment size
+                SEGMENT         Ints  ALIGN=16
+
+Ints.Base       EQU             IDT.Addr + IDT.Size ; Equivalent to Code.Base
+
+Ints.Limit      EQU             $ - $$ - 1
+
+                ALIGN           16
+
+Ints.Size       EQU             $ - $$
+
+%assign         Image.Size      Image.Size + Ints.Size
+;-------------------------------------------------------------------------------
+; Calculate final User.LDT Segment size
+                SEGMENT         User.LDT  ALIGN=16  NOBITS
+
+User.LDT.Limit  EQU             $ - $$ - 1
+
+                ALIGNB          16
+
+User.LDT.Size   EQU             $ - $$
+;-------------------------------------------------------------------------------
+; Calculate final User.Data Segment size
+                SEGMENT         User.Data  ALIGN=16  NOBITS
+
+User.Data.Limit EQU             $ - $$ - 1
+
+                ALIGNB          16
+
+User.Data.Size  EQU             $ - $$
+;-------------------------------------------------------------------------------
+; Calculate final User.Code Segment size
+                SEGMENT         User  ALIGN=16
+
+User.Base       EQU             Ints.Base + Ints.Size
+
+User.Limit      EQU             $ - $$ - 1
+
+                ALIGN           16
+
+User.Size       EQU             $ - $$
+
+%assign         Image.Size      Image.Size + User.Size
+;-------------------------------------------------------------------------------
+; Calculate final Exec Segment size
+                SEGMENT         Exec  ALIGN=16
+
+Exec.Base       EQU             User.Base + User.Size
+
+Exec.Limit      EQU             $ - $$ - 1
+
+                ALIGN           16
+
+Exec.Size       EQU             $ - $$
+
+%assign         Image.Size      Image.Size + Exec.Size
+;-------------------------------------------------------------------------------
+; Calculate final Exec.LDT Segment size
+                SEGMENT         Exec.LDT  ALIGN=16
+
+Exec.LDT.Base   EQU             Exec.Base + Exec.Size
+
+Exec.LDT.Limit  EQU             $ - $$ - 1
+
+                ALIGN           16, DB 0
+
+Exec.LDT.Size   EQU             $ - $$
+
+%assign         Image.Size      Image.Size + Exec.LDT.Size
+;-------------------------------------------------------------------------------
+; Calculate final GDT Segment size
+                SEGMENT         GDT  ALIGN=16
+
+GDT.Base        EQU             Exec.LDT.Base + Exec.LDT.Size
+
+GDT.Limit       EQU             $ - $$ - 1
+
+; Note that GDT grows from here - no alignment necessary
+
+GDT.Size.Init   EQU             $ - $$   ; Initial size of GDT
+
+GDT.Size        EQU             8192 * x86.Desc_size ; Largest size of GDT
+
+%assign         Image.Size      Image.Size + GDT.Size.Init
+
+;-------------------------------------------------------------------------------
+; Calculate final Boot.Table Segment size
+                SEGMENT         Boot.Table
+
+Boot.Table.Size EQU             $ - $$
+
+Boot.Table.Addr EQU            (x86.Reset - Boot.Table.Size) & ~000Fh
+
+                SEGMENT         Boot.Table  START=Boot.Table.Addr
+
+;-------------------------------------------------------------------------------
+; Calculate final Boot.Code Segment size
+                SEGMENT         Boot.Code
+
+Boot.Code.Size  EQU             $ - $$
+
+Boot.Code.Addr  EQU             (Boot.Table.Addr - Boot.Code.Size) & ~000Fh
+
+                SEGMENT         Boot.Code   START=Boot.Code.Addr

@@ -2,18 +2,22 @@
 ; 80386EX.asm
 ;
 
+                CPU               386
+
 %define         Name              "80386EX"
-%define         Version.Program   Name, " Bootstrap"
-%define         Version.Author    "John Burger"
-%define         Version.Name      Version.Author, "'s ", Name, " ", Version.Program
+%substr         Name.Stamp        %[Name] 3, 5
+%define         Version.Program   %[Name]," Bootstrap"
+%define         Version.Author    "John Adriaan"
+%defstr         Version.Name      %[Version.Author], "'s ", %[Version.Program]
 %substr         Version.Year      __DATE__ 3, 2
-%define         Version.Copyright "(c)2014-", Version.Year
+%define         Version.Copyright "(c)2014-", %[Version.Year]
 
 %define         Version.Major   0
 %define         Version.Minor   0
 %define         Version.Build   0
 
 %defstr         Version.String  %[Version.Major].%[Version.Minor].%[Version.Build]
+%defstr         Version.Stamp   v%[Version.Major]%[Version.Minor]
 
 ;*******************************************************************************
 
@@ -41,11 +45,13 @@
 ; The following are just definitions. Lots and lots of definitions...
 ; I hate "magic" numbers. Only 0 and 1 are numbers; the rest need labels!
 ; And comments. Lots and lots of comments...
-%include        "x86/x86.inc"   ; Definitions for CPU
+%include        "x86/x86.inc"   ; Definitions for x86 CPU
+;===============================================================================
+%include        "x86/EX.inc"    ; Definitions for 80386EX CPU
 ;===============================================================================
 %include        "Dev/Dev.inc"   ; Definitions for other Devices
 ;===============================================================================
-%include        "80386EX.inc"   ; Definitions for the rest of the program
+%include        "Demo.inc"      ; Definitions for the demo part of the program
 
 ;*******************************************************************************
 
@@ -67,3 +73,10 @@
                 USE16           ; Boot in 16-bit Real Mode
 
 %include        "Boot/Boot.inc" ; Real Mode bootstrap
+
+                SEGMENT         Boot.Reset    ALIGN=8
+
+                DB              Name.Stamp, Version.Stamp
+
+;===============================================================================
+%include        "Sizes.inc"     ; Final sizes for all of the above
