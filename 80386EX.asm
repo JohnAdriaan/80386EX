@@ -45,13 +45,15 @@
 ; The following are just definitions. Lots and lots of definitions...
 ; I hate "magic" numbers. Only 0 and 1 are numbers; the rest need labels!
 ; And comments. Lots and lots of comments...
-%include        "x86/x86.inc"   ; Definitions for x86 CPU
+%include        "x86/x86.inc"      ; Definitions for x86 CPU
 ;===============================================================================
-%include        "x86/EX.inc"    ; Definitions for 80386EX CPU
+%include        "x86/EX/386EX.inc" ; Definitions for 80386EX CPU
 ;===============================================================================
-%include        "Dev/Dev.inc"   ; Definitions for other Devices
+%include        "Dev/Dev.inc"      ; Definitions for other Devices
 ;===============================================================================
-%include        "Demo.inc"      ; Definitions for the demo part of the program
+%include        "Dev/SBC-386EX/SBC-386EX.inc" ; Definitions for this board
+;===============================================================================
+%include        "Demo.inc"         ; Definitions for the demo part of the program
 
 ;*******************************************************************************
 

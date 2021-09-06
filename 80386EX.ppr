@@ -31,7 +31,10 @@ HTServer=localhost
 		x86\Desc.inc
 		x86\TSS.inc
 		x86\IVT.inc
-		x86\EX.inc
+		+x86\EX
+			x86\EX\386EX.inc
+			x86\EX\RemapCFG.inc
+			x86\EX\GPIO.inc
 	+Dev
 		Dev\Dev.inc
 		Dev\A20.inc
@@ -39,6 +42,12 @@ HTServer=localhost
 		Dev\Timer.inc
 		Dev\Key.inc
 		Dev\VGA.inc
+		+Dev\SBC-386EX
+			Dev\SBC-386EX\SBC-386EX.inc
+			Dev\SBC-386EX\Lite.inc
+			Dev\SBC-386EX\RTC.inc
+			Dev\SBC-386EX\SDCard.inc
+			Dev\SBC-386EX\IDE.inc
 	Demo.inc
 	Data.inc
 	-Ints
@@ -115,5 +124,10 @@ HTServer=localhost
 		Boot\Reset.inc
 	Sizes.inc
 [Open project files]
+0=Boot\GPIO.inc
 [Selected Project Files]
 Main=80386EX.asm
+Selected=Boot\GPIO.inc
+[Boot\GPIO.inc]
+TopLine=1
+Caret=23,6
