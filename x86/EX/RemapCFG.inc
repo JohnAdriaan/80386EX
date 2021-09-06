@@ -1,8 +1,8 @@
 ;
-; x86\EX.inc
+; x86/EX/RemapCFG.inc
 ;
 
-; These are the definitions for the 80386EX-specific features
+; These are the definitions for the 80386EX RemapCFG port
 
 x86.EX.RemapCFG         EQU     0022h           ; I/O port for RemapCFG register
 
