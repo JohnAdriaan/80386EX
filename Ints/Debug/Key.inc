@@ -127,7 +127,7 @@ Ints.Debug.Desc.Check:
                 SHR             EAX,16          ; Also need to check Gran byte
                 TEST            AL,x86.Desc.Mem.Gran.Big ; 32-bit?
                 JNZ             .Found          ; Yes.
-                MOV             AX,0FFFFh       ; No. Need to mask off high word
+                MOV             AX,0_FFFFh      ; No. Need to mask off high word
                 AND             EDX,EAX         ; Maximum address
                 AND             ESI,EAX         ; Starting address
 .Found:

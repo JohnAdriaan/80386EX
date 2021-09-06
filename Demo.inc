@@ -31,7 +31,7 @@ Window.Height   EQU             6       ; Height of each Task's Window
 User.Ball       EQU             1       ; Try 3: it is an OEM 'Heart' symbol
 User.BallColour EQU             Dev.VGA.BlueBack  | Dev.VGA.White
 User.FrameColour EQU            Dev.VGA.GreenBack | Dev.VGA.White
-User.Delay      EQU             0FFFFh  ; How long to 'idle'the Bounce animation
+User.Delay      EQU             0_FFFFh ; How long to 'idle'the Bounce animation
 
 ; A useful pseudo-instruction to invoke the built-in Debugger - after it's set up!
 %define         DEBUG           DB 0CCh ; INT 3 - NASM assembles this as 0CD 03h

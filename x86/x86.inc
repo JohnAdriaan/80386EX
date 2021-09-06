@@ -7,7 +7,7 @@
 ; Note that they're defined by Intel as part of the 'DNA' of the chip: almost
 ; literally, if you think of the silicon as defining the CPU's operation.
 
-%define         x86.Reset               0FFF0h
+%define         x86.Reset               0_FFF0h
 ;-------------------------------------------------------------------------------
 %include        "x86/EFlags.inc"        ; Definitions for EFlags register
 ;-------------------------------------------------------------------------------

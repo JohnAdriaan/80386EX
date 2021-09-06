@@ -130,8 +130,8 @@ AT x86.Desc.Sys.OffsetHi,  DW              0
 ; The parameters are: Base, Limit, Type and Gran
 %macro          Desc.Mem                   4
 %00             ISTRUC x86.Desc.Mem
-AT x86.Desc.Mem.LimitLo,   DW              (%2 >> 0) & 0FFFFh
-AT x86.Desc.Mem.BaseLo,    DW              (%1 >> 0) & 0FFFFh
+AT x86.Desc.Mem.LimitLo,   DW              (%2 >> 0) & 0_FFFFh
+AT x86.Desc.Mem.BaseLo,    DW              (%1 >> 0) & 0_FFFFh
 AT x86.Desc.Mem.BaseMid,   DB              (%1 >> 16) & 0FFh
 AT x86.Desc.Mem.Type,      DB              %3
 AT x86.Desc.Mem.Gran,      DB              %4 | ((%2 >> 16) & 0Fh)
