@@ -15,6 +15,5 @@ Boot.IO.Init:
                 XCHG            AH, AL
                 OUT             x86.EX.RemapCFG, AL     ; Stright from doc
                 OUT             x86.EX.RemapCFG, AX     ; Supposedly done!
-                RET
 
-                Boot.Table.Entry Boot.IO.Init
+                Boot.Table.Next Boot.IO.Init

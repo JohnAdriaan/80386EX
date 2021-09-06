@@ -8,6 +8,4 @@
                 DB              "DRAM"
 
 Boot.DRAM.Init:
-                RET
-
-                Boot.Table.Entry Boot.DRAM.Init
+                Boot.Table.Next Boot.DRAM.Init

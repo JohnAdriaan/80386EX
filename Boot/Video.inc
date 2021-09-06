@@ -8,6 +8,4 @@
                 DB              "Vid", 0
 
 Boot.Video.Init:
-                RET
-
-                Boot.Table.Entry Boot.Video.Init
+                Boot.Table.Next  Boot.Video.Init

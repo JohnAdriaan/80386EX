@@ -16,6 +16,4 @@ Boot.FPU.Init:
                 OR              EAX, x86.CR0.MP   ; Enable MP bit
                 MOV             CR0, EAX          ; in CR0
 .Exit:
-                RET
-
-                Boot.Table.Entry Boot.FPU.Init    ; Store entry in Boot Table
+                Boot.Table.Next Boot.FPU.Init    ; Store entry in Boot Table

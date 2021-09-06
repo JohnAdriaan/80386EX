@@ -8,6 +8,4 @@
                 DB              "ECB", 0
 
 Boot.ECB.Init:
-                RET
-
-                Boot.Table.Entry Boot.ECB.Init
+                Boot.Table.Next  Boot.ECB.Init

@@ -8,6 +8,4 @@
                 DB              "SRAM"
 
 Boot.SRAM.Init:
-                RET
-
-                Boot.Table.Entry Boot.SRAM.Init
+                Boot.Table.Next Boot.SRAM.Init

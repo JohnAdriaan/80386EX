@@ -8,6 +8,4 @@
                 DB              "Kbd", 0
 
 Boot.Keyboard.Init:
-                RET
-
-                Boot.Table.Entry Boot.Keyboard.Init
+                Boot.Table.Next  Boot.Keyboard.Init

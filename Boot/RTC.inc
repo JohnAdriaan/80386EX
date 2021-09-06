@@ -8,6 +8,4 @@
                 DB              "RTC", 0
 
 Boot.RTC.Init:
-                RET
-
-                Boot.Table.Entry Boot.RTC.Init
+                Boot.Table.Next Boot.RTC.Init

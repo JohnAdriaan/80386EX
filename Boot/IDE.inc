@@ -8,6 +8,4 @@
                 DB              "IDE", 0
 
 Boot.IDE.Init:
-                RET
-
-                Boot.Table.Entry Boot.IDE.Init
+                Boot.Table.Next Boot.IDE.Init

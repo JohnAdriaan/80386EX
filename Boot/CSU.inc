@@ -8,6 +8,4 @@
                 DB              "CSU", 0
 
 Boot.CSU.Init:
-                RET
-
-                Boot.Table.Entry Boot.CSU.Init
+                Boot.Table.Next Boot.CSU.Init

@@ -13,18 +13,15 @@
 ; to JMP to the next module - which ruins their modularity.
 ; Unless I implemented a table of JMP vectors in ROM, and each routine would
 ; finish by executing a JMP [CS:??], where ?? was the designated vector register.
-; With no stack BP would be available - pity I can't JMP [CS:SP] in 16-bit code.
-; Or can I? After all, that's basically what RET does...
-; Implement a hard-coded stack, where each value is in fact the start address
-; of the next routine to run.
-; So, each routine won't be CALLed - but they will do a RET at their end.
+; With no stack, SP and BP are available - but JMP [CS:SP] doesn't work.
+;   [Or can I? After all, that's basically what RET does...
+;    Unfortunately, RET needs SS, which points to the lower 1MiB, so no can do.]
 ; It is important that the modules are %included in the order below: each will
 ; prepare resources for future modules.
 
 %include        "Boot/Defn.inc"         ; Definitions for use by ROM routines
 ;-------------------------------------------------------------------------------
-%include        "Boot/Table.inc"        ; Table of RET values
-
+%include        "Boot/Table.inc"        ; Table of JMP values
 ;-------------------------------------------------------------------------------
 %include        "Boot/CPU.inc"          ; Init CPU
 ;-------------------------------------------------------------------------------
@@ -55,7 +52,6 @@
 %include        "Boot/Video.inc"        ; Init Video
 ;-------------------------------------------------------------------------------
 %include        "Boot/Keyboard.inc"     ; Init Keyboard
-
 ;-------------------------------------------------------------------------------
 %include        "Boot/Reset.inc"        ; CPU Reset entry point
 ;-------------------------------------------------------------------------------

@@ -8,6 +8,4 @@
                 DB              "SIO", 0
 
 Boot.SIO.Init:
-                RET
-
-                Boot.Table.Entry Boot.SIO.Init
+                Boot.Table.Next Boot.SIO.Init
