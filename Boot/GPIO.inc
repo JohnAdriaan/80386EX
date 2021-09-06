@@ -47,6 +47,75 @@
 
 Boot.GPIO.Init:
 
+; Before configuring GPIO directions, configure GPIO latches to OFF
+                MOV             DX, x86.EX.P1LTC
+                MOV             AL, Dev.SBC386EX.Lite.3    | \
+                                    Dev.SBC386EX.Lite.2    | \
+                                    Dev.SBC386EX.Lite.1    | \
+                                    Dev.SBC386EX.Lite.0    | \
+                                    Dev.SBC386EX.RTC.Reset | \
+                                    Dev.SBC386EX.RTC.Clock | \
+                                    x86.EX.P1.SIO0.RTS
+;                                   Dev.SBC386EX.RTC.Data  | \
+                OUT             DX, AL
+
+                MOV             DX, x86.EX.P2LTC
+                MOV             AL, x86.EX.P2.SIO0.CTS     | \
+                                    x86.EX.P2.SIO0.RXD     | \
+                                    x86.EX.P2.CSU.CS4      | \
+                                    x86.EX.P2.CSU.CS3      | \
+                                    x86.EX.P2.CSU.CS2      | \
+                                    x86.EX.P2.CSU.CS1      | \
+                                    x86.EX.P2.CSU.CS0
+;                                   x86.EX.P2.SIO0.TXD     | \
+                OUT             DX, AL
+
+                MOV             DX, x86.EX.P3LTC
+                MOV             AL, x86.EX.P3.SIO.COMCLK   | \
+                                    Dev.SBC386EX.SDCard.CS | \
+                                    x86.EX.P3.ICU.INT3     | \
+                                    x86.EX.P3.ICU.INT2     | \
+                                    x86.EX.P3.ICU.INT1     | \
+                                    x86.EX.P3.ICU.INT0     | \
+                                    Dev.SBC386EX.SDCard.CD | \
+                                    x86.EX.PIN0
+                OUT             DX, AL
+
+
+; Configure directions for GPIO pins
+                MOV             DX, x86.EX.P1DIR
+                MOV             AL, Dev.SBC386EX.Lite.3    | \
+                                    Dev.SBC386EX.Lite.2    | \
+                                    Dev.SBC386EX.Lite.1    | \
+                                    Dev.SBC386EX.Lite.0    | \
+                                    Dev.SBC386EX.RTC.Reset | \
+                                    Dev.SBC386EX.RTC.Clock | \
+                                    x86.EX.P1.SIO0.RTS     | \
+                                    Dev.SBC386EX.RTC.Data
+                OUT             DX, AL
+
+                MOV             DX, x86.EX.P2DIR
+                MOV             AL, x86.EX.P2.SIO0.TXD     | \
+                                    x86.EX.P2.CSU.CS4      | \
+                                    x86.EX.P2.CSU.CS3      | \
+                                    x86.EX.P2.CSU.CS2      | \
+                                    x86.EX.P2.CSU.CS1      | \
+                                    x86.EX.P2.CSU.CS0
+;                                   x86.EX.P2.SIO0.CTS     | \
+;                                   x86.EX.P2.SIO0.RXD     | \
+                OUT             DX, AL
+
+                MOV             DX, x86.EX.P3DIR
+                MOV             AL, Dev.SBC386EX.SDCard.CS
+;                                   x86.EX.P3.SIO.COMCLK   | \
+;                                   x86.EX.P3.ICU.INT3     | \
+;                                   x86.EX.P3.ICU.INT2     | \
+;                                   x86.EX.P3.ICU.INT1     | \
+;                                   x86.EX.P3.ICU.INT0     | \
+;                                   Dev.SBC386EX.SDCard.CD | \
+;                                   x86.EX.PIN0            | \
+                 OUT             DX, AL
+
 ; Configure which pins are set to internal peripherals
                 MOV             DX, x86.EX.P1CFG
                 MOV             AL, x86.EX.P1.SIO0.RTS
@@ -70,46 +139,5 @@ Boot.GPIO.Init:
                                     x86.EX.P3.ICU.INT1   | \
                                     x86.EX.P3.ICU.INT0
                 OUT             DX,AL
-
-; Before configuring GPIO directions, configure GPIO latches to OFF
-                MOV             DX, x86.EX.P1LTC
-                MOV             AL, Dev.SBC386EX.Lite.3    | \
-                                    Dev.SBC386EX.Lite.2    | \
-                                    Dev.SBC386EX.Lite.1    | \
-                                    Dev.SBC386EX.Lite.0    | \
-                                    Dev.SBC386EX.RTC.Reset | \
-                                    Dev.SBC386EX.RTC.Clock | \
-                                    Dev.SBC386EX.RTC.Data
-                OUT             DX, AL
-
-;               MOV             DX, x86.EX.P1LTC
-;               MOV             AL, 0              ; All P2 pins are internal
-;               OUT             DX, AL
-
-                MOV             DX, x86.EX.P1LTC
-                MOV             AL, Dev.SBC386EX.SDCard.CS | \
-                                    Dev.SBC386EX.SDCard.CD   ; Input
-                OUT             DX, AL
-
-
-; Configure directions for GPIO pins
-                MOV             DX, x86.EX.P1DIR
-                MOV             AL, Dev.SBC386EX.Lite.3 | \
-                                    Dev.SBC386EX.Lite.2 | \
-                                    Dev.SBC386EX.Lite.1 | \
-                                    Dev.SBC386EX.Lite.0 | \
-                                    Dev.SBC386EX.RTC.Reset | \
-                                    Dev.SBC386EX.RTC.Clock | \
-                                    Dev.SBC386EX.RTC.Data
-                OUT             DX, AL
-
-;               MOV             DX, x86.EX.P2DIR
-;               MOV             AL, 0              ; All P2 pins are internal
-;               OUT             DX, AL
-
-                MOV             DX, x86.EX.P3DIR
-                MOV             AL, Dev.SBC386EX.SDCard.CS
-;                                   Dev.SBC386EX.SDCard.CD   ; Input
-                OUT             DX, AL
 
                 Boot.Table.Next Boot.GPIO.Init
