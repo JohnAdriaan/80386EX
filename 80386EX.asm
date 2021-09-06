@@ -6,18 +6,18 @@
 
 %define         Name              "80386EX"
 %substr         Name.Stamp        %[Name] 3, 5
-%define         Version.Program   %[Name]," Bootstrap"
-%define         Version.Author    "John Adriaan"
-%defstr         Version.Name      %[Version.Author], "'s ", %[Version.Program]
 %substr         Version.Year      __DATE__ 3, 2
-%define         Version.Copyright "(c)2014-", %[Version.Year]
+%define         Version.Author    "John Adriaan"
+%define         Version.Demo      "80386 Demo Code"
+%define         Version.Boot      "386EX Boot ROM"
+%define         Version.Copyright 169, "2014-", %[Version.Year]
 
-%define         Version.Major   0
-%define         Version.Minor   0
-%define         Version.Build   0
+%define         Version.Major     0
+%define         Version.Minor     0
+%define         Version.Build     0
 
-%defstr         Version.String  %[Version.Major].%[Version.Minor].%[Version.Build]
-%defstr         Version.Stamp   v%[Version.Major]%[Version.Minor]
+%defstr         Version.String    %[Version.Major].%[Version.Minor].%[Version.Build]
+%defstr         Version.Stamp     v%[Version.Major]%[Version.Minor]
 
 ;*******************************************************************************
 

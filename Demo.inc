@@ -5,7 +5,18 @@
 ; These are definitions for the rest of the program. You can experiment by
 ; changing them. Some expect to be changed (these first few), while others
 ; will have far-reaching impacts.
-;
+
+                SEGMENT         Demo
+
+                DB              Version.Author, "'s"
+                ALIGN           16, DB ' '
+
+                DB              Version.Demo
+                ALIGN           16, DB ' '
+
+                DB              'v', Version.String
+                DB              ' ', Version.Copyright
+                ALIGN           16, DB ' '
 
 ; Change these to (almost) whatever you'd like. If you're too extreme, you'll
 ; get assemble-time errors. Others you won't know until you try...
