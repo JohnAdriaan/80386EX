@@ -10,10 +10,11 @@
                 ALIGN           4
 
 Boot.IO.Init:
+                IN              AL, x86.EX.RemapCFG+1   ; Reset to State A
                 MOV             AX, x86.EX.RemapCFG.ESE ; Enable Expanded I/O
-                OUT             x86.EX.RemapCFG+1, AL   ; Don't ask - see doc
+                OUT             x86.EX.RemapCFG+1, AL   ; Move to State B
                 XCHG            AH, AL
-                OUT             x86.EX.RemapCFG, AL     ; Stright from doc
-                OUT             x86.EX.RemapCFG, AX     ; Supposedly done!
+                OUT             x86.EX.RemapCFG, AL     ; Move to State C
+                OUT             x86.EX.RemapCFG, AX     ; State D. ESE set!
 
                 Boot.Table.Next Boot.IO.Init
