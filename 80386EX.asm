@@ -2,6 +2,19 @@
 ; 80386EX.asm
 ;
 
+;===============================================================================
+; This file is the boot ROM for the SBC-386EX from RetroBrew Computers:
+; https://www.retrobrewcomputers.org/doku.php?id=boards:sbc:sbc-386ex:rev2.0
+;
+; It has been written to be assembled with the Netwide Assembler NASM, which
+; is a free download (http://www.nasm.us/) and will run on a number of different
+; development platforms - Windows, Linux and OS-X.
+;
+; The NASM command line to assemble this source depends on the output format:
+; Binary format: nasm.exe -l80386EX.lst 80386EX.asm
+; Intel Hex format: nasm.exe -fith -l80386EX.lst -o80386EX.hex 80386EX.asm
+;===============================================================================
+
                 CPU               386
 
 %define         Name              "80386EX"
@@ -20,19 +33,6 @@
 %defstr         Version.Stamp     v%[Version.Major]%[Version.Minor]
 
 ;*******************************************************************************
-
-; This file is the boot ROM for the SBC-386EX from RetroBrew Computers:
-; https://www.retrobrewcomputers.org/doku.php?id=boards:sbc:sbc-386ex:rev2.0
-;
-; It has been written to be assembled with the Netwide Assembler NASM, which
-; is a free download (http://www.nasm.us/) and will run on a number of different
-; development platforms - Windows, Linux and OS-X.
-;
-; The NASM command line to assemble this source depends on the output format:
-; Binary format: nasm.exe -l80386EX.lst 80386EX.asm
-; Intel Hex format: nasm.exe -fith -l80386EX.lst -o80386EX.hex 80386EX.asm
-;
-;===============================================================================
 
 ; Define .map file output. Map files are your friend! They can help you work out
 ; whether the assembler understands what you thought you told it...

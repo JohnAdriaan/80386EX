@@ -23,7 +23,7 @@ HTServer=localhost
 	80386EX.lst
 	80386EX.map
 	80386EX.hex
-	+x86
+	-x86
 		x86\x86.inc
 		x86\EFlags.inc
 		x86\Seg.inc
@@ -31,18 +31,19 @@ HTServer=localhost
 		x86\Desc.inc
 		x86\TSS.inc
 		x86\IVT.inc
-		+x86\EX
+		-x86\EX
 			x86\EX\386EX.inc
 			x86\EX\RemapCFG.inc
 			x86\EX\GPIO.inc
-	+Dev
+			x86\EX\CSU.inc
+	-Dev
 		Dev\Dev.inc
 		Dev\A20.inc
 		Dev\PIC.inc
 		Dev\Timer.inc
 		Dev\Key.inc
 		Dev\VGA.inc
-		+Dev\SBC-386EX
+		-Dev\SBC-386EX
 			Dev\SBC-386EX\SBC-386EX.inc
 			Dev\SBC-386EX\Lite.inc
 			Dev\SBC-386EX\RTC.inc
@@ -102,7 +103,7 @@ HTServer=localhost
 			Exec\Alloc\TSS.inc
 		Exec\LDT.inc
 		Exec\GDT.inc
-	+Boot
+	-Boot
 		Boot\Boot.inc
 		Boot\Defn.inc
 		Boot\Table.inc
@@ -124,10 +125,10 @@ HTServer=localhost
 		Boot\Reset.inc
 	Sizes.inc
 [Open project files]
-0=Boot\GPIO.inc
+0=80386EX.asm
 [Selected Project Files]
 Main=80386EX.asm
-Selected=Boot\GPIO.inc
-[Boot\GPIO.inc]
+Selected=80386EX.asm
+[80386EX.asm]
 TopLine=1
-Caret=23,6
+Caret=1,1
