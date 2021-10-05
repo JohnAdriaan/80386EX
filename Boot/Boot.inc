@@ -40,6 +40,8 @@ Boot.Code.Entry:                        ; Reset JMP point
 ;-------------------------------------------------------------------------------
 %include        "Boot/GPIO.inc"         ; Init General-Purpose I/O (Lites)
 ;-------------------------------------------------------------------------------
+%include        "Boot/PIC.inc"          ; Init Priority Interrupt Controllers
+;-------------------------------------------------------------------------------
 %include        "Boot/SIO.inc"          ; Init Serial I/O (UART)
 ;-------------------------------------------------------------------------------
 %include        "Boot/CSU.inc"          ; Init Chip Select Unit (CSU)
