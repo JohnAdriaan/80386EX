@@ -2,10 +2,12 @@
 ; Boot/SDCard.inc
 ;
 
-                SEGMENT         Boot.Code
+;-------------------------------------------------------------------------------
+                SEGMENT         Boot.Prot
 
-                ALIGN           4
-                DB              "SD", 0, 0
+                USE32
 
-Boot.SDCard.Init:
-                Boot.Table.Next  Boot.SDCard.Init
+Boot.SDCard:
+                MOV             EBX, `SD\r\n`
+                CALL            Hex
+                JMP             Boot.Exit

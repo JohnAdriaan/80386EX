@@ -4,12 +4,16 @@
 
 ; These are the definitions for the SBC-386EX Lites
 
-Dev.SBC386EX.Lite.Out EQU  x86.EX.P1LTC     ; Out port
+Dev.SBC386EX.Lite:
 
-Dev.SBC386EX.Lite.0   EQU  x86.EX.PIN4      ; Pin
-Dev.SBC386EX.Lite.1   EQU  x86.EX.PIN5
-Dev.SBC386EX.Lite.2   EQU  x86.EX.PIN6
-Dev.SBC386EX.Lite.3   EQU  x86.EX.PIN7
+Dev.SBC386EX.Lite.Out   EQU  x86.EX.P1 + x86.EX.GPIO.LTC     ; Out port
+
+Dev.SBC386EX.Lite.0     EQU  x86.EX.PIN.4      ; Pin
+Dev.SBC386EX.Lite.1     EQU  x86.EX.PIN.5
+Dev.SBC386EX.Lite.2     EQU  x86.EX.PIN.6
+Dev.SBC386EX.Lite.3     EQU  x86.EX.PIN.7
+Dev.SBC386EX.Lite.Mask  EQU  .0 | .1 | .2 | .3
+Dev.SBC386EX.Lite.Shift EQU  4
 
 ; All these macros assume:
 ; 1) DX has been loaded with Dev.SBC386EX.Lite.Out

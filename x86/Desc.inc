@@ -12,7 +12,9 @@
                 RESB            1
 .Type           RESB            1       ; All Descriptors have a .Type field here
                 RESW            1
-                ENDSTRUC                ; All Descriptors have the same Desc_size
+                ENDSTRUC                ; All Descriptors have the same .Desc.Size
+
+x86.Desc.Size   EQU             x86.Desc_size
 
 ; The following is the structure of a System Descriptor
                 STRUC           x86.Desc.Sys
@@ -72,14 +74,16 @@ x86.Desc.Mem.Type.Data     EQU  0000_0000b
 x86.Desc.Mem.Type.Conform  EQU  0000_0100b ; Code can be executed at different PLs
 x86.Desc.Mem.Type.Expand   EQU  0000_0100b ; Base is TOP, Limit is size BELOW that
 x86.Desc.Mem.Type.Stack    EQU  0000_0100b ; (Best used for Stacks)
-x86.Desc.Mem.Type.RW       EQU  0000_0010b ; Readable for Code, Writable for Data
-x86.Desc.Mem.Type.NoRW     EQU  0000_0000b ; No Read for Code, no Write for Data
+x86.Desc.Mem.Type.RW       EQU  0000_0010b ; Data Read & Writeable
+x86.Desc.Mem.Type.RNoW     EQU  0000_0000b ; Data Read & not Writeable
+x86.Desc.Mem.Type.R        EQU  0000_0010b ; Code Readable
+x86.Desc.Mem.Type.NoR      EQU  0000_0000b ; Data not Readable
 x86.Desc.Mem.Type.Accessed EQU  0000_0001b ; Set when Descriptor loaded
 
 ; These are the bitfields of the .Gran field in Memory Descriptors
 x86.Desc.Mem.Gran.LimitHi EQU   0000_1111b
 
-x86.Desc.Mem.Gran.Gran  EQU     1000_0000b ; Use Page-granular Limit
+x86.Desc.Mem.Gran.Page  EQU     1000_0000b ; Use Page-granular Limit
 x86.Desc.Mem.Gran.Byte  EQU     0000_0000b ; Use byte-granular Limit
 
 x86.Desc.Mem.Gran.Big   EQU     0100_0000b ; Use EIP and ESP for Code and Stacks
@@ -130,11 +134,11 @@ AT x86.Desc.Sys.OffsetHi,  DW              0
 ; The parameters are: Base, Limit, Type and Gran
 %macro          Desc.Mem                   4
 %00             ISTRUC x86.Desc.Mem
-AT x86.Desc.Mem.LimitLo,   DW              (%2 >> 0) & 0_FFFFh
-AT x86.Desc.Mem.BaseLo,    DW              (%1 >> 0) & 0_FFFFh
-AT x86.Desc.Mem.BaseMid,   DB              (%1 >> 16) & 0FFh
+AT x86.Desc.Mem.LimitLo,   DW              (%2 >> 0) & x86.WORD.Mask
+AT x86.Desc.Mem.BaseLo,    DW              (%1 >> 0) & x86.WORD.Mask
+AT x86.Desc.Mem.BaseMid,   DB              (%1 >> x86.DWORD.Hi) & x86.BYTE.Mask
 AT x86.Desc.Mem.Type,      DB              %3
-AT x86.Desc.Mem.Gran,      DB              %4 | ((%2 >> 16) & 0Fh)
-AT x86.Desc.Mem.BaseHi,    DB              (%1 >> 24) & 0FFh
+AT x86.Desc.Mem.Gran,      DB              %4 | ((%2 >> x86.DWORD.Hi) & x86.NIBBLE.Mask)
+AT x86.Desc.Mem.BaseHi,    DB              (%1 >> x86.DWORD.Hi.8) & x86.BYTE.Mask
                 IEND
 %endmacro

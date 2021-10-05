@@ -13,7 +13,7 @@
 ; Second, you'll note that there are Allocate functions to handle common
 ; operations, like allocating more Memory, or an entry in the GDT or an LDT.
 
-                SEGMENT          Exec  VSTART=0  ALIGN=16
+                SEGMENT          Exec
 
                 USE32
 

@@ -2,10 +2,22 @@
 ; Boot/RTC.inc
 ;
 
-                SEGMENT         Boot.Code
 
-                ALIGN           4
-                DB              "RTC", 0
+RTC.Clock.Len   EQU        8
+RTC.Data.Len    EQU        31
 
-Boot.RTC.Init:
-                Boot.Table.Next Boot.RTC.Init
+;-------------------------------------------------------------------------------
+                SEGMENT         Boot.Data
+
+RTC.Clock       RESB            RTC.Clock.Len
+RTC.Data        RESB            RTC.Data.Len
+
+;-------------------------------------------------------------------------------
+                SEGMENT         Boot.Prot
+
+                USE32
+
+Boot.RTC:
+                MOV             EBX, `RTC\r`
+                CALL            Hex
+                JMP             Boot.Exit

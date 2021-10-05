@@ -2,15 +2,12 @@
 ; Boot/CPU.inc
 ;
 ; At boot, the DX register contains ID and Stepping information.
-; The SP register needs to be maintained - but the high part of ESP isn't used.
+; In real mode, BP needs to be maintained - but the high part of EBP isn't used...
 
-                SEGMENT         Boot.Code
+                SEGMENT         Boot.Real
 
-                ALIGN           4
-
-Boot.CPU.Init:
-                SHL             EDX, 16           ; Save DX in EDX high
-                MOV             DX, SP            ; Get SP into DX
-                MOV             ESP, EDX          ; DX now saved in ESP(high)
-
-                Boot.Table.Next Boot.CPU.Init    ; Store entry in Boot Table
+                USE16
+               
+Boot.CPU:
+                SHL             EDX, 16           ; Move DX to EDX high
+                MOV             EBP, EDX          ; DX_0000 now saved in EBP!

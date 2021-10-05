@@ -4,6 +4,10 @@
 
 ; These are the definitions for the Keyboard
 
+                SEGMENT         IO
+
+Dev.Key:                
+
 Dev.Key.Data    EQU             060h
 Dev.Key.Ctrl    EQU             064h
 

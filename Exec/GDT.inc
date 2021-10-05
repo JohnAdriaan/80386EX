@@ -13,7 +13,7 @@
 ; That means that the Executive has nothing: no Code to run, no Stacks to use,
 ; and no Data to reference. To solve this, we gave the Executive its own LDT.
 
-                SEGMENT         GDT  VSTART=0  ALIGN=16
+                SEGMENT         GDT
 
                 USE32
 
@@ -30,7 +30,7 @@ AT GDT.Alloc.Pseudo.Base,  DD           %1
 GDT.Alias.Base  EQU             GDT.Base
 GDT.Alias.Limit EQU             (GDT.Size-1) >> 12     ; Let's use Granular limits
 GDT.Alias.Type  EQU             Type.Mem(Data, DPL0, RW)
-GDT.Alias.Gran  EQU             Gran.Mem(Gran, Small)
+GDT.Alias.Gran  EQU             Gran.Mem(Page, Small)
 
 GDT.Data.Base   EQU             Data.Base
 GDT.Data.Limit  EQU             Data.Size - 1

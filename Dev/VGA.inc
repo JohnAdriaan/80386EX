@@ -25,6 +25,8 @@
 ; secondary CMY, with the necessary White and Black added in. The table for the
 ; default colour mappings is provided below.
 
+Dev.VGA:
+
 Dev.VGA.Base      EQU           000B_8000h      ; Base memory address
 
 Dev.VGA.Cols      EQU           80
@@ -62,6 +64,8 @@ Dev.VGA.MagentaBack   EQU       Dev.VGA.Magenta << 4
 Dev.VGA.YellowBack    EQU       Dev.VGA.Brown   << 4
 Dev.VGA.WhiteBack     EQU       Dev.VGA.Grey    << 4
 
+                SEGMENT         IO
+                
 Dev.VGA.Misc.Port EQU           3C2h            ; VGA miscellaneous port
 
 Dev.VGA.Seq.Base  EQU           3C4h            ; VGA Sequencer base port

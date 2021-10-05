@@ -2,44 +2,63 @@
 ; Boot/Boot.inc
 ;
 
-; This is the Boot ROM, including reset Entry Point. It runs in Real Mode.
+; This is the Boot ROM, including reset Entry Point. It initially runs in
+; Real Mode, then transitions to Protected Mode to test RAM.
 ;
 ; The biggest problem is that immediately after Reset, there is no RAM! The
 ; only storage that can be relied upon are the CPU's registers themselves -
 ; not including this ROM image, of course.
-; Which gave me an idea. With no RAM, there's no Stack, so the code can't be
-; written as a series of subroutines. Instead, it either has to be written
-; linearly, as one long string of code, or with separate modules that each have
-; to JMP to the next module - which ruins their modularity.
-; Unless I implemented a table of JMP vectors in ROM, and each routine would
-; finish by executing a JMP [CS:??], where ?? was the designated vector register.
-; With no stack, SP and BP are available - but JMP [CS:SP] doesn't work.
-;   [Or can I? After all, that's basically what RET does...
-;    Unfortunately, RET needs SS, which points to the lower 1MiB, so no can do.]
-; It is important that the modules are %included in the order below: each will
+;
+; No RAM means no stack, so code can't be separately CALLable modules. Instead,
+; it has to simply "fall through" from one module to the next. Be careful to
+; JMP over any embedded data you might define...
+;
+; Note that one module might have code for both Real and Protected Mode. In that
+; case, the relevant segment will be opened, continuing on from the previous
+; code. It could look like the code continues from Real to Protected - nope!
+;
+; It is important that the modules are %included in the order below: each could
 ; prepare resources for future modules.
+;
+
+                SEGMENT         Boot.Real
+
+                USE16
 
 %include        "Boot/Defn.inc"         ; Definitions for use by ROM routines
 ;-------------------------------------------------------------------------------
-%include        "Boot/Table.inc"        ; Table of JMP values
-;-------------------------------------------------------------------------------
+
+Boot.Code.Entry:                        ; Reset JMP point
+
 %include        "Boot/CPU.inc"          ; Init CPU
-;-------------------------------------------------------------------------------
-%include        "Boot/FPU.inc"          ; Init FPU
 ;-------------------------------------------------------------------------------
 %include        "Boot/IO.inc"           ; Init Advanced I/O space
 ;-------------------------------------------------------------------------------
+%include        "Boot/FPU.inc"          ; Init FPU (need I/O port for detection)
+;-------------------------------------------------------------------------------
 %include        "Boot/GPIO.inc"         ; Init General-Purpose I/O (Lites)
-;-------------------------------------------------------------------------------
-%include        "Boot/CSU.inc"          ; Init Chip Select Unit (CSU)
-;-------------------------------------------------------------------------------
-%include        "Boot/ROM.inc"          ; Init ROM Chip Select
-;-------------------------------------------------------------------------------
-%include        "Boot/SRAM.inc"         ; Init Static RAM (SRAM) Chip Select
 ;-------------------------------------------------------------------------------
 %include        "Boot/SIO.inc"          ; Init Serial I/O (UART)
 ;-------------------------------------------------------------------------------
+%include        "Boot/CSU.inc"          ; Init Chip Select Unit (CSU)
+;-------------------------------------------------------------------------------
+%include        "Boot/PM.inc"           ; Go into Protected Mode
+
+                SEGMENT         Boot.Prot
+
+                USE32
+;-------------------------------------------------------------------------------
+%include        "Boot/ROM.inc"          ; Init ROM Chip Select (CS)
+;-------------------------------------------------------------------------------
+%include        "Boot/SRAM.inc"         ; Init Static RAM (SRAM) and CS
+;-------------------------------------------------------------------------------
 %include        "Boot/DRAM.inc"         ; Init Dynamic RAM (DRAM) and CS
+;-------------------------------------------------------------------------------
+%include        "Boot/ECB.inc"          ; Init EuroCard Bus Chip Selects
+;-------------------------------------------------------------------------------
+%include        "Boot/Video.inc"        ; Init Video
+;-------------------------------------------------------------------------------
+%include        "Boot/Keyboard.inc"     ; Init Keyboard
 ;-------------------------------------------------------------------------------
 %include        "Boot/RTC.inc"          ; Init Real-Time Clock
 ;-------------------------------------------------------------------------------
@@ -47,11 +66,9 @@
 ;-------------------------------------------------------------------------------
 %include        "Boot/SDCard.inc"       ; Init SDCard
 ;-------------------------------------------------------------------------------
-%include        "Boot/ECB.inc"          ; Init EuroCard Bus Chip Selects
+%include        "Boot/Hex.inc"          ; Hex out the serial port
 ;-------------------------------------------------------------------------------
-%include        "Boot/Video.inc"        ; Init Video
-;-------------------------------------------------------------------------------
-%include        "Boot/Keyboard.inc"     ; Init Keyboard
+%include        "Boot/Fatal.inc"        ; Fatal routine
 ;-------------------------------------------------------------------------------
 %include        "Boot/Reset.inc"        ; CPU Reset entry point
 ;-------------------------------------------------------------------------------

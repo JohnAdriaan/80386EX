@@ -2,19 +2,19 @@
 ; Boot/Defn.inc
 ;
 
-ROM.Size        EQU             8 * 1024
-
 ;-------------------------------------------------------------------------------
-                SEGMENT         Boot.Code      ALIGN=16
-
-                ORG             1_0000h - ROM.Size
+                SEGMENT         Boot.Real
 
                 DB              Version.Author, "'s"
-                ALIGN           16, DB ' '
+                ALIGN           x86.PARA, DB ' '
 
                 DB              Version.Boot
-                ALIGN           16, DB ' '
+                ALIGN           x86.PARA, DB ' '
 
                 DB              'v', Version.String
                 DB              ' ', Version.Copyright
-                ALIGN           16, DB ' '
+                ALIGN           x86.PARA, DB ' '
+
+%substr         Boot.Date       __?DATE?__ 3,-1
+                DB              Boot.Date
+                DB              __?TIME?__

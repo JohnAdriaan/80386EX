@@ -37,107 +37,100 @@
 ; |      |  3  | IR5       | In  | PIC internal (INT1, IRQ5) |
 ; |      |  2  | IR1       | In  | PIC internal (INT0, IRQ1) |
 ; |      |  1  | SD_CD     | In  | SDCard Change Detect      |
-; |      |  0  | PEREQ     | In  | 80387SX request           |
+; |      |  0  | PEREQ     | In  | 80387SX request detect    |
 ; +======+=====+===========+=====+===========================+
+; (Table repeated in IO.inc)
 
+;-------------------------------------------------------------------------------
+                SEGMENT         Boot.Real
 
-                SEGMENT         Boot.Code
-
-                ALIGN           4
-
-Boot.GPIO.Init:
+                USE16
+                
+Boot.GPIO:
 
 ; Before configuring GPIO directions, configure GPIO latches to OFF
-                MOV             DX, x86.EX.P1LTC
+; P1 GPIOs
+                MOV             DX, x86.EX.P1 + x86.EX.GPIO.LTC
                 MOV             AL, Dev.SBC386EX.Lite.3    | \
                                     Dev.SBC386EX.Lite.2    | \
                                     Dev.SBC386EX.Lite.1    | \
                                     Dev.SBC386EX.Lite.0    | \
-                                    Dev.SBC386EX.RTC.Reset | \
-                                    Dev.SBC386EX.RTC.Clock | \
-                                    x86.EX.P1.SIO0.RTS
-;                                   Dev.SBC386EX.RTC.Data  | \
+                                    Dev.SBC386EX.RTC.CE    | \
+                                    Dev.SBC386EX.RTC.SCLK
+; Skipped the following:
+;                                   x86.EX.P1.SIO0.RTS
+;                                   Dev.SBC386EX.RTC.Data
                 OUT             DX, AL
 
-                MOV             DX, x86.EX.P2LTC
-                MOV             AL, x86.EX.P2.SIO0.CTS     | \
-                                    x86.EX.P2.SIO0.RXD     | \
-                                    x86.EX.P2.CSU.CS4      | \
-                                    x86.EX.P2.CSU.CS3      | \
-                                    x86.EX.P2.CSU.CS2      | \
-                                    x86.EX.P2.CSU.CS1      | \
-                                    x86.EX.P2.CSU.CS0
-;                                   x86.EX.P2.SIO0.TXD     | \
-                OUT             DX, AL
+; P2 GPIOs: All of P2 is dedicated to internal peripherals: no GPIOs used
+;               MOV             DX, x86.EX.P2 + x86.EX.GPIO.LTC
+;               MOV             AL, 0
+; Skipped the following:
+;                                   x86.EX.P2.SIO0.CTS
+;                                   x86.EX.P2.SIO0.TXD
+;                                   x86.EX.P2.SIO0.RXD
+;                                   x86.EX.P2.CSU.CS4
+;                                   x86.EX.P2.CSU.CS3
+;                                   x86.EX.P2.CSU.CS2
+;                                   x86.EX.P2.CSU.CS1
+;                                   x86.EX.P2.CSU.CS0
+;               OUT             DX, AL
 
-                MOV             DX, x86.EX.P3LTC
-                MOV             AL, x86.EX.P3.SIO.COMCLK   | \
-                                    Dev.SBC386EX.SDCard.CS | \
-                                    x86.EX.P3.ICU.INT3     | \
-                                    x86.EX.P3.ICU.INT2     | \
-                                    x86.EX.P3.ICU.INT1     | \
-                                    x86.EX.P3.ICU.INT0     | \
+; P3 GPIOs
+                MOV             DX, x86.EX.P3 + x86.EX.GPIO.LTC
+                MOV             AL, Dev.SBC386EX.SDCard.CS | \
                                     Dev.SBC386EX.SDCard.CD | \
-                                    x86.EX.PIN0
+                                    Dev.SBC386EX.FPU.PEREQ
+; Skipped the following:
+;                                   x86.EX.P3.SIO.COMCLK
+;                                   x86.EX.P3.ICU.INT3
+;                                   x86.EX.P3.ICU.INT2
+;                                   x86.EX.P3.ICU.INT1
+;                                   x86.EX.P3.ICU.INT0
+
                 OUT             DX, AL
 
-
-; Configure directions for GPIO pins
-                MOV             DX, x86.EX.P1DIR
+; Configure Outputs for GPIO pins
+; P1 GPIO Outputs
+                MOV             DX, x86.EX.P1 + x86.EX.GPIO.DIR
                 MOV             AL, Dev.SBC386EX.Lite.3    | \
                                     Dev.SBC386EX.Lite.2    | \
                                     Dev.SBC386EX.Lite.1    | \
                                     Dev.SBC386EX.Lite.0    | \
-                                    Dev.SBC386EX.RTC.Reset | \
-                                    Dev.SBC386EX.RTC.Clock | \
-                                    x86.EX.P1.SIO0.RTS     | \
-                                    Dev.SBC386EX.RTC.Data
+                                    Dev.SBC386EX.RTC.CE    | \
+                                    Dev.SBC386EX.RTC.SCLK  | \
+                                    Dev.SBC386EX.RTC.IO        ; Note bi-dir
+; Skipped the following:
+;                                   x86.EX.P1.SIO0.RTS
                 OUT             DX, AL
 
-                MOV             DX, x86.EX.P2DIR
-                MOV             AL, x86.EX.P2.SIO0.TXD     | \
-                                    x86.EX.P2.CSU.CS4      | \
-                                    x86.EX.P2.CSU.CS3      | \
-                                    x86.EX.P2.CSU.CS2      | \
-                                    x86.EX.P2.CSU.CS1      | \
-                                    x86.EX.P2.CSU.CS0
-;                                   x86.EX.P2.SIO0.CTS     | \
-;                                   x86.EX.P2.SIO0.RXD     | \
-                OUT             DX, AL
+; P2 GPIO Outputs: All of P2 is dedicated to internal peripherals: no GPIOs configurable
+;               MOV             DX, x86.EX.P2 + x86.EX.GPIO.DIR
+;               MOV             AL, 0
+; Skipped the following:
+;                                   x86.EX.P2.SIO0.CTS
+;                                   x86.EX.P2.SIO0.TXD
+;                                   x86.EX.P2.SIO0.RXD
+;                                   x86.EX.P2.CSU.CS4
+;                                   x86.EX.P2.CSU.CS3
+;                                   x86.EX.P2.CSU.CS2
+;                                   x86.EX.P2.CSU.CS1
+;                                   x86.EX.P2.CSU.CS0
+;               OUT             DX, AL
 
-                MOV             DX, x86.EX.P3DIR
+; P3 GPIO Outputs
+                MOV             DX, x86.EX.P3 + x86.EX.GPIO.DIR
                 MOV             AL, Dev.SBC386EX.SDCard.CS
-;                                   x86.EX.P3.SIO.COMCLK   | \
-;                                   x86.EX.P3.ICU.INT3     | \
-;                                   x86.EX.P3.ICU.INT2     | \
-;                                   x86.EX.P3.ICU.INT1     | \
-;                                   x86.EX.P3.ICU.INT0     | \
-;                                   Dev.SBC386EX.SDCard.CD | \
-;                                   x86.EX.PIN0            | \
+; Skipped the following:
+;                                   x86.EX.P3.SIO.COMCLK
+;                                   x86.EX.P3.ICU.INT3
+;                                   x86.EX.P3.ICU.INT2
+;                                   x86.EX.P3.ICU.INT1
+;                                   x86.EX.P3.ICU.INT0
+;                                   Dev.SBC386EX.SDCard.CD
+;                                   Dev.SBC386EX.FPU.PEREQ
                  OUT             DX, AL
 
-; Configure which pins are set to internal peripherals
-                MOV             DX, x86.EX.P1CFG
-                MOV             AL, x86.EX.P1.SIO0.RTS
-                OUT             DX, AL
-
-                MOV             DX, x86.EX.P2CFG
-                MOV             AL, x86.EX.P2.SIO0.CTS | \
-                                    x86.EX.P2.SIO0.TXD | \
-                                    x86.EX.P2.SIO0.RXD | \
-                                    x86.EX.P2.CSU.CS4  | \
-                                    x86.EX.P2.CSU.CS3  | \
-                                    x86.EX.P2.CSU.CS2  | \
-                                    x86.EX.P2.CSU.CS1  | \
-                                    x86.EX.P2.CSU.CS0
-                OUT             DX, AL
-
-                MOV             DX, x86.EX.P3CFG
-                MOV             AL, x86.EX.P3.SIO.COMCLK | \
-                                    x86.EX.P3.ICU.INT3   | \
-                                    x86.EX.P3.ICU.INT2   | \
-                                    x86.EX.P3.ICU.INT1   | \
-                                    x86.EX.P3.ICU.INT0
-                OUT             DX,AL
-
-                Boot.Table.Next Boot.GPIO.Init
+                 MOV             DX, Dev.SBC386EX.Lite.Out
+                 MOV             AL, 0x90
+                 OUT             DX, AL

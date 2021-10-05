@@ -2,10 +2,12 @@
 ; Boot/IDE.inc
 ;
 
-                SEGMENT         Boot.Code
+;-------------------------------------------------------------------------------
+                SEGMENT         Boot.Prot
 
-                ALIGN           4
-                DB              "IDE", 0
-
-Boot.IDE.Init:
-                Boot.Table.Next Boot.IDE.Init
+                USE32
+                
+Boot.IDE:
+                MOV             EBX, `IDE\r`
+                CALL            Hex
+                JMP             Boot.Exit

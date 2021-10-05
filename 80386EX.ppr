@@ -22,7 +22,7 @@ HTServer=localhost
 	80386EX.asm
 	80386EX.lst
 	80386EX.map
-	80386EX.hex
+	80386EX.bin
 	-x86
 		x86\x86.inc
 		x86\EFlags.inc
@@ -36,6 +36,7 @@ HTServer=localhost
 			x86\EX\RemapCFG.inc
 			x86\EX\GPIO.inc
 			x86\EX\CSU.inc
+			x86\EX\RFS.inc
 	-Dev
 		Dev\Dev.inc
 		Dev\A20.inc
@@ -43,8 +44,10 @@ HTServer=localhost
 		Dev\Timer.inc
 		Dev\Key.inc
 		Dev\VGA.inc
+		Dev\UART.inc
 		-Dev\SBC-386EX
 			Dev\SBC-386EX\SBC-386EX.inc
+			Dev\SBC-386EX\FPU.inc
 			Dev\SBC-386EX\Lite.inc
 			Dev\SBC-386EX\RTC.inc
 			Dev\SBC-386EX\SDCard.inc
@@ -103,32 +106,43 @@ HTServer=localhost
 			Exec\Alloc\TSS.inc
 		Exec\LDT.inc
 		Exec\GDT.inc
-	-Boot
+	EEPROM.inc
+	+Boot
 		Boot\Boot.inc
 		Boot\Defn.inc
-		Boot\Table.inc
 		Boot\CPU.inc
-		Boot\FPU.inc
 		Boot\IO.inc
+		Boot\FPU.inc
 		Boot\GPIO.inc
+		Boot\SIO.inc
 		Boot\CSU.inc
+		Boot\PM.inc
 		Boot\ROM.inc
 		Boot\SRAM.inc
-		Boot\SIO.inc
 		Boot\DRAM.inc
-		Boot\RTC.inc
-		Boot\IDE.inc
-		Boot\SDCard.inc
 		Boot\ECB.inc
 		Boot\Video.inc
 		Boot\Keyboard.inc
+		Boot\RTC.inc
+		Boot\IDE.inc
+		Boot\SDCard.inc
+		Boot\Hex.inc
+		Boot\Fatal.inc
 		Boot\Reset.inc
 	Sizes.inc
 [Open project files]
-0=80386EX.asm
+0=Boot\Video.inc
+1=Boot\ECB.inc
+2=80386EX.asm
 [Selected Project Files]
 Main=80386EX.asm
 Selected=80386EX.asm
-[80386EX.asm]
+[Boot\Video.inc]
+TopLine=49
+Caret=7,67
+[Boot\ECB.inc]
 TopLine=1
-Caret=1,1
+Caret=68,5
+[80386EX.asm]
+TopLine=31
+Caret=36,74

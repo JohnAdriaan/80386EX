@@ -2,7 +2,7 @@
 ; User/User.inc
 ;
 
-                SEGMENT         User  VSTART=0  ALIGN=16
+                SEGMENT         User
 
                 USE32
 

@@ -15,3 +15,5 @@
 %include        "Dev/Key.inc"   ; Definitions for the Keyboard
 ;-------------------------------------------------------------------------------
 %include        "Dev/VGA.inc"   ; Definitions for the VGA video controller
+;-------------------------------------------------------------------------------
+%include        "Dev/UART.inc"  ; Definitions for the Serial controller

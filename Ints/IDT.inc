@@ -12,7 +12,7 @@
 ; * INT 48 is a User-mode HLT replacement;
 ; * INT 49 is a Yield call - go to next Task.
 
-                SEGMENT         IDT  VSTART=0  ALIGN=16
+                SEGMENT         IDT
 
                 USE32
 

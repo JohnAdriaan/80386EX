@@ -54,7 +54,7 @@ Exec.User.LDT:
                 ; Allocate Code
                 MOV             EAX,User.Base           ; Assembled User code
                 MOV             CX,User.Size
-                MOV             DL,Type.Mem(Code, DPL3, NoRW) & ~System.Present
+                MOV             DL,Type.Mem(Code, DPL3, RNoW) & ~System.Present
                 MOV             DH,Gran.Mem(Byte, Def32)
                 CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry
                 CMP             AX,User.LDT.Code

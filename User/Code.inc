@@ -26,7 +26,7 @@
 ; DL     = Left-most position
 ; DH     = Top-most position
 
-                SEGMENT         User  VSTART=0  ALIGN=16
+                SEGMENT         User
 
 User.ColouredBall EQU           (User.BallColour << 8) | User.Ball
 

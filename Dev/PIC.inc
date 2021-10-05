@@ -3,6 +3,11 @@
 ;
 
 ; These are the definitions for the Priority Interrupt Controllers
+
+                SEGMENT         IO
+
+Dev.PIC:
+
 Dev.PIC.A.Cmd   EQU             020h
 Dev.PIC.A.Mask  EQU             021h
 

@@ -9,14 +9,18 @@
                 SEGMENT         Demo
 
                 DB              Version.Author, "'s"
-                ALIGN           16, DB ' '
+                ALIGN           x86.PARA, DB ' '
 
                 DB              Version.Demo
-                ALIGN           16, DB ' '
+                ALIGN           x86.PARA, DB ' '
 
                 DB              'v', Version.String
                 DB              ' ', Version.Copyright
-                ALIGN           16, DB ' '
+                ALIGN           x86.PARA, DB ' '
+
+%substr         Demo.Date       __?DATE?__ 3,-1
+                DB              Demo.Date
+                DB              __?TIME?__
 
 ; Change these to (almost) whatever you'd like. If you're too extreme, you'll
 ; get assemble-time errors. Others you won't know until you try...
@@ -31,7 +35,7 @@ Window.Height   EQU             6       ; Height of each Task's Window
 User.Ball       EQU             1       ; Try 3: it is an OEM 'Heart' symbol
 User.BallColour EQU             Dev.VGA.BlueBack  | Dev.VGA.White
 User.FrameColour EQU            Dev.VGA.GreenBack | Dev.VGA.White
-User.Delay      EQU             0_FFFFh ; How long to 'idle'the Bounce animation
+User.Delay      EQU             0_FFFFh ; How long to 'idle' the Bounce animation
 
 ; A useful pseudo-instruction to invoke the built-in Debugger - after it's set up!
 %define         DEBUG           DB 0CCh ; INT 3 - NASM assembles this as 0CD 03h

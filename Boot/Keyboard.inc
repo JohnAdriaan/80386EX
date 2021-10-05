@@ -2,10 +2,19 @@
 ; Boot/Keyboard.inc
 ;
 
-                SEGMENT         Boot.Code
+;-------------------------------------------------------------------------------
+                SEGMENT         Boot.Real
 
-                ALIGN           4
-                DB              "Kbd", 0
+                USE16
 
-Boot.Keyboard.Init:
-                Boot.Table.Next  Boot.Keyboard.Init
+Boot.Real.Keyboard:
+
+;-------------------------------------------------------------------------------
+                SEGMENT         Boot.Prot
+
+                USE32
+
+Boot.Prot.Keyboard:
+                MOV             EBX, `KBD\r`
+                CALL            Hex
+                JMP             Boot.Exit

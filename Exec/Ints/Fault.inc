@@ -84,7 +84,7 @@ Exec.Ints.Fault:
                 MOV             EAX,[%$Base]
                 MOV             EBX,[%$LDT.Triple]
                 ADD             EBX,x86.Desc_size ; Point to .TSS Alias in LDT
-                MOV             DL,Type.Mem(Data, DPL0, NoRW) ; TSS Alias
+                MOV             DL,Type.Mem(Data, DPL0, RNoW) ; TSS Alias
                 MOV             DH,Gran.Mem(Byte, Small)
                 CALL            Exec.Alloc.DT.Mem
 
@@ -170,7 +170,7 @@ Exec.Ints.Fault.TSS:
                 MOVZX           ESI,WORD [FS:WORD x86.TSS.Back] ; Who called me?
                 MOV             EDX,ESI           ; Remember for later
 
-                MOV             AL,Type.Mem(Data, DPL0, NoRW)
+                MOV             AL,Type.Mem(Data, DPL0, RNoW)
                 CALL            Exec.Ints.Fault.Copy
 
                 LEA             EAX,[EBX + x86.Seg.LDT] ; Selector for alias in LDT
