@@ -23,9 +23,6 @@
 ; to make it easy to know where to go:
 ; `x86`  : Definitions for the basic x86 CPU
 ; `Dev`  : Definitions for devices
-; 'Ints' : Interrupt handlers
-; 'User' : User space code
-; 'Exec' : Executive to manage User space programs
 ; 'Boot' : Boot code
 ;===============================================================================
 
@@ -65,7 +62,6 @@
 %substr         Name.Stamp        %[Name] 3, 5
 %substr         Version.Year      __DATE__ 3, 2
 %define         Version.Author    "John Adriaan"
-%define         Version.Demo      "80386 Demo Code"
 %define         Version.Boot      "386EX Boot ROM"
 %define         Version.Copyright 169, "2014-", %[Version.Year]
 
@@ -84,8 +80,6 @@
 
 %assign         Image.Size      0     ; Starting size. See Sizes.inc below
 
-%assign         Demo.Size       0     ; Size of Demo part. See Sizes.inc below
-
 %assign         Boot.Size       0     ; Size of Boot part. See Sizes.inc below
 
 ;===============================================================================
@@ -102,25 +96,6 @@
 ;===============================================================================
 %include        "Dev/SBC-386EX/SBC-386EX.inc" ; Definitions for this board
 ;===============================================================================
-%include        "Demo.inc"         ; Definitions for the demo part of the program
-
-;*******************************************************************************
-
-; This is Protected Mode code.
-
-                USE32           ; 32-bit Protected Mode
-
-%include        "Data.inc"      ; Global Data
-;===============================================================================
-%include        "Ints/Ints.inc" ; Interrupt handlers
-;===============================================================================
-%include        "User/User.inc" ; User Mode program
-;===============================================================================
-%include        "Exec/Exec.inc" ; Supervisor Mode executive
-;*******************************************************************************
-
-                %include        "EEPROM.inc"    ; Blank EEPROM
-;===============================================================================
 
                 USE16           ; Boot in 16-bit Real Mode
 
@@ -131,6 +106,3 @@
                 ALIGN           8
 
                 DB              Name.Stamp, Version.Stamp
-
-;===============================================================================
-%include        "Sizes.inc"     ; Final sizes for all of the above

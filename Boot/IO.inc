@@ -43,12 +43,12 @@
                 USE16
 
 Boot.IO:
-                IN              AL, x86.EX.RemapCFG+1   ; Reset to State A
-                MOV             AX, x86.EX.RemapCFG.ESE ; Enable Expanded I/O
-                OUT             x86.EX.RemapCFG+1, AL   ; Move to State B
+                IN              AL, x86.EX.Remap.Port + x86.EX.Remap.CTRL ; Reset to State A
+                MOV             AX, x86.EX.Remap.CFG.ESE                  ; Enable Expanded I/O
+                OUT             x86.EX.Remap.Port + x86.EX.Remap.CTRL, AL ; Move to State B
                 XCHG            AH, AL
-                OUT             x86.EX.RemapCFG, AL     ; Move to State C
-                OUT             x86.EX.RemapCFG, AX     ; State D. ESE set!
+                OUT             x86.EX.Remap.Port + x86.EX.Remap.CFG, AL  ; Move to State C
+                OUT             x86.EX.Remap.Port + x86.EX.Remap.CFG, AX  ; State D. ESE set!
 
 ; Configure which pins are set to internal peripherals
 ; P1

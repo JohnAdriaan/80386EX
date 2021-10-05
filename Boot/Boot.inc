@@ -21,6 +21,8 @@
 ; prepare resources for future modules.
 ;
 
+%include        "Boot/EEPROM.inc"       ; Padding for unused EEPROM
+
                 SEGMENT         Boot.Real
 
                 USE16

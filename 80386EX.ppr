@@ -33,7 +33,7 @@ HTServer=localhost
 		x86\IVT.inc
 		-x86\EX
 			x86\EX\386EX.inc
-			x86\EX\RemapCFG.inc
+			x86\EX\Remap.inc
 			x86\EX\GPIO.inc
 			x86\EX\CSU.inc
 			x86\EX\RFS.inc
@@ -106,9 +106,10 @@ HTServer=localhost
 			Exec\Alloc\TSS.inc
 		Exec\LDT.inc
 		Exec\GDT.inc
-	EEPROM.inc
+	Demo.Sizes.inc
 	+Boot
 		Boot\Boot.inc
+		Boot\EEPROM.inc
 		Boot\Defn.inc
 		Boot\CPU.inc
 		Boot\IO.inc
@@ -129,20 +130,7 @@ HTServer=localhost
 		Boot\Hex.inc
 		Boot\Fatal.inc
 		Boot\Reset.inc
-	Sizes.inc
+	Boot.Sizes.inc
 [Open project files]
-0=Boot\Video.inc
-1=Boot\ECB.inc
-2=80386EX.asm
 [Selected Project Files]
 Main=80386EX.asm
-Selected=80386EX.asm
-[Boot\Video.inc]
-TopLine=49
-Caret=7,67
-[Boot\ECB.inc]
-TopLine=1
-Caret=68,5
-[80386EX.asm]
-TopLine=31
-Caret=36,74
