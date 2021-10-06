@@ -4,7 +4,7 @@
 
 ; This defines the LDT that the User program needs.
 
-                SEGMENT         User.LDT  START=0  ALIGN=x86.PARA  NOBITS
+                SEGMENT         User.LDT  START=0  ALIGN=Align.Para  NOBITS
 
                 USE32
 

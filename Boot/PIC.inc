@@ -6,3 +6,10 @@
 PIC.A.Base      EQU             20h
 PIC.B.Base      EQU             28h
 
+;-------------------------------------------------------------------------------
+                SEGMENT         Boot.Real
+
+                USE16
+
+Boot.PIC:
+

@@ -15,6 +15,11 @@ Dev.SBC386EX.Lite.3     EQU  x86.EX.PIN.7
 Dev.SBC386EX.Lite.Mask  EQU  .0 | .1 | .2 | .3
 Dev.SBC386EX.Lite.Shift EQU  4
 
+%macro          Dev.Lites       1
+                MOV             DX, Dev.SBC386EX.Lite.Out
+                MOV             AL, %1 << Dev.SBC386EX.Lite.Shift
+%endmacro
+
 ; All these macros assume:
 ; 1) DX has been loaded with Dev.SBC386EX.Lite.Out
 ; 2) AL will be destroyed

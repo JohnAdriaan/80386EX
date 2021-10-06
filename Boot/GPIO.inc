@@ -45,7 +45,7 @@
                 SEGMENT         Boot.Real
 
                 USE16
-                
+
 Boot.GPIO:
 
 ; Before configuring GPIO directions, configure GPIO latches to OFF

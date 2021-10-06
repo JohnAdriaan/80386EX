@@ -29,28 +29,28 @@ AT GDT.Alloc.Pseudo.Base,  DD           %1
 
 GDT.Alias.Base  EQU             GDT.Base
 GDT.Alias.Limit EQU             (GDT.Size-1) >> 12     ; Let's use Granular limits
-GDT.Alias.Type  EQU             Type.Mem(Data, DPL0, RW)
-GDT.Alias.Gran  EQU             Gran.Mem(Page, Small)
+GDT.Alias.Type  EQU             Type.Mem(.Data, .DPL0, .RW)
+GDT.Alias.Gran  EQU             Gran.Mem(.Page, .Small)
 
 GDT.Data.Base   EQU             Data.Base
 GDT.Data.Limit  EQU             Data.Size - 1
-GDT.Data.Type   EQU             Type.Mem(Data, DPL0, RW)
-GDT.Data.Gran   EQU             Gran.Mem(Byte, Big)
+GDT.Data.Type   EQU             Type.Mem(.Data, .DPL0, .RW)
+GDT.Data.Gran   EQU             Gran.Mem(.Byte, .Big)
 
 GDT.VGA.Base    EQU             Dev.VGA.Base
 GDT.VGA.Limit   EQU             Dev.VGA.Rows * Dev.VGA.Cols * 2 - 1
-GDT.VGA.Type    EQU             Type.Mem(Data, DPL3, RW) ; Let anyone access it!
-GDT.VGA.Gran    EQU             Gran.Mem(Byte, Big)
+GDT.VGA.Type    EQU             Type.Mem(.Data, .DPL3, .RW) ; Let anyone access it!
+GDT.VGA.Gran    EQU             Gran.Mem(.Byte, .Big)
 
 GDT.Ints.Base   EQU             Ints.Base
 GDT.Ints.Limit  EQU             Ints.Limit
-GDT.Ints.Type   EQU             Type.Mem(Code, DPL0, RW) ; Uses lookup tables
-GDT.Ints.Gran   EQU             Gran.Mem(Byte, Def32)
+GDT.Ints.Type   EQU             Type.Mem(.Code, .DPL0, .RW) ; Uses lookup tables
+GDT.Ints.Gran   EQU             Gran.Mem(.Byte, .Def32)
 
 GDT.Exec.LDT.Base  EQU          Exec.LDT.Base
 GDT.Exec.LDT.Limit EQU          Exec.LDT.Limit
-GDT.Exec.LDT.Type  EQU          Type.Sys(LDT, DPL0, 286)
-GDT.Exec.LDT.Gran  EQU          Gran.Mem(Byte, Small)
+GDT.Exec.LDT.Type  EQU          Type.Sys(.LDT, .DPL0, .286)
+GDT.Exec.LDT.Gran  EQU          Gran.Mem(.Byte, .Small)
 
 GDT:
 GDT.NULL        GDT.Vars        GDT.Base, GDT.Limit

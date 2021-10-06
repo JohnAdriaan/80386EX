@@ -6,9 +6,9 @@
 
 ;...............................................................................
 Ints.Debug.Init:
-                MOV             AX,Selector(GDT.VGA, GDT, RPL0)
+                MOV             AX,Selector(GDT.VGA, .GDT, .RPL0)
                 MOV             ES,AX           ; Point to Screen, for STOSW
-                MOV             AX,Selector(GDT.Data, GDT, RPL0)
+                MOV             AX,Selector(GDT.Data, .GDT, .RPL0)
                 MOV             FS,AX           ; Point to global (Key) Data
 
                 ; Default Show.Row format

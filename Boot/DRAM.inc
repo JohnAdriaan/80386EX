@@ -67,20 +67,17 @@ Boot.Prot.DRAM:
 ; Test size of DRAM, in SRAM.Size increments. Stop when ROM reached
                 XOR             EDX, EDX          ; Too many errors counter
                 MOV             EDI, DRAM.Start
-.Set.Loop:
-                CMP             EDI, SRAM.Start   ; Don't write in SRAM
-                JE              .Set.Next
-.Set:
+.Loop:
                 MOV             [EDI], EDI        ; Store address in address
                 CMP             [EDI], EDI        ; Did it work?
-                JE              .Set.Same
+                JE              .Same
 
                 INC             DL                ; Nope! Try again
-                JNZ             .Set
+                JNZ             .Loop
                 JMP             Boot.Fatal        ; Too often. Bail!
-.Set.Same:
+.Same:
                 TEST            EDX, EDX
-                JZ              .Set.Next
+                JZ              .Next
                 MOV             EBX, `0x==`       ; Report number of attempts
                 MOV             ESI, EDI
                 CALL            Hex
@@ -88,10 +85,10 @@ Boot.Prot.DRAM:
                 MOV             ESI, EDX
                 CALL            Hex
                 XOR             EDX, EDX
-.Set.Next:
+.Next:
                 ADD             EDI, SRAM.Size
-                CMP             EDI, ROM.Start
-                JB              .Set.Loop
+                CMP             EDI, ECB.Mem.Start
+                JB              .Loop
 
 ; Because of DRAM wrap-around, [DRAM.Start] (kind of) holds the inverse of the DRAM size
                 MOV             EDX, [DRAM.Start]

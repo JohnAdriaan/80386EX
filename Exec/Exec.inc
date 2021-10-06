@@ -21,7 +21,7 @@
 ; Before we can do anything else though, we need to set up a Protected Mode stack
 Exec.Code:
                 ; Point to Stack
-                MOV             AX,Selector(Exec.LDT.Stack, LDT, RPL0)
+                MOV             AX,Selector(Exec.LDT.Stack, .LDT, .RPL0)
                 MOV             SS,AX
                 XOR             ESP,ESP ; One of the advantages of Expand-Down Stacks!
 

@@ -15,7 +15,7 @@ Exec.Ints.BadStack:
 ;               PUSH   DWORD    0               ; Pseudo-fault code (not required)
                 PUSH            12              ; Interrupt number
 
-                MOV             AX,Selector(GDT.VGA, GDT, RPL0)
+                MOV             AX,Selector(GDT.VGA, .GDT, .RPL0)
                 MOV             DS,AX
                 INC     BYTE    [WORD 000Ch*2]  ; Dingle(tm) to say we've done it!
 

@@ -5,7 +5,7 @@
 ; This is the definition for the global Data Segment. Note that some
 ; values are populated at Boot
 
-                 SEGMENT        Data  START=0  ALIGN=x86.PARA  NOBITS
+                 SEGMENT        Data  START=0  ALIGN=Align.Para  NOBITS
 
                  USE32
 

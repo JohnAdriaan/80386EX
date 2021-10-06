@@ -21,15 +21,10 @@
 ; prepare resources for future modules.
 ;
 
-%include        "Boot/EEPROM.inc"       ; Padding for unused EEPROM
-
                 SEGMENT         Boot.Real
-
-                USE16
 
 %include        "Boot/Defn.inc"         ; Definitions for use by ROM routines
 ;-------------------------------------------------------------------------------
-
 Boot.Code.Entry:                        ; Reset JMP point
 
 %include        "Boot/CPU.inc"          ; Init CPU
@@ -38,37 +33,78 @@ Boot.Code.Entry:                        ; Reset JMP point
 ;-------------------------------------------------------------------------------
 %include        "Boot/FPU.inc"          ; Init FPU (need I/O port for detection)
 ;-------------------------------------------------------------------------------
-%include        "Boot/GPIO.inc"         ; Init General-Purpose I/O (Lites)
-;-------------------------------------------------------------------------------
 %include        "Boot/PIC.inc"          ; Init Priority Interrupt Controllers
 ;-------------------------------------------------------------------------------
+%include        "Boot/GPIO.inc"         ; Init General-Purpose I/O (Lites)
+
+                Dev.Lites     0000b
+;-------------------------------------------------------------------------------
 %include        "Boot/SIO.inc"          ; Init Serial I/O (UART)
+
+                Dev.Lites     0001b
 ;-------------------------------------------------------------------------------
 %include        "Boot/CSU.inc"          ; Init Chip Select Unit (CSU)
+
+                Dev.Lites     0010b
 ;-------------------------------------------------------------------------------
-%include        "Boot/PM.inc"           ; Go into Protected Mode
+                SEGMENT         Boot.GDT
+
+                Dev.Lites     0011b
+
+%include        "Boot/GDT.inc"          ; Init Global Descriptor Table (GDT)
+;===============================================================================
+                SEGMENT         Boot.Font
+
+%include        "Boot/Font.inc"         ; Font definition
+;-------------------------------------------------------------------------------
+                SEGMENT         EEPROM
+
+%include        "Boot/EEPROM.inc"       ; Padding for unused EEPROM
+;-------------------------------------------------------------------------------
 
                 SEGMENT         Boot.Prot
 
                 USE32
 ;-------------------------------------------------------------------------------
+%include        "Boot/PM.inc"           ; Go into Protected Mode
+
+                Dev.Lites      0100b
+;-------------------------------------------------------------------------------
 %include        "Boot/ROM.inc"          ; Init ROM Chip Select (CS)
+
+                Dev.Lites      0101b
 ;-------------------------------------------------------------------------------
 %include        "Boot/SRAM.inc"         ; Init Static RAM (SRAM) and CS
+
+                Dev.Lites      0110b
 ;-------------------------------------------------------------------------------
 %include        "Boot/DRAM.inc"         ; Init Dynamic RAM (DRAM) and CS
+
+                Dev.Lites      0111b
 ;-------------------------------------------------------------------------------
 %include        "Boot/ECB.inc"          ; Init EuroCard Bus Chip Selects
+
+                Dev.Lites      1000b
 ;-------------------------------------------------------------------------------
 %include        "Boot/Video.inc"        ; Init Video
+
+                Dev.Lites      1001b
 ;-------------------------------------------------------------------------------
 %include        "Boot/Keyboard.inc"     ; Init Keyboard
+
+                Dev.Lites      1010b
 ;-------------------------------------------------------------------------------
 %include        "Boot/RTC.inc"          ; Init Real-Time Clock
+
+                Dev.Lites      1011b
 ;-------------------------------------------------------------------------------
 %include        "Boot/IDE.inc"          ; Init IDE and Chip Select
+
+                Dev.Lites      1100b
 ;-------------------------------------------------------------------------------
 %include        "Boot/SDCard.inc"       ; Init SDCard
+
+                Dev.Lites      1101b
 ;-------------------------------------------------------------------------------
 %include        "Boot/Hex.inc"          ; Hex out the serial port
 ;-------------------------------------------------------------------------------

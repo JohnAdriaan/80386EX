@@ -39,7 +39,7 @@ Exec.Ints.Fault:
                 MOV             [%$LDT.Triple],EBX
                 MOV             [%$Handler],EDX
 
-                MOV             AX,Selector(Exec.LDT.Alias, LDT, RPL0)
+                MOV             AX,Selector(Exec.LDT.Alias, .LDT, .RPL0)
                 MOV             ES,AX         ; Point to LDT alias
 
                 ; Allocate Stack for Fault handler
@@ -49,8 +49,8 @@ Exec.Ints.Fault:
                 JZ              .End
 
                 ; Store in LDT
-                MOV             DL,Type.Mem(Stack, DPL0, RW)
-                MOV             DH,Gran.Mem(Byte,  Big)
+                MOV             DL,Type.Mem(.Stack, .DPL0, .RW)
+                MOV             DH,Gran.Mem(.Byte,  .Big)
                 CALL            Exec.Alloc.DT.Mem
 
                 ; Allocate TSS
@@ -77,22 +77,22 @@ Exec.Ints.Fault:
 
                 MOV             [%$TSS],EBX
 
-                MOV             AX,Selector(Exec.LDT.Alias, LDT, RPL0)
+                MOV             AX,Selector(Exec.LDT.Alias, .LDT, .RPL0)
                 MOV             ES,AX             ; Point to LDT alias again
 
                 ; Set up Alias entry in LDT
                 MOV             EAX,[%$Base]
                 MOV             EBX,[%$LDT.Triple]
                 ADD             EBX,x86.Desc_size ; Point to .TSS Alias in LDT
-                MOV             DL,Type.Mem(Data, DPL0, RNoW) ; TSS Alias
-                MOV             DH,Gran.Mem(Byte, Small)
+                MOV             DL,Type.Mem(.Data, .DPL0, .RNoW) ; TSS Alias
+                MOV             DH,Gran.Mem(.Byte, .Small)
                 CALL            Exec.Alloc.DT.Mem
 
                 ; Finally, update IDT Entry to tell it it's now handled by a TSS
                 XOR             EAX,EAX
                 MOV             EBX,[%$IDT.Entry]
                 MOV             ECX,[%$TSS]
-                MOV             DL,Type.Sys(Task, DPL0, 286) ; No '386 variant
+                MOV             DL,Type.Sys(.Task, .DPL0, .286) ; No '386 variant
                 CALL            Exec.Alloc.IDT
 .End:
                 LEAVE
@@ -158,9 +158,9 @@ Exec.Ints.Fault.TestIRQs:
 ;          FS = Faulting TSS Alias
 ;         EBX modified
 Exec.Ints.Fault.TSS:
-                MOV             AX,Selector(GDT.Alias, GDT, RPL0)
+                MOV             AX,Selector(GDT.Alias, .GDT, .RPL0)
                 MOV             DS,AX         ; Need information from GDT
-                MOV             AX,Selector(Exec.LDT.Alias, LDT, RPL0)
+                MOV             AX,Selector(Exec.LDT.Alias, .LDT, .RPL0)
                 MOV             ES,AX         ; Need to update alias in LDT
                 LEA             EAX,[EBX + x86.Seg.LDT] ; Need my TSS alias in LDT
                 MOV             FS,AX
@@ -170,7 +170,7 @@ Exec.Ints.Fault.TSS:
                 MOVZX           ESI,WORD [FS:WORD x86.TSS.Back] ; Who called me?
                 MOV             EDX,ESI           ; Remember for later
 
-                MOV             AL,Type.Mem(Data, DPL0, RNoW)
+                MOV             AL,Type.Mem(.Data, .DPL0, .RNoW)
                 CALL            Exec.Ints.Fault.Copy
 
                 LEA             EAX,[EBX + x86.Seg.LDT] ; Selector for alias in LDT

@@ -1,33 +1,29 @@
 ;
-; Boot.Sizes.inc
+; Boot/Sizes.inc
 ;
 
 ;===============================================================================
 ; Calculate final Boot.Real Segment size
 ; Note this segment falls through to Boot.GDT
-                SEGMENT         Boot.Real   ALIGN=x86.PARA ; Real mode segment
+                SEGMENT         Boot.Real   START=ROM.ORG   ALIGN=Align.Desc
 
-                ALIGN           x86.PARA ;, DB 0FFh     ; Need to pad with NOP
+                ALIGN           Align.Desc ;, DB 0FFh  ; Need to pad with NOP
 
 Boot.Real.Size  EQU             $ - $$
-
-Boot.Real.Start EQU            (Boot.GDT.Start - Boot.Real.Size) & ~(x86.PARA-1)
 
 %assign         Image.Size      Image.Size + Boot.Real.Size
 
 %assign         Boot.Size       Boot.Size + Boot.Real.Size
-
-;                SEGMENT         Boot.Real    START=Boot.Real.Start
 ;-------------------------------------------------------------------------------
 ; Calculate final Boot.GDT Segment size
 ; Note this Segment falls through from Boot.Real
-                SEGMENT         Boot.GDT   ALIGN=x86.PARA
+                SEGMENT         Boot.GDT   VFOLLOWS=Boot.Real  ALIGN=Align.Desc
 
-                ALIGN           x86.PARA, DB 0FFh
+                ALIGN           Align.Desc, DB 0FFh
 
 Boot.GDT.Size   EQU             $ - $$
 
-Boot.GDT.Start  EQU            (Boot.Prot.Start - Boot.GDT.Size) & ~(x86.PARA-1)
+Boot.GDT.Start  EQU            (Boot.Prot.Start - Boot.GDT.Size) & ~Mask.Para
 
 %assign         Image.Size      Image.Size + Boot.GDT.Size
 
@@ -35,14 +31,23 @@ Boot.GDT.Start  EQU            (Boot.Prot.Start - Boot.GDT.Size) & ~(x86.PARA-1)
 
 ;               SEGMENT         Boot.GDT     START=Boot.GDT.Start
 ;-------------------------------------------------------------------------------
+; Calculate final Boot.Font Segment size
+                SEGMENT         Boot.Font   VFOLLOWS=Boot.GDT   ALIGN=Align.Para
+
+Boot.Font.Size  EQU             $ - $$
+
+%assign         Image.Size      Image.Size + Boot.Font.Size
+
+%assign         Boot.Size       Boot.Size + Boot.Font.Size
+;-------------------------------------------------------------------------------
 ; Calculate final Boot.Prot Segment size
                 SEGMENT         Boot.Prot
 
-                ALIGN           x86.PARA, DB 0FFh
+                ALIGN           Align.Para, DB 0FFh
 
 Boot.Prot.Size  EQU             $ - $$
 
-Boot.Prot.Start EQU            (Boot.Reset.Start - Boot.Prot.Size) & ~(x86.PARA - 1)
+Boot.Prot.Start EQU            (Boot.Reset.Start - Boot.Prot.Size) & ~Mask.Para
 
 %assign         Image.Size      Image.Size + Boot.Prot.Size
 
@@ -65,7 +70,7 @@ Boot.Reset.Start EQU            x86.Reset
 ; Fill EEPROM Segment with 0FFh
                 SEGMENT         EEPROM  ALIGN=1
 
-%assign         EEPROM.Pad      ROM.Size - Demo.Size - Boot.Size
+%assign         EEPROM.Pad      ROM.Size - Boot.Size
 
                 TIMES           EEPROM.Pad DB 0FFh
 

@@ -35,6 +35,7 @@
 ; These are the hardware-assigned sizes and clocks for the SBC386EX board
 %assign         CPU.CLK2          32_000_000        ; In Hertz
 
+%define         ROM.ORG           (1_0000h - ROM.Size)
 %assign         ROM.Size          8 * 1024          ; In bytes
 %define         ROM.CS            UCS
 %assign         ROM.Speed         150               ; In nanoseconds
@@ -83,7 +84,7 @@
 %assign         Boot.Size       0     ; Size of Boot part. See Sizes.inc below
 
 ;===============================================================================
-                ORG             1_0000h - ROM.Size
+                ORG             ROM.ORG
 
 ; The following are just definitions. Lots and lots of definitions...
 ; I hate "magic" numbers. Only 0 and 1 are numbers; the rest need labels!
@@ -106,3 +107,5 @@
                 ALIGN           8
 
                 DB              Name.Stamp, Version.Stamp
+
+%include        "Boot/Sizes.inc"

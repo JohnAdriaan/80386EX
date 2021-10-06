@@ -26,14 +26,14 @@ Exec.User.TSS:
 
                 XOR             EBX,EBX ; Use relative addressing: more code efficient
 ; Note that TSS is already zeroed - no need to store zeroes again
-                MOV     WORD    [EBX + x86.TSS.CS],  Selector(User.LDT.Code,   LDT, RPL3)
+                MOV     WORD    [EBX + x86.TSS.CS],  Selector(User.LDT.Code,   .LDT, .RPL3)
                 MOV     WORD    [EBX + x86.TSS.EIP], User.Entry
-                MOV     WORD    [EBX + x86.TSS.SS0], Selector(User.LDT.Stack0, LDT, RPL0)
+                MOV     WORD    [EBX + x86.TSS.SS0], Selector(User.LDT.Stack0, .LDT, .RPL0)
 ;               MOV    DWORD    [EBX + x86.TSS.ESP0],0
-                MOV     WORD    [EBX + x86.TSS.SS],  Selector(User.LDT.Stack3, LDT, RPL3)
+                MOV     WORD    [EBX + x86.TSS.SS],  Selector(User.LDT.Stack3, .LDT, .RPL3)
 ;               MOV    DWORD    [EBX + x86.TSS.ESP], 0
-                MOV     WORD    [EBX + x86.TSS.ES],  Selector(GDT.VGA,         GDT, RPL3)
-                MOV     WORD    [EBX + x86.TSS.DS],  Selector(User.LDT.Data,   LDT, RPL3)
+                MOV     WORD    [EBX + x86.TSS.ES],  Selector(GDT.VGA,         .GDT, .RPL3)
+                MOV     WORD    [EBX + x86.TSS.DS],  Selector(User.LDT.Data,   .LDT, .RPL3)
                 MOV     WORD    [EBX + x86.TSS.EBX], Dev.VGA.Cols * 2
                 MOV             [EBX + x86.TSS.ECX], ECX
                 MOV             [EBX + x86.TSS.EDX], EDX

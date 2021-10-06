@@ -36,7 +36,7 @@ Ints.Key:
                 PUSH            ES              ; For .Hex's STOSW later...
 
                 ; Point to Global Data
-                MOV             AX,Selector(GDT.Data, GDT, RPL0)
+                MOV             AX,Selector(GDT.Data, .GDT, .RPL0)
                 MOV             ES,AX
 
                 IN              AL,Dev.Key.Data ; Get character from keyboard
@@ -73,7 +73,7 @@ Ints.Key:
                 PUSH            EDI  
 
                 ; Now point to screen
-                MOV             DI,Selector(GDT.VGA, GDT, RPL0)
+                MOV             DI,Selector(GDT.VGA, .GDT, .RPL0)
                 MOV             ES,DI
 
                 MOV             DL,AH           ; Code to Hexify

@@ -21,7 +21,7 @@
 Ints.Switch:
 
 .Type.Mask      EQU             x86.Desc.Type.Present | x86.Desc.Type.Sys | x86.Desc.Type.Type
-.IdleTSS        EQU             Type.Sys(TSS, DPL0, 386) ; Target!
+.IdleTSS        EQU             Type.Sys(.TSS, .DPL0, .386) ; Target!
 
                 STR             EAX             ; Get current TSS
                 TEST            EAX,EAX         ; Switching Tasks yet?
@@ -31,7 +31,7 @@ Ints.Switch:
                 PUSH            DS              ; And a Segment register
 
                 MOV             EBX,EAX
-                MOV             AX,Selector(GDT.Alias, GDT, RPL0)
+                MOV             AX,Selector(GDT.Alias, .GDT, .RPL0)
                 MOV             DS,AX           ; To point to the GDT
 
                 ; I know that EAX holds a TSS - but is it a System TSS?
@@ -76,7 +76,7 @@ Ints.Switch:
 ; Output: EAX = whether it modified the Task. Pass this in EBX to .Done
 ;         GS  = GDT
 Ints.System.Init:
-                MOV             AX,Selector(GDT.Alias, GDT, RPL0)
+                MOV             AX,Selector(GDT.Alias, .GDT, .RPL0)
                 MOV             GS,AX           ; Point to GDT
 
                 STR             EAX             ; Get current Task

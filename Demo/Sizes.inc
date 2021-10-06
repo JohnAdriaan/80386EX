@@ -3,9 +3,9 @@
 ;
 
 ; Calculate final Header Segment size
-                SEGMENT         Demo  ALIGN=x86.PARA
+                SEGMENT         Demo  ALIGN=Align.Para
 
-                ALIGN           x86.PARA, DB 0
+                ALIGN           Align.Para, DB 0
 
 Header.Size     EQU             $ - $$
 
@@ -14,13 +14,13 @@ Header.Size     EQU             $ - $$
 %assign         Demo.Size       Demo.Size + Header.Size
 ;-------------------------------------------------------------------------------
 ; Calculate final IDT Segment size
-                SEGMENT         IDT  VSTART=0  ALIGN=x86.PARA
+                SEGMENT         IDT  VSTART=0  ALIGN=Align.Para
 
 IDT.Addr        EQU             Code.Base - IDT.Size
 
 IDT.Limit       EQU             $ - $$ - 1
 
-                ALIGN           x86.PARA, DB 0
+                ALIGN           Align.Para, DB 0
 
 IDT.Size        EQU             $ - $$
 
@@ -29,13 +29,13 @@ IDT.Size        EQU             $ - $$
 %assign         Demo.Size       Demo.Size + IDT.Size
 ;-------------------------------------------------------------------------------
 ; Calculate final Ints Segment size
-                SEGMENT         Ints  VSTART=0  ALIGN=x86.PARA
+                SEGMENT         Ints  VSTART=0  ALIGN=Align.Para
 
 Ints.Base       EQU             IDT.Addr + IDT.Size ; Equivalent to Code.Base
 
 Ints.Limit      EQU             $ - $$ - 1
 
-                ALIGN           x86.PARA
+                ALIGN           Align.Para
 
 Ints.Size       EQU             $ - $$
 
@@ -44,13 +44,13 @@ Ints.Size       EQU             $ - $$
 %assign         Demo.Size       Demo.Size + Ints.Size
 ;-------------------------------------------------------------------------------
 ; Calculate final User.Code Segment size
-                SEGMENT         User  VSTART=0  ALIGN=x86.PARA
+                SEGMENT         User  VSTART=0  ALIGN=Align.Para
 
 User.Base       EQU             Ints.Base + Ints.Size
 
 User.Limit      EQU             $ - $$ - 1
 
-                ALIGN           x86.PARA
+                ALIGN           Align.Para
 
 User.Size       EQU             $ - $$
 
@@ -59,31 +59,31 @@ User.Size       EQU             $ - $$
 %assign         Demo.Size       Demo.Size + User.Size
 ;-------------------------------------------------------------------------------
 ; Calculate final User.LDT Segment size
-                SEGMENT         User.LDT  ALIGN=x86.PARA  NOBITS
+                SEGMENT         User.LDT  ALIGN=Align.Para  NOBITS
 
 User.LDT.Limit  EQU             $ - $$ - 1
 
-                ALIGNB          x86.PARA
+                ALIGNB          Align.Para
 
 User.LDT.Size   EQU             $ - $$
 ;-------------------------------------------------------------------------------
 ; Calculate final User.Data Segment size
-                SEGMENT         User.Data  ALIGN=x86.PARA  NOBITS
+                SEGMENT         User.Data  ALIGN=Align.Para  NOBITS
 
 User.Data.Limit EQU             $ - $$ - 1
 
-                ALIGNB          x86.PARA
+                ALIGNB          Align.Para
 
 User.Data.Size  EQU             $ - $$
 ;-------------------------------------------------------------------------------
 ; Calculate final Exec Segment size
-                SEGMENT         Exec  VSTART=0  ALIGN=x86.PARA
+                SEGMENT         Exec  VSTART=0  ALIGN=Align.Para
 
 Exec.Base       EQU             User.Base + User.Size
 
 Exec.Limit      EQU             $ - $$ - 1
 
-                ALIGN           x86.PARA
+                ALIGN           Align.Para
 
 Exec.Size       EQU             $ - $$
 
@@ -92,13 +92,13 @@ Exec.Size       EQU             $ - $$
 %assign         Demo.Size       Demo.Size + Exec.Size
 ;-------------------------------------------------------------------------------
 ; Calculate final Exec.LDT Segment size
-                SEGMENT         Exec.LDT  VSTART=0  ALIGN=x86.PARA
+                SEGMENT         Exec.LDT  VSTART=0  ALIGN=Align.Para
 
 Exec.LDT.Base   EQU             Exec.Base + Exec.Size
 
 Exec.LDT.Limit  EQU             $ - $$ - 1
 
-                ALIGN           x86.PARA, DB 0
+                ALIGN           Align.Para, DB 0
 
 Exec.LDT.Size   EQU             $ - $$
 
@@ -107,7 +107,7 @@ Exec.LDT.Size   EQU             $ - $$
 %assign         Demo.Size       Demo.Size + Exec.LDT.Size
 ;-------------------------------------------------------------------------------
 ; Calculate final GDT Segment size
-                SEGMENT         GDT  VSTART=0  ALIGN=x86.PARA
+                SEGMENT         GDT  VSTART=0  ALIGN=Align.Para
 
 GDT.Base        EQU             Exec.LDT.Base + Exec.LDT.Size
 

@@ -26,10 +26,10 @@ Ints.Single:
                 PUSH            DS
                 PUSH            ES
 
-                MOV             AX,Selector(GDT.Data, GDT, RPL0) ; Point to Data
+                MOV             AX,Selector(GDT.Data, .GDT, .RPL0) ; Point to Data
                 MOV             DS,AX
 
-                MOV             AX,Selector(GDT.VGA,  GDT, RPL0) ; Point to Screen
+                MOV             AX,Selector(GDT.VGA,  .GDT, .RPL0) ; Point to Screen
                 MOV             ES,AX
 .Loop:
                 INC     BYTE    [ES:WORD 0001h*2] ; Dingle(tm) screen location

@@ -19,5 +19,7 @@ Boot.Exit:
                 JMP             .Loop
 
 ;-------------------------------------------------------------------------------
+Boot.Fatal.Hex:
+                CALL            Hex
 Boot.Fatal:
                 HLT

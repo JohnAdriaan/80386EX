@@ -20,7 +20,7 @@ Exec.Init:
                 POPFD
 
                 ; Point to GDT. (With GS! How apt!)
-                MOV             AX,Selector(GDT.Alias, GDT, RPL0)
+                MOV             AX,Selector(GDT.Alias, .GDT, .RPL0)
                 MOV             GS,AX           ; Try to keep this here
 
                 ; Zero out the rest of the GDT
@@ -32,12 +32,12 @@ Exec.Init:
                 REP             STOSD           ; Each STOSD is 4 bytes, thus /4
 
                 ; Point to Screen
-                MOV             AX,Selector(GDT.VGA, GDT, RPL0)
+                MOV             AX,Selector(GDT.VGA, .GDT, .RPL0)
                 MOV             ES,AX           ; This will be used for lots
                 MOV             FS,AX           ; Try to keep this here
 
                 ; Point to global Data
-                MOV             AX,Selector(GDT.Data, GDT, RPL0)
+                MOV             AX,Selector(GDT.Data, .GDT, .RPL0)
                 MOV             DS,AX           ; Try to keep this here
 
                 MOV    DWORD    [Data.RAM],Demo.First
@@ -45,7 +45,7 @@ Exec.Init:
                 MOV     BYTE    [Data.Key.Shifts],0
 
                 ; Now allocate Exec's TSS. Use Exec's LDT!
-                MOV             AX,Selector(GDT.Exec.LDT, GDT, RPL0)
+                MOV             AX,Selector(GDT.Exec.LDT, .GDT, .RPL0)
                 CALL            Exec.Alloc.TSS  ; Assume this will work!
                 MOV             AH,0            ; Not a System TSS
                 CALL            Exec.Alloc.TSS.Enable

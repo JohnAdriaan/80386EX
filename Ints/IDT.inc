@@ -16,10 +16,10 @@
 
                 USE32
 
-IDT.Int         EQU             Type.Sys(Int,  DPL0, 386)
-IDT.Trap        EQU             Type.Sys(Trap, DPL0, 386)
-IDT.User.Int    EQU             Type.Sys(Int,  DPL3, 386)
-IDT.User.Trap   EQU             Type.Sys(Trap, DPL3, 386)
+IDT.Int         EQU             Type.Sys(.Int,  .DPL0, .386)
+IDT.Trap        EQU             Type.Sys(.Trap, .DPL0, .386)
+IDT.User.Int    EQU             Type.Sys(.Int,  .DPL3, .386)
+IDT.User.Trap   EQU             Type.Sys(.Trap, .DPL3, .386)
 
 IDT:
 IDT.Divide      Desc.Sys        GDT.Ints, Ints.Int0, IDT.Trap     ; Int 00h

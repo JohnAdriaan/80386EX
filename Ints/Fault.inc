@@ -83,7 +83,7 @@ Ints.Fault.ShowRegs:
                 PUSH            CS
                 POP             DS              ; Point to code, for Ints.Names
 
-                MOV             AX,Selector(GDT.VGA, GDT, RPL0)
+                MOV             AX,Selector(GDT.VGA, .GDT, .RPL0)
                 MOV             ES,AX           ; Point to screen with ES
 
                 MOV             ESI,Ints.Names  ; Point to Names

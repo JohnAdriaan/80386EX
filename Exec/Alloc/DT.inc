@@ -96,9 +96,9 @@ Exec.Alloc.DT.Mem:
                 SUB             EAX,0001_0000h  ; And alter Base to suit
 .Scale:
                 DEC             ECX                         ; Convert to Limit
-                CMP             ECX,(0_FFFF_FFFFh >> x86.Page.Shift)  ; Will Limit fit?
+                CMP             ECX,(0_FFFF_FFFFh >> x86.PAGE.Shift)  ; Will Limit fit?
                 JBE             .Set                        ; Yep, so do so
-                SHR             ECX,x86.Page.Shift          ; Nope! Make it
+                SHR             ECX,x86.PAGE.Shift          ; Nope! Make it
                 OR              DH,x86.Desc.Mem.Gran.Page
 .Set:
                 PUSH            DS

@@ -37,6 +37,9 @@ Dev.VGA.Bright     EQU          0000_1000b
 Dev.VGA.Background EQU          0111_0000b
 Dev.VGA.Blink      EQU          1000_0000b
 
+Dev.VGA.Attr.Shift EQU          x86.BYTE.Bits
+Dev.VGA.Back.Shift EQU          x86.NIBBLE.Bits
+
 Dev.VGA.Black     EQU           0_0h
 Dev.VGA.Blue      EQU           0_1h
 Dev.VGA.Green     EQU           0_2h
@@ -55,17 +58,17 @@ Dev.VGA.BrightMagenta EQU       Dev.VGA.Bright | Dev.VGA.Magenta
 Dev.VGA.Yellow        EQU       Dev.VGA.Bright | Dev.VGA.Brown
 Dev.VGA.White         EQU       Dev.VGA.Bright | Dev.VGA.Grey
 
-Dev.VGA.BlackBack     EQU       Dev.VGA.Black   << 4
-Dev.VGA.BlueBack      EQU       Dev.VGA.Blue    << 4
-Dev.VGA.GreenBack     EQU       Dev.VGA.Green   << 4
-Dev.VGA.CyanBack      EQU       Dev.VGA.Cyan    << 4
-Dev.VGA.RedBack       EQU       Dev.VGA.Red     << 4
-Dev.VGA.MagentaBack   EQU       Dev.VGA.Magenta << 4
-Dev.VGA.YellowBack    EQU       Dev.VGA.Brown   << 4
-Dev.VGA.WhiteBack     EQU       Dev.VGA.Grey    << 4
+Dev.VGA.BlackBack     EQU       Dev.VGA.Black   << Dev.VGA.Back.Shift
+Dev.VGA.BlueBack      EQU       Dev.VGA.Blue    << Dev.VGA.Back.Shift
+Dev.VGA.GreenBack     EQU       Dev.VGA.Green   << Dev.VGA.Back.Shift
+Dev.VGA.CyanBack      EQU       Dev.VGA.Cyan    << Dev.VGA.Back.Shift
+Dev.VGA.RedBack       EQU       Dev.VGA.Red     << Dev.VGA.Back.Shift
+Dev.VGA.MagentaBack   EQU       Dev.VGA.Magenta << Dev.VGA.Back.Shift
+Dev.VGA.YellowBack    EQU       Dev.VGA.Brown   << Dev.VGA.Back.Shift
+Dev.VGA.WhiteBack     EQU       Dev.VGA.Grey    << Dev.VGA.Back.Shift
 
                 SEGMENT         IO
-                
+
 Dev.VGA.Misc.Port EQU           3C2h            ; VGA miscellaneous port
 
 Dev.VGA.Seq.Base  EQU           3C4h            ; VGA Sequencer base port

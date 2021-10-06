@@ -8,15 +8,12 @@
 
                 SEGMENT         Demo
 
-                DB              Version.Author, "'s"
-                ALIGN           x86.PARA, DB ' '
-
-                DB              Version.Demo
-                ALIGN           x86.PARA, DB ' '
+                DB              Version.Name
+                ALIGN           Align.Para, DB ' '
 
                 DB              'v', Version.String
                 DB              ' ', Version.Copyright
-                ALIGN           x86.PARA, DB ' '
+                ALIGN           Align.Para, DB ' '
 
 %substr         Demo.Date       __?DATE?__ 3,-1
                 DB              Demo.Date

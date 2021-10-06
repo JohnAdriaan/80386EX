@@ -11,15 +11,15 @@
 
 Exec.Key:
 ; First, install a Keyboard interrupt handler
-                MOV             EAX,Ints.Key    ; Handler
-                MOV             BX,IDT.Key      ; Interrupt
-                MOV             CX,Selector(GDT.Ints, GDT, RPL0)
-                MOV             DL,Type.Sys(Int, DPL0, 386)
+                MOV             EAX, Ints.Key    ; Handler
+                MOV             BX,  IDT.Key      ; Interrupt
+                MOV             CX,  Selector(GDT.Ints, .GDT, .RPL0)
+                MOV             DL,  Type.Sys(.Int, .DPL0, .386)
                 CALL            Exec.Alloc.IDT
 
 ; Finally, enable the Keyboard interrupt in the PIC
-                IN              AL,Dev.PIC.A.Mask
-                AND             AL,~Dev.PIC.A.Key         ; Unmask Key IRQ
-                OUT             Dev.PIC.A.Mask,AL
+                IN              AL,  Dev.PIC.A.Mask
+                AND             AL, ~Dev.PIC.A.Key         ; Unmask Key IRQ
+                OUT             Dev.PIC.A.Mask, AL
 
                 RET

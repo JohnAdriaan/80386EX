@@ -38,8 +38,8 @@ Exec.TSS.EFlags EQU             x86.EFlags.IF | x86.EFlags.1 ; | x86.EFlags.TF ;
                 MOV             [%$Base],EAX
                 MOV             [%$Size],ECX
 
-                MOV             DL,Type.Mem(Data, DPL0, RW)
-                MOV             DH,Gran.Mem(Byte, Small)
+                MOV             DL,Type.Mem(.Data, .DPL0, .RW)
+                MOV             DH,Gran.Mem(.Byte, .Small)
                 CALL            Exec.Alloc.GDT.Mem ; Get Descriptor to use
                 TEST            EAX,EAX          ; Any left?
                 JZ              .End             ; Pity that! **** Memory leak! ****
@@ -79,7 +79,7 @@ Exec.Alloc.TSS.Enable:
                 PUSH            GS              ; Get GDT into ES
                 POP             ES
 
-                MOV             [ES:EBX+x86.Desc.Type],BYTE Type.Sys(TSS, DPL0, 386)
-                OR              [ES:EBX+x86.Desc.Mem.Gran],AH ; OR in System.TSS
+                MOV             [ES:EBX+x86.Desc.Type], BYTE Type.Sys(.TSS, .DPL0, .386)
+                OR              [ES:EBX+x86.Desc.Mem.Gran], AH ; OR in System.TSS
 
                 RET

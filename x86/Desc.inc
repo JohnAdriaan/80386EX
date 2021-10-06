@@ -16,6 +16,8 @@
 
 x86.Desc.Size   EQU             x86.Desc_size
 
+Align.Desc      EQU             x86.Desc.Size
+
 ; The following is the structure of a System Descriptor
                 STRUC           x86.Desc.Sys
 .OffsetLo       RESW            1
@@ -103,18 +105,18 @@ x86.Desc.Mem.Gran.Avail EQU     0001_0000b ; Available for system use
 ; Parameters are: TSS or LDT or Call or Task or Int or Trap, DPL 0-3, 286 or 386
 %define         Type.Sys(Type, DPL, x86) (\
                 x86.Desc.Type.Present | x86.Desc.Type.Sys | \
-                x86.Desc.Type.%+ DPL | x86.Desc.Sys.Type.%+ Type | x86.Desc.Sys.Type.%+ x86 \
+                x86.Desc.Type%+ DPL | x86.Desc.Sys.Type%+ Type | x86.Desc.Sys.Type%+ x86 \
                 )
 
 ; Parameters are: Code or Data or Stack, DPL 0-3, and RW or NoRW
 %define         Type.Mem(Type, DPL, RW) (\
                 x86.Desc.Type.Present | x86.Desc.Type.Mem | \
-                x86.Desc.Type.%+ DPL | x86.Desc.Mem.Type.%+ Type | x86.Desc.Mem.Type.%+ RW \
+                x86.Desc.Type%+ DPL | x86.Desc.Mem.Type%+ Type | x86.Desc.Mem.Type%+ RW \
                 )
 
 ; Parameters are: Gran or Byte, and Big or Small / Def32 or Def16
 %define         Gran.Mem(Gran, Size) (\
-                x86.Desc.Mem.Gran.%+ Gran | x86.Desc.Mem.Gran.%+ Size \
+                x86.Desc.Mem.Gran%+ Gran | x86.Desc.Mem.Gran%+ Size \
                 )
 
 ; A helper macro, making it easy to allocate a System Descriptor in a Table.

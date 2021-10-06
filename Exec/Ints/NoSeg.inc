@@ -18,7 +18,7 @@ Exec.Ints.NoSeg:
 ;               PUSH   DWORD    0               ; Pseudo-fault code (not required)
                 PUSH            11              ; Interrupt number
 
-                MOV             AX,Selector(GDT.VGA, GDT, RPL0)
+                MOV             AX,Selector(GDT.VGA, .GDT, .RPL0)
                 MOV             DS,AX
                 INC     BYTE    [WORD 000Bh*2]  ; Dingle(tm) to say we've done it!
 
@@ -45,12 +45,12 @@ Exec.Ints.NoSeg.Present:
                 JZ              .NormalDT       ; Nope. Check for GDT/LDT
 
 .InIDT:
-                MOV             AX,Selector(Exec.LDT.IDT, LDT, RPL0) ; Yes
+                MOV             AX,Selector(Exec.LDT.IDT, .LDT, .RPL0) ; Yes
                 MOV             DS,AX           ; Point to IDT
                 JMP             .Present        ; Now make Present in IDT (even if zero!)
 
 .NormalDT:
-                MOV             AX,Selector(GDT.Alias, GDT, RPL0)
+                MOV             AX,Selector(GDT.Alias, .GDT, .RPL0)
                 MOV             DS,AX
 
                 TEST            DL,x86.Seg.LDT   ; Does Error code show LDT Descriptor?
@@ -69,7 +69,7 @@ Exec.Ints.NoSeg.Present:
                 PUSH            EDX
                 CALL            Exec.Ints.Fault.TSS    ; Find TSS Backlink
 
-                MOV             AL,Type.Mem(Data, DPL0, RW) ; Alias' .Type (writable)
+                MOV             AL,Type.Mem(.Data, .DPL0, .RW) ; Alias' .Type (writable)
                 MOVZX           ESI,WORD [FS:WORD x86.TSS.LDT] ; Point to faulting LDT
                 ADD             EBX,x86.Desc_size ; Point to LDT alias in my LDT
 

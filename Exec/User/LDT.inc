@@ -21,8 +21,8 @@ Exec.User.LDT:
                 TEST            EAX,EAX                 ; Any left?
                 JZ              .Failed                 ; Nope!
 
-                MOV             DL,Type.Mem(Stack, DPL0, RW) & ~System.Present
-                MOV             DH,Gran.Mem(Byte, Small)
+                MOV             DL,Type.Mem(.Stack, .DPL0, .RW) & ~System.Present
+                MOV             DH,Gran.Mem(.Byte, .Small)
                 CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry
                 CMP             AX,User.LDT.Stack0
                 JNE             .Failed
@@ -33,8 +33,8 @@ Exec.User.LDT:
                 TEST            EAX,EAX                 ; Any left?
                 JZ              .Failed                 ; Nope!
 
-                MOV             DL,Type.Mem(Stack, DPL3, RW) & ~System.Present
-                MOV             DH,Gran.Mem(Byte, Small)
+                MOV             DL,Type.Mem(.Stack, .DPL3, .RW) & ~System.Present
+                MOV             DH,Gran.Mem(.Byte, .Small)
                 CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry
                 CMP             AX,User.LDT.Stack3
                 JNE             .Failed
@@ -45,8 +45,8 @@ Exec.User.LDT:
                 TEST            EAX,EAX                 ; Any left?
                 JZ              .Failed                 ; Nope!
 
-                MOV             DL,Type.Mem(Data, DPL3, RW) & ~System.Present
-                MOV             DH,Gran.Mem(Byte, Big)
+                MOV             DL,Type.Mem(.Data, .DPL3, .RW) & ~System.Present
+                MOV             DH,Gran.Mem(.Byte, .Big)
                 CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry
                 CMP             AX,User.LDT.Data
                 JNE             .Failed
@@ -54,8 +54,8 @@ Exec.User.LDT:
                 ; Allocate Code
                 MOV             EAX,User.Base           ; Assembled User code
                 MOV             CX,User.Size
-                MOV             DL,Type.Mem(Code, DPL3, RNoW) & ~System.Present
-                MOV             DH,Gran.Mem(Byte, Def32)
+                MOV             DL,Type.Mem(.Code, .DPL3, .RNoW) & ~System.Present
+                MOV             DH,Gran.Mem(.Byte, .Def32)
                 CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry
                 CMP             AX,User.LDT.Code
                 JNE             .Failed

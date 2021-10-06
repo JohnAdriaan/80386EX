@@ -5,14 +5,18 @@ Compilator.Log=%Name%.log
 Compilator.SaveAll=1
 Compilator.Capture=1
 Compilator.ParsLog=%F:%L:* ; NASM
-Compilator.HideOutput=1
+Compilator.CompileOnBackground=0
+Compilator.ProgSaveAll=0
+Compilator.ProgRunSelection=0
 Compilator.LogType=0
-DefaultCPIndex=0
+Compilator.LogEncoding=0
+DefaultCP=0
 LogtoEnd=0
 DontOpen=0
 AbsolutePath=0
 FileFormat=0
 ProjectFilesOnly=0
+HTServer=localhost
 [Project tree]
 Demo
 	Demo.asm
@@ -43,9 +47,11 @@ Demo
 			Dev\SBC-386EX\RTC.inc
 			Dev\SBC-386EX\SDCard.inc
 			Dev\SBC-386EX\IDE.inc
-	Demo.inc
-	Data.inc
-	+Ints
+	-Demo
+		Demo\Demo.inc
+		Demo\Data.inc
+		Demo\Sizes.inc
+	-Ints
 		Ints\Ints.inc
 		Ints\IDT.inc
 		Ints\Vectors.inc
@@ -62,13 +68,13 @@ Demo
 		Ints\Timer.inc
 		Ints\Key.inc
 		Ints\Util.inc
-	+User
+	-User
 		User\User.inc
 		User\LDT.inc
 		User\Data.inc
 		User\Code.inc
 		User\Frame.inc
-	+Exec
+	-Exec
 		Exec\Exec.inc
 		Exec\Init.inc
 		-Ints
@@ -83,11 +89,11 @@ Demo
 		Exec\PICs.inc
 		Exec\Timer.inc
 		Exec\Key.inc
-		+User
+		-User
 			Exec\User\User.inc
 			Exec\User\LDT.inc
 			Exec\User\TSS.inc
-		+Alloc
+		-Alloc
 			Exec\Alloc\Alloc.inc
 			Exec\Alloc\RAM.inc
 			Exec\Alloc\DT.inc
@@ -97,7 +103,6 @@ Demo
 			Exec\Alloc\TSS.inc
 		Exec\LDT.inc
 		Exec\GDT.inc
-	Demo.Sizes.inc
 [Open project files]
 0=Demo.asm
 [Selected Project Files]
