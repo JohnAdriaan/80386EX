@@ -28,7 +28,7 @@ AT GDT.Alloc.Pseudo.Base,  DD           %1
 %endmacro
 
 GDT.Alias.Base  EQU             GDT.Base
-GDT.Alias.Limit EQU             (GDT.Size-1) >> 12     ; Let's use Granular limits
+GDT.Alias.Limit EQU             (GDT.Size.Max-1) >> x86.PAGE.Shift  ; Let's use Granular limits
 GDT.Alias.Type  EQU             Type.Mem(.Data, .DPL0, .RW)
 GDT.Alias.Gran  EQU             Gran.Mem(.Page, .Small)
 

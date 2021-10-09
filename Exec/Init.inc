@@ -27,8 +27,8 @@ Exec.Init:
                 MOV             ES,AX           ; About to do a STOSD - need ES
                 CLD                             ; Set direction flag to Forward
                 XOR             EAX,EAX         ; Zeroes
-                MOV             ECX,(GDT.Size - GDT.Size.Init) / 4
-                MOV             EDI,GDT.Size.Init ; Point past initial size
+                MOV             ECX,(GDT.Size.Max - GDT.Size) / x86.DWORD.Size
+                MOV             EDI,GDT.Size    ; Point past initial size
                 REP             STOSD           ; Each STOSD is 4 bytes, thus /4
 
                 ; Point to Screen

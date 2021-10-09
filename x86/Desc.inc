@@ -5,6 +5,15 @@
 ; Descriptor Tables hold Descriptor Table Entries, or Descriptors for short.
 ; To select a Descriptor, you load a Segment register with a Selector (see Seg.inc).
 
+IDT.Num.Max     EQU             100h    ; Maximum number of Descriptors in IDT
+IDT.Size.Max    EQU             IDT.Num.Max * x86.Desc.Size
+
+GDT.Num.Max     EQU             2000h   ; Maximum number of Descriptors in GDT
+GDT.Size.Max    EQU             GDT.Num.Max * x86.Desc.Size
+
+LDT.Num.Max     EQU             2000h   ; Maximum number of Descriptors in LDT
+LDT.Size.Max    EQU             LDT.Num.Max * x86.Desc.Size
+
 ; The following is the generic structure of a Descriptor (not very useful!)
                 STRUC           x86.Desc
                 RESW            1
