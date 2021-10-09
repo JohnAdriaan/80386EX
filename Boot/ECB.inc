@@ -4,7 +4,7 @@
 
 ECB.Mem.Start   EQU             x86.EX.Addr.Size - (1024 * 1024)
 ECB.Mem.Mask    EQU             ECB.Mem.Size - 1
-%define         ECB.Mem.Bus     BS16
+%define         ECB.Mem.Bus     BS8
 
 ECB.IO.Start    EQU             00E0h
 ECB.IO.Mask     EQU             ECB.IO.Size - 1
@@ -30,7 +30,7 @@ Boot.Real.ECB:
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[ECB.Mem.CS] + x86.EX.CS.ADL
-                MOV             AX, x86.EX.CSU.ADL.Value.Mem(ECB.Mem.Start, NOSMM, ECB.Mem.Bus, NORDY, 2)
+                MOV             AX, x86.EX.CSU.ADL.Value.Mem(ECB.Mem.Start, NOSMM, ECB.Mem.Bus, NORDY, 5)
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[ECB.Mem.CS] + x86.EX.CS.MSKH
@@ -47,7 +47,7 @@ Boot.Real.ECB:
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[ECB.IO.CS] + x86.EX.CS.ADL
-                MOV             AX, x86.EX.CSU.ADL.Value.IO(ECB.IO.Start, NOSMM, ECB.IO.Bus, NORDY, 2)
+                MOV             AX, x86.EX.CSU.ADL.Value.IO(ECB.IO.Start, NOSMM, ECB.IO.Bus, NORDY, 3)
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[ECB.IO.CS] + x86.EX.CS.MSKH
