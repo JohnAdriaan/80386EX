@@ -6,7 +6,7 @@
 User.Frame:
                 PUSH            ECX
 
-                MOV             AH,User.FrameColour
+                MOV             AH,User.Frame.Colour
                 MOV             EBX,ECX         ; Save this away
 
                 XOR             ECX,ECX         ; Zero high part of ECX

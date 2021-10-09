@@ -53,7 +53,7 @@ HTServer=localhost
 			Dev\SBC-386EX\SDCard.inc
 			Dev\SBC-386EX\IDE.inc
 			Dev\SBC-386EX\VGA3.inc
-	-Boot
+	+Boot
 		Boot\Boot.inc
 		Boot\Defn.inc
 		Boot\CPU.inc
@@ -81,14 +81,5 @@ HTServer=localhost
 		Boot\Reset.inc
 		Boot\Sizes.inc
 [Open project files]
-0=New1.txt
-1=80386EX.asm
 [Selected Project Files]
 Main=80386EX.asm
-Selected=80386EX.asm
-[New1.txt]
-TopLine=1
-Caret=1,1
-[80386EX.asm]
-TopLine=1
-Caret=1,1

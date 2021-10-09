@@ -67,7 +67,10 @@ Dev.VGA.MagentaBack   EQU       Dev.VGA.Magenta << Dev.VGA.Back.Shift
 Dev.VGA.YellowBack    EQU       Dev.VGA.Brown   << Dev.VGA.Back.Shift
 Dev.VGA.WhiteBack     EQU       Dev.VGA.Grey    << Dev.VGA.Back.Shift
 
-                SEGMENT         IO
+; Combine character and attributes in one value
+%define           Dev.VGA.CharAttr(c,a) ((a << Dev.VGA.Attr.Shift) | c)
+
+                  SEGMENT         IO
 
 Dev.VGA.Misc.Port EQU           3C2h            ; VGA miscellaneous port
 

@@ -12,18 +12,19 @@
                 USE16
 
 Boot.Real.GDT:
-            O32 LGDT            [CS:Boot.GDT.LGDT]   ; This only works because I made it do!
             O32 LIDT            [CS:Boot.GDT.LIDT]   ; ZEROES OUT IDT!
+            O32 LGDT            [CS:Boot.GDT.LGDT]   ; This only works because I made it do!
+                Dev.Lites       0111b
                 MOV             EAX, CR0
                 OR              AX, x86.CR0.PE       ; Protected mode Enable
                 MOV             CR0, EAX
-            A32 JMP             (Boot.GDT.Code - Boot.GDT) : Boot.Prot.Entry
+                JMP             (Boot.GDT.Code - Boot.GDT) : DWORD Boot.Prot.Entry
 
-                ALIGN           x86.Desc.Size, DB 0FFh
+                ALIGN           Align.Desc, DB 0FFh
 Boot.GDT:
 
 ;                               End of addresses - ROM size + Boot Real size + offset to here
-.Addr           EQU             x86.EX.Addr.Size - ROM.Size + Boot.Real.Size + ($ - $$)
+.Base           EQU             x86.EX.Addr.Size - ROM.Size + Boot.Real.Size + ($ - $$)
 
 .Code.Base      EQU             x86.EX.Addr.Size - 1_0000h ; Duplicate Reset CS...
 .Code.Limit     EQU             0_FFFFh
@@ -39,7 +40,7 @@ Boot.GDT:
 .LIDT           DW              0
 .LGDT           EQU             $
 .LGDT.Limit     DW              .Length - 1
-.LGDT.Addr      DD              .Addr
+.LGDT.Addr      DD              .Base
 .Code           Desc.Mem        .Code.Base, .Code.Limit, .Code.Type, .Code.Gran
 .Data           Desc.Mem        .Data.Base, .Data.Limit, .Data.Type, .Data.Gran
 .Length         EQU             $ - Boot.GDT

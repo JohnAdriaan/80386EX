@@ -26,11 +26,17 @@
 ; 'Boot' : Boot code
 ;===============================================================================
 
+                SECTALIGN         OFF   ; No implicit ALIGN => SECTALIGN effects
+
                 CPU               386
 
 ; These are the boot-time definitions
-%assign         Boot.BaudRate     115_200
+%define         Boot.BaudRate     115_200
 %define         Boot.Protocol     Dev.UART.Word8 | Dev.UART.ParityNone | Dev.UART.Stop1
+
+Screen.Width    EQU               90
+Screen.Height   EQU               43
+Font.Height     EQU               11
 
 ; These are the hardware-assigned sizes and clocks for the SBC386EX board
 %assign         CPU.CLK2          32_000_000        ; In Hertz

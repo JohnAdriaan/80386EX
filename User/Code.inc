@@ -28,7 +28,7 @@
 
                 SEGMENT         User
 
-User.ColouredBall EQU           (User.BallColour << 8) | User.Ball
+User.Ball.CharAttr EQU           Dev.VGA.CharAttr(User.Ball, User.Ball.Colour)
 
 User.Entry:
                 CLD                             ; Work forwards
@@ -117,7 +117,7 @@ User.Entry:
                 CMP             EDI,EAX         ; After all that, did we move?
                 JE              .Increment      ; Nope! Just increment.
                 MOV     BYTE    [EAX],' '       ; Erase old ball
-                MOV     WORD    [EDI],User.ColouredBall ; And write in new one
+                MOV     WORD    [EDI],User.Ball.CharAttr ; And write in new one
                 JMP             .Wait
 .Increment:
                 INC     BYTE    [EDI]           ; Increment screen position

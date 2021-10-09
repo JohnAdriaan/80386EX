@@ -19,6 +19,7 @@ Ints.Fault:
                 CALL            .Frame.Destroy  ; Destroy created Stack Frame
                 POPAD                           ; Note this doesn't replace ESP!
                 ADD             ESP,8           ; Ignore Int and Error values
+Ints.IRET:
                 IRETD                           ; And return
 ;...............................................................................
 ; This function pushes registers on the stack for display purposes - oh, and so
