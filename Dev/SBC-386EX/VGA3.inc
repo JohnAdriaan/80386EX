@@ -6,6 +6,8 @@
 
 Dev.SBC386EX.VGA3:
 
+Dev.SBC386EX.VGA3.Font.Max    EQU             16
+
 Dev.SBC386EX.VGA3.Mem.Size    EQU             8000h
 Dev.SBC386EX.VGA3.IO.Size     EQU             Dev.SBC386EX.VGA3.IO_size
 
@@ -39,7 +41,7 @@ Dev.SBC386EX.VGA3.IO.CFG.Width.9    EQU       0000_0001b
 .Nht            RESB            1       ; Number Horizontal Total (+1)
 .Nhd            RESB            1       ; Number Horizontal Displayed
 .Nhsp           RESB            1       ; Horizontal Sync Position
-.Nhsw.Nvsw      RESB            1       ; Horizontal / Vertical Sync Width
+.Nsw            RESB            1       ; Horizontal / Vertical Sync Width
 .Nvt            RESB            1       ; Number Vertical Total (+1)
 .Nadj           RESB            1       ; Number Vertical Adjust
 .Nvd            RESB            1       ; Number Vertical Displayed
@@ -80,5 +82,14 @@ Dev.SBC386EX.VGA3.IO.CFG.Width.9    EQU       0000_0001b
                 ENDSTRUC
 
 %if             Dev.SBC386EX.VGA3.CRTC_size != 40
-%error          Incorrect Dev.SBC386EX.VGA3.CRTC size!
+    %error      Incorrect Dev.SBC386EX.VGA3.CRTC size!
 %endif
+
+Dev.SBC386EX.VGA3.CRTC.Cursor.Off    EQU   0010_0000b
+Dev.SBC386EX.VGA3.CRTC.Cursor.Slow   EQU   0110_0000b
+Dev.SBC386EX.VGA3.CRTC.Cursor.Fast   EQU   0100_0000b
+Dev.SBC386EX.VGA3.CRTC.Cursor.On     EQU   0000_0000b
+
+Dev.SBC386EX.VGA3.CRTC.Control.1.Sy  EQU   0000_1000b
+
+%define        Dev.SBC386EX.VGA3.CRTC.Value(a, v) (((v) << x86.WORD.Hi) | Dev.SBC386EX.VGA3.CRTC %+ a)

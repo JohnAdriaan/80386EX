@@ -8,16 +8,32 @@
 ;
 ; First, you'll note I'm no longer using the "stream of code" paradigm that I
 ; used for the bootstrap - the need for that has gone away. I now have as much
-; memory as I need! (Well, almost: there's still a loader limit...)
+; memory as I need!
 ;
 ; Second, you'll note that there are Allocate functions to handle common
 ; operations, like allocating more Memory, or an entry in the GDT or an LDT.
 
-                SEGMENT          Exec
+                SEGMENT         Exec
 
                 USE32
 
-; Phew! Made it! We're in Protected Mode! (You can un-cross your fingers now...)
+; At this point we're still in Boot-time Linear addressing.
+; Be careful with addresses!
+Exec.Entry:
+            O32 LGDT            [GDT.NULL + GDT.Alloc.Pseudo]
+
+                PUSH   DWORD    IDT         ; Put on stack as Pseudo-descriptor
+                PUSH    WORD    IDT.Limit   ; Only this many entries in IDT
+            O32 LIDT            [ESP]
+; We're about to abandon the stack, so don't bother fixing it up!
+
+                MOV             AX, Selector(GDT.Exec.LDT, GDT, RPL0)
+                LLDT            AX
+                JMP             Exec.LDT.Code : DWORD Exec.Code
+
+                ALIGN           Align.Para, DB 0FFh
+
+; Made it! We're booted in Protected Mode! (You can un-cross your fingers now...)
 ; Before we can do anything else though, we need to set up a Protected Mode stack
 Exec.Code:
                 ; Point to Stack
@@ -35,11 +51,8 @@ Exec.Code:
                 ; Once they've been installed, the same instruction is handled
 ;               MOV             ESP,1   ; This will fault, but at least it's handled
 
-                ; We can now start to initialise Interrupts. First, the PICs
-                CALL            Exec.PICs
-
                 ; OK, we're all ready! Time to start the system!
-                STI                             ; Enable interrupts
+                STI                     ; Enable interrupts
 
                 ; Set up the Timer interrupt handler, and enable it
                 CALL            Exec.Timer
@@ -53,8 +66,6 @@ Exec.Code:
 %include        "Exec/Init.inc"         ; Initialise rest of Protected Mode
 ;-------------------------------------------------------------------------------
 %include        "Exec/Ints/Ints.inc"    ; Install more sophisticated Fault handlers
-;-------------------------------------------------------------------------------
-%include        "Exec/PICs.inc"         ; Initialise PICs
 ;-------------------------------------------------------------------------------
 %include        "Exec/Timer.inc"        ; Install Timer interrupt handler
 ;-------------------------------------------------------------------------------
