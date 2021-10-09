@@ -20,11 +20,10 @@ HTServer=localhost
 [Project tree]
 Demo
 	Demo.asm
-	Demo.inc
 	Demo.lst
 	Demo.map
-	Demo
-	-x86
+	Demo.bin
+	+x86
 		x86\x86.inc
 		x86\EFlags.inc
 		x86\Seg.inc
@@ -47,7 +46,7 @@ Demo
 			Dev\SBC-386EX\RTC.inc
 			Dev\SBC-386EX\SDCard.inc
 			Dev\SBC-386EX\IDE.inc
-	-Demo
+	+Demo
 		Demo\Demo.inc
 		Demo\Data.inc
 		Demo\Sizes.inc
@@ -74,7 +73,7 @@ Demo
 		User\Data.inc
 		User\Code.inc
 		User\Frame.inc
-	-Exec
+	+Exec
 		Exec\Exec.inc
 		Exec\Init.inc
 		-Ints
@@ -86,14 +85,13 @@ Demo
 			Exec\Ints\BadStack.inc
 			Exec\Ints\BadTSS.inc
 			Exec\Ints\Fault.inc
-		Exec\PICs.inc
 		Exec\Timer.inc
 		Exec\Key.inc
 		-User
 			Exec\User\User.inc
 			Exec\User\LDT.inc
 			Exec\User\TSS.inc
-		-Alloc
+		+Alloc
 			Exec\Alloc\Alloc.inc
 			Exec\Alloc\RAM.inc
 			Exec\Alloc\DT.inc
@@ -105,9 +103,37 @@ Demo
 		Exec\GDT.inc
 [Open project files]
 0=Demo.asm
+1=exec\exec.inc
+2=Exec\PICs.inc
+3=exec\init.inc
+4=Exec\GDT.inc
+5=Exec\Alloc\GDT.inc
+6=Exec\Alloc\IDT.inc
+7=Demo\Data.inc
 [Selected Project Files]
 Main=Demo.asm
-Selected=Demo.asm
+Selected=exec\init.inc
 [Demo.asm]
+TopLine=1
+Caret=1,1
+[exec\exec.inc]
+TopLine=4
+Caret=16,27
+[Exec\PICs.inc]
+TopLine=1
+Caret=1,1
+[exec\init.inc]
+TopLine=1
+Caret=1,1
+[Exec\GDT.inc]
+TopLine=26
+Caret=1,26
+[Exec\Alloc\GDT.inc]
+TopLine=1
+Caret=1,1
+[Exec\Alloc\IDT.inc]
+TopLine=1
+Caret=1,1
+[Demo\Data.inc]
 TopLine=1
 Caret=1,1

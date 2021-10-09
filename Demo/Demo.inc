@@ -29,10 +29,10 @@ Timer.Tick      EQU             1000    ; Number of Timer Interrupts a second
 Window.Width    EQU             8       ; Width of each Task's Window
 Window.Height   EQU             6       ; Height of each Task's Window
 
-User.Ball       EQU             1       ; Try 3: it is an OEM 'Heart' symbol
-User.BallColour EQU             Dev.VGA.BlueBack  | Dev.VGA.White
-User.FrameColour EQU            Dev.VGA.GreenBack | Dev.VGA.White
-User.Delay      EQU             0_FFFFh ; How long to 'idle' the Bounce animation
+User.Ball         EQU           1       ; Try 3: it is an OEM 'Heart' symbol
+User.Ball.Colour  EQU           Dev.VGA.BlueBack  | Dev.VGA.White
+User.Frame.Colour EQU           Dev.VGA.GreenBack | Dev.VGA.White
+User.Delay        EQU           0_FFFFh ; How long to 'idle' the Bounce animation
 
 ; A useful pseudo-instruction to invoke the built-in Debugger - after it's set up!
 %define         DEBUG           DB 0CCh ; INT 3 - NASM assembles this as 0CD 03h
@@ -53,26 +53,6 @@ Debug.Key       EQU             Dev.Key.Pause   ; Also labelled "Break"
                 OR      WORD    [ESP],x86.EFlags.TF
                 POPFD
 %endmacro
-
-; The following is the memory map for this Demonstration.
-IDT.Base        EQU             0000_0000h ; Final address of IDT
-IDT.Max         EQU             x86.Ints * x86.Desc_size ; Full size of IDT
-
-Data.Base       EQU             IDT.Base + IDT.Max
-Data.Size       EQU             IDT.Base - Data.Base
-
-Code.Base       EQU             1000h
-Code.Size       EQU             1000h
-
-; This will be the first-available RAM after everything else is initialised
-Demo.First      EQU             Code.Base + Code.Size + GDT.Size + Exec.Stack.Size
-
-Exec.Stack.Top  EQU             Demo.First      ; This is the TOP of an Expand-Down stack
-Exec.Stack.Size EQU             1000h
-
-; The PICs need to be re-based to get them away from the Intel-reserved interrupts
-PIC.A.Base      EQU             20h
-PIC.B.Base      EQU             28h
 
 ; See Ints/Timer.inc for a discussion on this (significant!) definition
 System.TSS      EQU             x86.Desc.Mem.Gran.Avail
