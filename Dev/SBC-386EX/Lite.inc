@@ -16,8 +16,9 @@ Dev.SBC386EX.Lite.Mask  EQU  .0 | .1 | .2 | .3
 Dev.SBC386EX.Lite.Shift EQU  4
 
 %macro          Dev.Lites       1
-                MOV             DX, Dev.SBC386EX.Lite.Out
-                MOV             AL, %1 << Dev.SBC386EX.Lite.Shift
+;               MOV             DX, Dev.SBC386EX.Lite.Out
+;               MOV             AL, (~%1 << Dev.SBC386EX.Lite.Shift) & x86.BYTE.Mask
+;               OUT             DX, AL
 %endmacro
 
 ; All these macros assume:
@@ -33,15 +34,15 @@ Dev.SBC386EX.Lite.Shift EQU  4
 
 ; Turn passed-in Lite (%1) on
 %macro       Dev.SBC386EX.Lite.On 1
-             Dev.SBC386EX.Lite.Op AND ~Dev.SBC386EX.Lite.%1
+             Dev.SBC386EX.Lite.Op AND, ~Dev.SBC386EX.Lite.%{1}
 %endmacro
 
 ; Turn passed-in Lite (%1) off
 %macro       Dev.SBC386EX.Lite.Off 1
-             Dev.SBC386EX.Lite.Op OR Dev.SBC386EX.Lite.%1
+             Dev.SBC386EX.Lite.Op OR, Dev.SBC386EX.Lite.%{1}
 %endmacro
 
 ; Toggle passed-in Lite (%1)
 %macro       Dev.SBC386EX.Lite.Toggle 1
-             Dev.SBC386EX.Lite.Op XOR Dev.SBC386EX.Lite.%1
+             Dev.SBC386EX.Lite.Op XOR, Dev.SBC386EX.Lite.%{1}
 %endmacro

@@ -36,27 +36,15 @@ Boot.Code.Entry:                        ; Reset JMP point
 %include        "Boot/PIC.inc"          ; Init Priority Interrupt Controllers
 ;-------------------------------------------------------------------------------
 %include        "Boot/GPIO.inc"         ; Init General-Purpose I/O (Lites)
-
-                Dev.Lites     0000b
 ;-------------------------------------------------------------------------------
 %include        "Boot/SIO.inc"          ; Init Serial I/O (UART)
-
-                Dev.Lites     0001b
 ;-------------------------------------------------------------------------------
 %include        "Boot/CSU.inc"          ; Init Chip Select Unit (CSU)
-
-                Dev.Lites     0010b
 ;-------------------------------------------------------------------------------
                 SEGMENT         Boot.GDT
 
-                Dev.Lites     0011b
-
 %include        "Boot/GDT.inc"          ; Init Global Descriptor Table (GDT)
 ;===============================================================================
-                SEGMENT         Boot.Font
-
-%include        "Boot/Font.inc"         ; Font definition
-;-------------------------------------------------------------------------------
                 SEGMENT         EEPROM
 
 %include        "Boot/EEPROM.inc"       ; Padding for unused EEPROM
