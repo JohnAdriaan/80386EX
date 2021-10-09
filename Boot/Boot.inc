@@ -49,50 +49,33 @@ Boot.Code.Entry:                        ; Reset JMP point
 
 %include        "Boot/EEPROM.inc"       ; Padding for unused EEPROM
 ;-------------------------------------------------------------------------------
+                SEGMENT         Boot.Font
 
+%include        "Boot/Font.inc"         ; Font definition
+;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Prot
 
                 USE32
 ;-------------------------------------------------------------------------------
 %include        "Boot/PM.inc"           ; Go into Protected Mode
-
-                Dev.Lites      0100b
 ;-------------------------------------------------------------------------------
 %include        "Boot/ROM.inc"          ; Init ROM Chip Select (CS)
-
-                Dev.Lites      0101b
 ;-------------------------------------------------------------------------------
 %include        "Boot/SRAM.inc"         ; Init Static RAM (SRAM) and CS
-
-                Dev.Lites      0110b
 ;-------------------------------------------------------------------------------
 %include        "Boot/DRAM.inc"         ; Init Dynamic RAM (DRAM) and CS
-
-                Dev.Lites      0111b
 ;-------------------------------------------------------------------------------
 %include        "Boot/ECB.inc"          ; Init EuroCard Bus Chip Selects
-
-                Dev.Lites      1000b
 ;-------------------------------------------------------------------------------
 %include        "Boot/Video.inc"        ; Init Video
-
-                Dev.Lites      1001b
 ;-------------------------------------------------------------------------------
 %include        "Boot/Keyboard.inc"     ; Init Keyboard
-
-                Dev.Lites      1010b
 ;-------------------------------------------------------------------------------
 %include        "Boot/RTC.inc"          ; Init Real-Time Clock
-
-                Dev.Lites      1011b
 ;-------------------------------------------------------------------------------
 %include        "Boot/IDE.inc"          ; Init IDE and Chip Select
-
-                Dev.Lites      1100b
 ;-------------------------------------------------------------------------------
 %include        "Boot/SDCard.inc"       ; Init SDCard
-
-                Dev.Lites      1101b
 ;-------------------------------------------------------------------------------
 %include        "Boot/Hex.inc"          ; Hex out the serial port
 ;-------------------------------------------------------------------------------
