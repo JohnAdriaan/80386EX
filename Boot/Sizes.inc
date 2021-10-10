@@ -5,7 +5,7 @@
 ;===============================================================================
 ; Calculate final Boot.Real Segment size
 ; Note this segment falls through to Boot.GDT
-                SEGMENT         Boot.Real   START=ROM.ORG   ALIGN=Align.Para
+                SEGMENT         Boot.Real   ALIGN=Align.Para
 
                 ALIGN           Align.Desc   ;, DB 0FFh ; Need to pad with NOPs
 

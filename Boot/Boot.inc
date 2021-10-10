@@ -21,6 +21,11 @@
 ; prepare resources for future modules.
 ;
 
+;===============================================================================
+                SEGMENT         EEPROM
+
+%include        "Boot/EEPROM.inc"       ; Padding for unused EEPROM
+;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Real
 
 %include        "Boot/Defn.inc"         ; Definitions for use by ROM routines
@@ -41,16 +46,8 @@ Boot.Code.Entry:                        ; Reset JMP point
 ;-------------------------------------------------------------------------------
 %include        "Boot/CSU.inc"          ; Init Chip Select Unit (CSU)
 ;-------------------------------------------------------------------------------
-                SEGMENT         Boot.GDT
-
 %include        "Boot/GDT.inc"          ; Init Global Descriptor Table (GDT)
-;===============================================================================
-                SEGMENT         EEPROM
-
-%include        "Boot/EEPROM.inc"       ; Padding for unused EEPROM
 ;-------------------------------------------------------------------------------
-                SEGMENT         Boot.Font
-
 %include        "Boot/Font.inc"         ; Font definition
 ;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Prot
