@@ -17,3 +17,5 @@ x86.EX.Addr.Size EQU       0400_0000h ; Physical address size
 ;-------------------------------------------------------------------------------
 %include        "x86/EX/RFS.inc "     ; Definitions for Refresh Control Unit
 ;-------------------------------------------------------------------------------
+%include        "x86/EX/TMR.inc "     ; Definitions for Timer/Counter Unit
+;-------------------------------------------------------------------------------
