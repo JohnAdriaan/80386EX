@@ -22,12 +22,8 @@
 ;
 
 ;===============================================================================
-                SEGMENT         EEPROM
-
-%include        "Boot/EEPROM.inc"       ; Padding for unused EEPROM
-;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Real
-
+                
 %include        "Boot/Defn.inc"         ; Definitions for use by ROM routines
 ;-------------------------------------------------------------------------------
 Boot.Code.Entry:                        ; Reset JMP point
@@ -41,6 +37,8 @@ Boot.Code.Entry:                        ; Reset JMP point
 %include        "Boot/PIC.inc"          ; Init Priority Interrupt Controllers
 ;-------------------------------------------------------------------------------
 %include        "Boot/GPIO.inc"         ; Init General-Purpose I/O (Lites)
+;-------------------------------------------------------------------------------
+%include        "Boot/Timer.inc"        ; Init Timer (TCU)
 ;-------------------------------------------------------------------------------
 %include        "Boot/SIO.inc"          ; Init Serial I/O (UART)
 ;-------------------------------------------------------------------------------

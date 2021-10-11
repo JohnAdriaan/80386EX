@@ -10,15 +10,15 @@ Ints.Fault:
                 PUSHAD                          ; Save all registers
                 CALL            .Frame.Create   ; Create Stack Frame for display
 
-                XOR             AX,AX           ; No TSS!
-                MOV             FS,AX
+                XOR             AX, AX          ; No TSS!
+                MOV             FS, AX
 
-                MOV             EDI,[ESP+64]    ; Load Interrupt number
+                MOV             EDI, [ESP+64]   ; Load Interrupt number
                 CALL            .ShowRegs
 
                 CALL            .Frame.Destroy  ; Destroy created Stack Frame
                 POPAD                           ; Note this doesn't replace ESP!
-                ADD             ESP,8           ; Ignore Int and Error values
+                ADD             ESP, 8          ; Ignore Int and Error values
 Ints.IRET:
                 IRETD                           ; And return
 ;...............................................................................
@@ -41,19 +41,19 @@ Ints.Fault.Frame.Create:
                 PUSH            GS
                 PUSH            SS
 
-                TEST    WORD    [ESP+64],x86.Seg.RPL3 ; From different Privilege Level?
+                TEST    WORD    [ESP+64], x86.Seg.RPL3 ; From different Privilege Level?
                 JZ              .SamePL         ; No
 
-                MOV             EAX,[ESP+76]    ; Yes, so get old SS
-                MOV             [ESP],EAX       ; Replace my value
-                MOV             EAX,[ESP+72]    ; Get old ESP
-                MOV             [ESP+32],EAX    ; Replace my value
+                MOV             EAX, [ESP+76]   ; Yes, so get old SS
+                MOV             [ESP], EAX      ; Replace my value
+                MOV             EAX, [ESP+72]   ; Get old ESP
+                MOV             [ESP+32], EAX   ; Replace my value
 .SamePL:
                 STR             AX              ; Include faulting task
                 PUSH            EAX
                 SLDT            AX              ; And faulting LDT
                 PUSH            EAX
-                MOV             EAX,CR3         ; And Page Directory Base Register
+                MOV             EAX, CR3        ; And Page Directory Base Register
                 PUSH            EAX
 
                 JMP             EDX             ; Return
@@ -61,7 +61,7 @@ Ints.Fault.Frame.Create:
 Ints.Fault.Frame.Destroy:
                 POP             EDX             ; Pop off return address
 
-                ADD             ESP,16          ; Ignore saved CR3, LDT, TR and SS
+                ADD             ESP, 16         ; Ignore saved CR3, LDT, TR and SS
                 POP             GS              ; Pop everything else
                 POP             FS
                 POP             ES
@@ -76,7 +76,7 @@ Ints.Fault.External:
                 RETF
 ;...............................................................................
 Ints.Fault.ShowRegs:
-                MOV             EBP,ESP         ; Save for display purposes
+                MOV             EBP, ESP        ; Save for display purposes
 
                 CALL            Ints.System.Init
                 PUSH            EAX
@@ -84,19 +84,19 @@ Ints.Fault.ShowRegs:
                 PUSH            CS
                 POP             DS              ; Point to code, for Ints.Names
 
-                MOV             AX,Selector(GDT.VGA, .GDT, .RPL0)
-                MOV             ES,AX           ; Point to screen with ES
+                MOV             AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+                MOV             ES, AX          ; Point to screen with ES
 
-                MOV             ESI,Ints.Names  ; Point to Names
-                SHL             EDI,1           ; Turn IntNum into screen address
+                MOV             ESI, Ints.Names  ; Point to Names
+                SHL             EDI, 1          ; Turn IntNum into screen address
                 INC     BYTE    [ES:EDI]        ; Dingle(tm) that this INT happened
 
-                MOV             AH,Dev.VGA.RedBack | Dev.VGA.White ; White-on-red!
-                ADD             DI,Dev.VGA.Cols * 2 ; On next row
+                MOV             AH, Dev.VGA.RedBack | Dev.VGA.White ; White-on-red!
+                ADD             DI, Screen.Cols * 2 ; On next row
 
                 CLD                             ; Work forwards
 .Dump:
-                MOV             ECX,Ints.Names.Label ; Width of label; zero high
+                MOV             ECX, Ints.Names.Label ; Width of label; zero high
                 INC             ESI             ; Ignore Debug pos
 .Name:
                 LODSB                           ; Get character
@@ -106,32 +106,32 @@ Ints.Fault.ShowRegs:
                 STOSW
 
                 LODSB                           ; Get size of register
-                MOV             CL,AL           ; Into counter
+                MOV             CL, AL          ; Into counter
 
-                MOV             EDX,FS          ; From TSS?
-                TEST            EDX,EDX         ; Defined?
+                MOV             EDX, FS         ; From TSS?
+                TEST            EDX, EDX        ; Defined?
                 JNZ             .InTSS          ; Yes. Go look at it
 .OnStack:
                 LODSB                           ; Get position on stack
                 INC             ESI             ; Ignore position in TSS
-                MOVZX           EDX,AL          ; Into memory offset
+                MOVZX           EDX, AL         ; Into memory offset
 .FromStack:
-                MOV             EDX,[EBP+EDX]   ; Get value from stack
+                MOV             EDX, [EBP+EDX]  ; Get value from stack
                 JMP             .Show
 .InTSS:
                 INC             ESI             ; Ignore Stack position
                 LODSB                           ; Get position in TSS (FS)
-                MOVZX           EDX,AL          ; Into memory offset
-                CMP             AL,x86.TSS.CR3  ; Down low?
+                MOVZX           EDX, AL         ; Into memory offset
+                CMP             AL, x86.TSS.CR3 ; Down low?
                 JB              .FromStack      ; Yes. Must be on stack instead
-                MOV             EDX,[FS:EDX]    ; No. So get value to show
+                MOV             EDX, [FS:EDX]   ; No. So get value to show
 .Show:
                 PUSH            EDI             ; Save starting location
                 CALL            Ints.Hex        ; Display as Hex
                 POP             EDI
-                ADD             DI,(Dev.VGA.Cols-Ints.Names.Label-1)*2 ; Next row
+                ADD             DI, (Screen.Cols-Ints.Names.Label-1)*2 ; Next row
 
-                CMP             SI,Ints.Names.End ; End of registers?
+                CMP             SI, Ints.Names.End ; End of registers?
                 JB              .Dump           ; No, so continue
 
                 HLT                             ; Nothing more to do

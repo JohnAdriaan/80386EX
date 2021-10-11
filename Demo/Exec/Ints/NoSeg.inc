@@ -8,9 +8,9 @@
 ; call the Fatal Register displayer: instead it re-implements what the old
 ; handler did, only from the nested Task context.
 Exec.Ints.NoSeg:
-                MOV             AX,IDT.NoSeg     ; This is the IDT Entry
-                MOV             BX,Exec.LDT.NoSeg ; This is the LDT Triple
-                MOV             EDX,.Handler     ; This is the handler
+                MOV             AX,  Demo.IDT.NoSeg     ; This is the IDT Entry
+                MOV             BX,  Demo.Exec.LDT.NoSeg ; This is the LDT Triple
+                MOV             EDX, .Handler     ; This is the handler
                 CALL            Exec.Ints.Fault  ; Set it up
                 RET
 
@@ -18,22 +18,22 @@ Exec.Ints.NoSeg:
 ;               PUSH   DWORD    0               ; Pseudo-fault code (not required)
                 PUSH            11              ; Interrupt number
 
-                MOV             AX,Selector(GDT.VGA, .GDT, .RPL0)
-                MOV             DS,AX
+                MOV             AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+                MOV             DS, AX
                 INC     BYTE    [WORD 000Bh*2]  ; Dingle(tm) to say we've done it!
 
-                MOV             BX,Exec.LDT.NoSeg.TSS   ; For TSS Backlink
-                MOV             EDX,[ESP+4]     ; Get Error code
+                MOV             BX,  Demo.Exec.LDT.NoSeg.TSS   ; For TSS Backlink
+                MOV             EDX, [ESP+4]    ; Get Error code
                 CALL            Exec.Ints.NoSeg.Present
                 JNZ             .Finish         ; Now present?
 
                 ; VirtualBox PUSHes a zero error code. NOT very helpful!
-                MOV             BX,Exec.LDT.NoSeg.TSS   ; For TSS Backlink
+                MOV             BX,  Demo.Exec.LDT.NoSeg.TSS   ; For TSS Backlink
                 CALL            Exec.Ints.Fault.Handler ; Can't handle this!
 .Finish:
-                ADD             ESP,8           ; Get rid of interrupt number and Error code
-                IRETD                           ; Return, but resumes here, so...
-                JMP             .Handler        ; ...go back for more
+                ADD             ESP, 8            ; Get rid of interrupt number and Error code
+                IRETD                             ; Return, but resumes here, so...
+                JMP             .Handler          ; ...go back for more
 
 ; Mark a Segment as present.
 ; Input:   BX = Your TSS alias (for Backlink)
@@ -41,24 +41,24 @@ Exec.Ints.NoSeg:
 ; Output:   Z flag on error (e.g. already present)
 ;         BX, EDX modified
 Exec.Ints.NoSeg.Present:
-                TEST            DL,x86.Seg.IDT  ; Not Present in IDT?
-                JZ              .NormalDT       ; Nope. Check for GDT/LDT
+                TEST            DL, x86.Seg.IDT   ; Not Present in IDT?
+                JZ              .NormalDT         ; Nope. Check for GDT/LDT
 
 .InIDT:
-                MOV             AX,Selector(Exec.LDT.IDT, .LDT, .RPL0) ; Yes
-                MOV             DS,AX           ; Point to IDT
-                JMP             .Present        ; Now make Present in IDT (even if zero!)
+                MOV             AX, x86.Selector(Demo.Exec.LDT.IDT, .LDT, .RPL0) ; Yes
+                MOV             DS, AX            ; Point to IDT
+                JMP             .Present          ; Now make Present in IDT (even if zero!)
 
 .NormalDT:
-                MOV             AX,Selector(GDT.Alias, .GDT, .RPL0)
-                MOV             DS,AX
+                MOV             AX, x86.Selector(Demo.GDT.Alias, .GDT, .RPL0)
+                MOV             DS, AX
 
-                TEST            DL,x86.Seg.LDT   ; Does Error code show LDT Descriptor?
-                JNZ             .InLDT           ; Yes. Lots of work ahead!
+                TEST            DL, x86.Seg.LDT   ; Does Error code show LDT Descriptor?
+                JNZ             .InLDT            ; Yes. Lots of work ahead!
 
-.InGDT:                                          ; No. In GDT
-                TEST            DX,x86.Seg.Index ; Ignoring extra bits in Error code...
-                JZ              .Error           ; Zero is NOT helpful in GDT!
+.InGDT:                                           ; No. In GDT
+                TEST            DX, x86.Seg.Index ; Ignoring extra bits in Error code...
+                JZ              .Error            ; Zero is NOT helpful in GDT!
 
                 JMP             .Present         ; DS already set up!
 
@@ -67,26 +67,26 @@ Exec.Ints.NoSeg.Present:
 ; that Descriptor is in the Faulting Task's LDT - which isn't mine, so I don't
 ; have an alias to it! I need to create one...
                 PUSH            EDX
-                CALL            Exec.Ints.Fault.TSS    ; Find TSS Backlink
+                CALL            Exec.Ints.Fault.TSS   ; Find TSS Backlink
 
-                MOV             AL,Type.Mem(.Data, .DPL0, .RW) ; Alias' .Type (writable)
-                MOVZX           ESI,WORD [FS:WORD x86.TSS.LDT] ; Point to faulting LDT
-                ADD             EBX,x86.Desc_size ; Point to LDT alias in my LDT
+                MOV             AL,  x86.Type.Mem(.Data, .DPL0, .RW) ; Alias' .Type (writable)
+                MOVZX           ESI, WORD [FS:WORD x86.TSS.LDT] ; Point to faulting LDT
+                ADD             EBX, x86.Desc_size ; Point to LDT alias in my LDT
 
                 CALL            Exec.Ints.Fault.Copy      ; Copy across
                 POP             EDX
 
-                OR              EBX,x86.Seg.LDT  ; Can now load DS with faulting LDT
-                MOV             DS,BX
+                OR              EBX, x86.Seg.LDT  ; Can now load DS with faulting LDT
+                MOV             DS,  BX
 .Present:
-                MOV             AX,7              ; Bit number of x86.Desc.Type.Present
-                AND             EDX,x86.Seg.Index ; Ignore extra bits in Error code
-                BTS             [EDX + x86.Desc.Type],AX ; Set Present bit - already set?
-                JC              .Error            ; Already set! Something else is wrong...
+                MOV             AX,  7             ; Bit number of x86.Desc.Type.Present
+                AND             EDX, x86.Seg.Index ; Ignore extra bits in Error code
+                BTS             [EDX + x86.Desc.Type], AX ; Set Present bit - already set?
+                JC              .Error             ; Already set! Something else is wrong...
                 CALL            Exec.Ints.Fault.TestIRQs ; May need to acknowledge IRQ(s)
-                INC             EAX               ; No Z flag on no error
+                INC             EAX                ; No Z flag on no error
                 JMP             .Finish
 .Error:
-                XOR             EAX,EAX           ; Z flag on Error!
+                XOR             EAX, EAX          ; Z flag on Error!
 .Finish:
                 RET

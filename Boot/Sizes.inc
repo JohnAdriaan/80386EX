@@ -7,7 +7,7 @@
 ; Note this segment falls through to Boot.GDT
                 SEGMENT         Boot.Real   ALIGN=Align.Para
 
-                ALIGN           Align.Desc   ;, DB 0FFh ; Need to pad with NOPs
+                ALIGN           Align.Para   ;, DB 0FFh ; Need to pad with NOPs
 
 Boot.Real.Size  EQU             $ - $$
 
@@ -18,9 +18,9 @@ Boot.Real.Size  EQU             $ - $$
 ;-------------------------------------------------------------------------------
 ; Calculate final Boot.GDT Segment size
 ; Note this Segment falls through from Boot.Real
-                SEGMENT         Boot.GDT   VFOLLOWS=Boot.Real  ALIGN=Align.Desc
+                SEGMENT         Boot.GDT   VFOLLOWS=Boot.Real  ALIGN=Align.Para
 
-                ALIGN           Align.Desc, DB 0FFh
+                ALIGN           Align.Para, DB 0FFh
 
 Boot.GDT.Size   EQU             $ - $$
 
@@ -67,14 +67,14 @@ Boot.Reset.Size EQU             $ - $$
 ; Note that this declaration needs to be the last PROGBITS segment
                 SEGMENT         EEPROM  ALIGN=Align.Byte
 
-EEPROM.Pad      EQU             ROM.Size - Boot.Size
+EEPROM.Pad      EQU             ROM.Size - Image.Size
 
                 TIMES           EEPROM.Pad DB 0FFh
 
 %assign         Image.Size      Image.Size + EEPROM.Pad
 ;-------------------------------------------------------------------------------
 ; Ensure Boot.Data is not too large
-                SEGMENT         Boot.Data  NOBITS
+                SEGMENT         Boot.Data  VSTART=0  NOBITS
 
 Boot.Data.Size  EQU             $ - $$
 

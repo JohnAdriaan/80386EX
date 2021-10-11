@@ -36,16 +36,16 @@ Exec.Ints:
 
                 RET
 ;...............................................................................
-%include        "Exec/Ints/Trace.inc"
+%include        "Demo/Exec/Ints/Trace.inc"
 ;...............................................................................
-%include        "Exec/Ints/Debug.inc"
+%include        "Demo/Exec/Ints/Debug.inc"
 ;...............................................................................
-%include        "Exec/Ints/NoSeg.inc"
+%include        "Demo/Exec/Ints/NoSeg.inc"
 ;...............................................................................
-%include        "Exec/Ints/Double.inc"
+%include        "Demo/Exec/Ints/Double.inc"
 ;...............................................................................
-%include        "Exec/Ints/BadStack.inc"
+%include        "Demo/Exec/Ints/BadStack.inc"
 ;...............................................................................
-%include        "Exec/Ints/BadTSS.inc"
+%include        "Demo/Exec/Ints/BadTSS.inc"
 ;...............................................................................
-%include        "Exec/Ints/Fault.inc"
+%include        "Demo/Exec/Ints/Fault.inc"

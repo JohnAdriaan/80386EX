@@ -1,3 +1,4 @@
+
 ;
 ; 80386EX.asm
 ;
@@ -69,7 +70,8 @@ Font.Height     EQU               11
 %substr         Name.Stamp        %[Name] 3, 5
 %substr         Version.Year      __DATE__ 3, 2
 %define         Version.Author    "John Adriaan"
-%define         Version.Boot      "386EX Boot ROM"
+%define         Version.Demo      "386 Demonstrator"
+%define         Version.Boot      "'386EX Boot ROM"
 %define         Version.Copyright 169, "2014-", %[Version.Year]
 
 %define         Version.Major     0
@@ -87,6 +89,8 @@ Font.Height     EQU               11
 
 %assign         Image.Size      0     ; Starting size. See Sizes.inc below
 
+%assign         Demo.Size       0     ; Size of Demo part. See */Sizes.inc below
+
 %assign         Boot.Size       0     ; Size of Boot part. See Sizes.inc below
 
 ;===============================================================================
@@ -103,7 +107,14 @@ Font.Height     EQU               11
 ;===============================================================================
 %include        "Dev/SBC-386EX/SBC-386EX.inc" ; Definitions for this board
 ;===============================================================================
+                USE32
+%include        "Demo/Demo.inc" ; Demo to show Protected Mode features
 
+%include        "Demo/Sizes.inc"
+;===============================================================================
+                SEGMENT         EEPROM
+%include        "EEPROM.inc"    ; Padding for unused EEPROM
+;===============================================================================
                 USE16           ; Boot in 16-bit Real Mode
 
 %include        "Boot/Boot.inc" ; Real Mode bootstrap

@@ -10,6 +10,11 @@
                 USE32
 
 Boot.Exit:
+                MOV             EBP, [SRAM.Start + DRAM.Limit]
+                JMP             Demo.Entry
+Boot.Fatal.Hex:
+                CALL            Hex
+Boot.Fatal:
                 MOV             DX, Dev.SBC386EX.Lite.Out
                 MOV             AL, 5 << Dev.SBC386EX.Lite.Shift
 .Loop:
@@ -19,7 +24,4 @@ Boot.Exit:
                 JMP             .Loop
 
 ;-------------------------------------------------------------------------------
-Boot.Fatal.Hex:
-                CALL            Hex
-Boot.Fatal:
                 HLT

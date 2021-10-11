@@ -21,44 +21,45 @@
 %define         %$LDT           EBP - 8
 
 ;...............................................................................
-%include        "Exec/User/LDT.inc" ; Creates one LDT for a User-mode Program
+%include        "Demo/Exec/User/LDT.inc" ; Creates one LDT for a User-mode Program
 ;...............................................................................
-%include        "Exec/User/TSS.inc" ; Creates one TSS for a User-mode Program
+%include        "Demo/Exec/User/TSS.inc" ; Creates one TSS for a User-mode Program
 
 Exec.User:
                 ENTER           8, 0
 
-                XOR             EDX,EDX         ; Zero high part of EDX
-;               MOV             DL, 0           ; Start full left
-                MOV             DH, 1           ; Start one row low
+                XOR             EDX, EDX        ; Zero high part of EDX
+;               MOV             DL,  0          ; Start full left
+                MOV             DH,  1          ; Start one row low
 
 .Loop:
-                MOV             [%$Pos],EDX     ; Store away new position
+                MOV             [%$Pos], EDX    ; Store away new position
 
                 ; Create a new User LDT
                 CALL            Exec.User.LDT
-                TEST            EAX,EAX
+                TEST            EAX, EAX        ; Out of memory!
                 JZ              .Finished
 
                 ; Create a TSS to run that User Task
                 ; Note that this function wants the TSS in AX. Oh, look!
                 CALL            Exec.User.TSS
-                TEST            EAX,EAX
+                TEST            EAX, EAX
                 JZ              .Finished
 
-                MOV             EDX,[%$Pos]              ; Current position
-                ADD             DL,Window.Width          ; Next Window
-                CMP             DL,Dev.VGA.Cols-Window.Width ; Too far?
+                MOV             EDX, [%$Pos]             ; Current position
+                ADD             DL,  Demo.Window.Width   ; Next Window
+                CMP             DL,  Screen.Cols - Demo.Window.Width ; Too far?
                 JBE             .Loop                    ; Not yet...
 
-                MOV             DL,0            ; Start at left again
-                ADD             DH,Window.Height          ; Next row
-                CMP             DH,Dev.VGA.Rows-Window.Height ; Too far?
-                JBE             .Loop                     ; Not yet...
+                MOV             DL, 0                    ; Start at left again
+                ADD             DH, Demo.Window.Height   ; Next row
+                CMP             DH, Screen.Rows - Demo.Window.Height ; Too far?
+                JBE             .Loop                    ; Not yet...
 
 .Finished:
                 HLT
 ; Wait for <Ctrl><Alt><Del>
+INC BYTE [FS:(Screen.Cols-1)*2] ; Dingle(tm)
                 JMP             .Finished
 
 %pop

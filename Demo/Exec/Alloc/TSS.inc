@@ -19,7 +19,7 @@
 Exec.Alloc.TSS:
 
 ; A User-mode TSS should not have interrupts disabled!
-Exec.TSS.EFlags EQU             x86.EFlags.IF | x86.EFlags.1 ; | x86.EFlags.TF ; Trace!
+Demo.Exec.TSS.EFlags EQU        x86.EFlags.IF | x86.EFlags.1 ; | x86.EFlags.TF ; Trace!
 
 %push Alloc.TSS ; Let's not leave these %defines just lying around...
 %define         %$LDT           EBP - 4
@@ -28,34 +28,34 @@ Exec.TSS.EFlags EQU             x86.EFlags.IF | x86.EFlags.1 ; | x86.EFlags.TF ;
 
                 ENTER           12, 0
 
-                MOV             [%$LDT],EAX
+                MOV             [%$LDT], EAX
 
-                MOV             ECX,x86.TSS_size ; Size to allocate
+                MOV             ECX, x86.TSS_size ; Size to allocate
                 CALL            Exec.Alloc.RAM
-                TEST            EAX,EAX          ; Any left?
-                JZ              .End             ; Pity that!
+                TEST            EAX, EAX          ; Any left?
+                JZ              .End              ; Pity that!
 
                 MOV             [%$Base],EAX
                 MOV             [%$Size],ECX
 
-                MOV             DL,Type.Mem(.Data, .DPL0, .RW)
-                MOV             DH,Gran.Mem(.Byte, .Small)
+                MOV             DL, x86.Type.Mem(.Data, .DPL0, .RW)
+                MOV             DH, x86.Gran.Mem(.Byte, .Small)
                 CALL            Exec.Alloc.GDT.Mem ; Get Descriptor to use
-                TEST            EAX,EAX          ; Any left?
-                JZ              .End             ; Pity that! **** Memory leak! ****
+                TEST            EAX, EAX          ; Any left?
+                JZ              .End              ; Pity that! **** Memory leak! ****
 
-                MOV             ES,AX            ; Fresh Descriptor!
-                MOV             ECX,[%$Size]     ; Number bytes to Zero
-                XOR             EDI,EDI          ; Zero everything
+                MOV             ES,  AX           ; Fresh Descriptor!
+                MOV             ECX, [%$Size]     ; Number bytes to Zero
+                XOR             EDI, EDI          ; Zero everything
                 CALL            Exec.Alloc.RAM.Zero
 
-                MOV             AX,[%$LDT]
-                MOV             ECX,[%$Size]
-                MOV             [ES:WORD x86.TSS.LDT],AX
-                MOV             [ES:WORD x86.TSS.IOMap],CX
-                MOV    DWORD    [ES:WORD x86.TSS.EFlags],Exec.TSS.EFlags
+                MOV             AX,  [%$LDT]
+                MOV             ECX, [%$Size]
+                MOV             [ES:WORD x86.TSS.LDT],    AX
+                MOV             [ES:WORD x86.TSS.IOMap],  CX
+                MOV    DWORD    [ES:WORD x86.TSS.EFlags], Demo.Exec.TSS.EFlags
 
-                MOV             EAX,[%$Base]
+                MOV             EAX, [%$Base]
 .End:
                 LEAVE
 %pop
@@ -67,7 +67,7 @@ Exec.TSS.EFlags EQU             x86.EFlags.IF | x86.EFlags.1 ; | x86.EFlags.TF ;
 ; switching.
 ;
 ; Input:  ES  = Descriptor to modify
-;         AH  = System.TSS if TSS is to be a System TSS. Zero otherwise.
+;         AH  = Demo.System.TSS if TSS is to be a System TSS. Zero otherwise.
 ; Output: EBX = TSS Descriptor
 ;         ES modified
 Exec.Alloc.TSS.Enable:
@@ -79,7 +79,7 @@ Exec.Alloc.TSS.Enable:
                 PUSH            GS              ; Get GDT into ES
                 POP             ES
 
-                MOV             [ES:EBX+x86.Desc.Type], BYTE Type.Sys(.TSS, .DPL0, .386)
-                OR              [ES:EBX+x86.Desc.Mem.Gran], AH ; OR in System.TSS
+                MOV             [ES:EBX + x86.Desc.Type],     BYTE x86.Type.Sys(.TSS, .DPL0, .386)
+                OR              [ES:EBX + x86.Desc.Mem.Gran], AH ; OR in Demo.System.TSS
 
                 RET

@@ -5,14 +5,14 @@
 ; Descriptor Tables hold Descriptor Table Entries, or Descriptors for short.
 ; To select a Descriptor, you load a Segment register with a Selector (see Seg.inc).
 
-IDT.Num.Max     EQU             100h    ; Maximum number of Descriptors in IDT
-IDT.Size.Max    EQU             IDT.Num.Max * x86.Desc.Size
+x86.IDT.Num.Max     EQU         100h    ; Maximum number of Descriptors in IDT
+x86.IDT.Size.Max    EQU         x86.IDT.Num.Max * x86.Desc.Size
 
-GDT.Num.Max     EQU             2000h   ; Maximum number of Descriptors in GDT
-GDT.Size.Max    EQU             GDT.Num.Max * x86.Desc.Size
+x86.GDT.Num.Max     EQU         2000h   ; Maximum number of Descriptors in GDT
+x86.GDT.Size.Max    EQU         x86.GDT.Num.Max * x86.Desc.Size
 
-LDT.Num.Max     EQU             2000h   ; Maximum number of Descriptors in LDT
-LDT.Size.Max    EQU             LDT.Num.Max * x86.Desc.Size
+x86.LDT.Num.Max     EQU         2000h   ; Maximum number of Descriptors in LDT
+x86.LDT.Size.Max    EQU         x86.LDT.Num.Max * x86.Desc.Size
 
 ; The following is the generic structure of a Descriptor (not very useful!)
                 STRUC           x86.Desc
@@ -112,26 +112,26 @@ x86.Desc.Mem.Gran.Avail EQU     0001_0000b ; Available for system use
 ; forget one! Each of these assume only one thing: they're .Present
 
 ; Parameters are: TSS or LDT or Call or Task or Int or Trap, DPL 0-3, 286 or 386
-%define         Type.Sys(Type, DPL, x86) (\
+%define         x86.Type.Sys(Type, DPL, x86) (\
                 x86.Desc.Type.Present | x86.Desc.Type.Sys | \
                 x86.Desc.Type%+ DPL | x86.Desc.Sys.Type%+ Type | x86.Desc.Sys.Type%+ x86 \
                 )
 
 ; Parameters are: Code or Data or Stack, DPL 0-3, and RW or NoRW
-%define         Type.Mem(Type, DPL, RW) (\
+%define         x86.Type.Mem(Type, DPL, RW) (\
                 x86.Desc.Type.Present | x86.Desc.Type.Mem | \
                 x86.Desc.Type%+ DPL | x86.Desc.Mem.Type%+ Type | x86.Desc.Mem.Type%+ RW \
                 )
 
 ; Parameters are: Gran or Byte, and Big or Small / Def32 or Def16
-%define         Gran.Mem(Gran, Size) (\
+%define         x86.Gran.Mem(Gran, Size) (\
                 x86.Desc.Mem.Gran%+ Gran | x86.Desc.Mem.Gran%+ Size \
                 )
 
 ; A helper macro, making it easy to allocate a System Descriptor in a Table.
 ; Unfortunately this macro requires that the Offset is less than 64K.
 ; Tne parameters are: Selector, Offset and Type
-%macro          Desc.Sys                   3
+%macro          x86.Desc.Sys                   3
 %00             ISTRUC x86.Desc.Sys
 AT x86.Desc.Sys.OffsetLo,  DW              %2
 AT x86.Desc.Sys.Selector,  DW              %1
@@ -143,7 +143,7 @@ AT x86.Desc.Sys.OffsetHi,  DW              0
 
 ; A helper macro, making it easy to allocate a Memory Descriptor in a Table.
 ; The parameters are: Base, Limit, Type and Gran
-%macro          Desc.Mem                   4
+%macro          x86.Desc.Mem                   4
 %00             ISTRUC x86.Desc.Mem
 AT x86.Desc.Mem.LimitLo,   DW              (%2 >> 0) & x86.WORD.Mask
 AT x86.Desc.Mem.BaseLo,    DW              (%1 >> 0) & x86.WORD.Mask

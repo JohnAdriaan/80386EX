@@ -37,6 +37,7 @@ HTServer=localhost
 			x86\EX\GPIO.inc
 			x86\EX\CSU.inc
 			x86\EX\RFS.inc
+			x86\EX\TMR.inc
 	-Dev
 		Dev\Dev.inc
 		Dev\A20.inc
@@ -53,6 +54,65 @@ HTServer=localhost
 			Dev\SBC-386EX\SDCard.inc
 			Dev\SBC-386EX\IDE.inc
 			Dev\SBC-386EX\VGA3.inc
+	-Demo
+		Demo\Demo.inc
+		Demo\Defn.inc
+		Demo\Data.inc
+		-Demo\Ints
+			Demo\Ints\Ints.inc
+			Demo\Ints\IDT.inc
+			Demo\Ints\Vectors.inc
+			Demo\Ints\Fault.inc
+			Demo\Ints\Single.inc
+			-Demo\Ints\Debug
+				Demo\Ints\Debug\Debug.inc
+				Demo\Ints\Debug\Init.inc
+				Demo\Ints\Debug\Regs.inc
+				Demo\Ints\Debug\Show.inc
+				Demo\Ints\Debug\Key.inc
+				Demo\Ints\Debug\Desc.inc
+			Demo\Ints\User.inc
+			Demo\Ints\IRQs.inc
+			Demo\Ints\Timer.inc
+			Demo\Ints\Key.inc
+			Demo\Ints\Util.inc
+		-Demo\User
+			Demo\User\User.inc
+			Demo\User\Data.inc
+			Demo\User\Code.inc
+			Demo\User\Frame.inc
+		-Demo\Exec
+			Demo\Exec\Exec.inc
+			Demo\Exec\Boot.inc
+			Demo\Exec\Entry.inc
+			Demo\Exec\Init.inc
+			-Demo\Exec\Ints
+				Demo\Exec\Ints\Ints.inc
+				Demo\Exec\Ints\Trace.inc
+				Demo\Exec\Ints\Debug.inc
+				Demo\Exec\Ints\NoSeg.inc
+				Demo\Exec\Ints\Double.inc
+				Demo\Exec\Ints\BadStack.inc
+				Demo\Exec\Ints\BadTSS.inc
+				Demo\Exec\Ints\Fault.inc
+			Demo\Exec\Timer.inc
+			Demo\Exec\Key.inc
+			-Demo\Exec\User
+				Demo\Exec\User\User.inc
+				Demo\Exec\User\LDT.inc
+				Demo\Exec\User\TSS.inc
+			-Demo\Exec\Alloc
+				Demo\Exec\Alloc\Alloc.inc
+				Demo\Exec\Alloc\RAM.inc
+				Demo\Exec\Alloc\DT.inc
+				Demo\Exec\Alloc\IDT.inc
+				Demo\Exec\Alloc\GDT.inc
+				Demo\Exec\Alloc\LDT.inc
+				Demo\Exec\Alloc\TSS.inc
+			Demo\Exec\LDT.inc
+			Demo\Exec\GDT.inc
+		Demo\Sizes.inc
+	EEPROM.inc
 	-Boot
 		Boot\Boot.inc
 		Boot\Defn.inc
@@ -61,11 +121,11 @@ HTServer=localhost
 		Boot\FPU.inc
 		Boot\PIC.inc
 		Boot\GPIO.inc
+		Boot\Timer.inc
 		Boot\SIO.inc
 		Boot\CSU.inc
 		Boot\GDT.inc
 		Boot\Font.inc
-		Boot\EEPROM.inc
 		Boot\PM.inc
 		Boot\ROM.inc
 		Boot\SRAM.inc
@@ -81,10 +141,5 @@ HTServer=localhost
 		Boot\Reset.inc
 		Boot\Sizes.inc
 [Open project files]
-0=80386EX.asm
 [Selected Project Files]
 Main=80386EX.asm
-Selected=80386EX.asm
-[80386EX.asm]
-TopLine=1
-Caret=1,1

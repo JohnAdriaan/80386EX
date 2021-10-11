@@ -1,5 +1,5 @@
 ;
-; RFS.inc
+; x86/EX/RFS.inc
 ;
 
 ; These are the definitions for the 80386EX Refresh Control Unit

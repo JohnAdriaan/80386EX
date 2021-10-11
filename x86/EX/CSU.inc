@@ -5,6 +5,7 @@
 ; These are the definitions for the 80386EX Chip Select Unit
 
                 SEGMENT         IO
+
 ; Pin Configuration
 x86.EX.CSU.PINCFG         EQU   0_F826h           ; CS6, CS5 pins
 

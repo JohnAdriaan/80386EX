@@ -6,43 +6,43 @@
 User.Frame:
                 PUSH            ECX
 
-                MOV             AH,User.Frame.Colour
-                MOV             EBX,ECX         ; Save this away
+                MOV             AH,  Demo.User.Frame.Colour
+                MOV             EBX, ECX        ; Save this away
 
-                XOR             ECX,ECX         ; Zero high part of ECX
+                XOR             ECX, ECX        ; Zero high part of ECX
 
-                MOV             EDX,EDI         ; Save this away
-                MOV             AL,'Ú'          ; TopLeft corner
+                MOV             EDX, EDI        ; Save this away
+                MOV             AL,  'Ú'        ; TopLeft corner
 ;           TRACE ; Comment in or out to play with Single Stepping
                 STOSW                           ; Store on screen
-                MOV             AL,'Ä'          ; Top
-                MOV             CL,BL           ; This many
+                MOV             AL, 'Ä'         ; Top
+                MOV             CL, BL          ; This many
                 REP             STOSW           ; Store on screen
-                MOV             AL,'¿'          ; TopRight corner
+                MOV             AL, '¿'         ; TopRight corner
                 STOSW                           ; Store on screen
 
-                LEA             EDI,[EDX+EBP]   ; Go to start of next row
-                MOV             CL,BH           ; Height
-                MOVZX           EBX,BL          ; Don't need BH any more
+                LEA             EDI, [EDX+EBP]  ; Go to start of next row
+                MOV             CL,  BH         ; Height
+                MOVZX           EBX, BL         ; Don't need BH any more
 .Side:
-                MOV             EDX,EDI         ; Save this away
-                MOV             AL,'³'          ; Side
+                MOV             EDX, EDI        ; Save this away
+                MOV             AL,  '³'        ; Side
                 STOSW                           ; Store on screen
-                LEA             EDI,[EDI+EBX*2] ; Move to right side
+                LEA             EDI, [EDI+EBX*2] ; Move to right side
                 STOSW                           ; Store on screen
 
-                LEA             EDI,[EDX+EBP]   ; Go to start of next row
+                LEA             EDI, [EDX+EBP]  ; Go to start of next row
                 LOOP            .Side
 
-;               MOV             EDX,EDI         ; Save this away
-                MOV             AL,'À'          ; Bottom left
+;               MOV             EDX, EDI        ; Save this away
+                MOV             AL, 'À'         ; Bottom left
                 STOSW                           ; Store on screen
-                MOV             AL,'Ä'          ; Bottom
-                MOV             CL,BL           ; This many
+                MOV             AL, 'Ä'         ; Bottom
+                MOV             CL, BL          ; This many
                 REP             STOSW           ; Store on screen
-                MOV             AL,'Ù'          ; Bottom right
+                MOV             AL, 'Ù'         ; Bottom right
                 STOSW                           ; Store on screen
-;               LEA             EDI,[EDX+EBP]   ; (Last row anyway)
+;               LEA             EDI, [EDX+EBP]  ; (Last row anyway)
 
                 POP             ECX
                 RET

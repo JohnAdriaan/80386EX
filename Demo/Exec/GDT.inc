@@ -13,53 +13,53 @@
 ; That means that the Executive has nothing: no Code to run, no Stacks to use,
 ; and no Data to reference. To solve this, we gave the Executive its own LDT.
 
-                SEGMENT         GDT
+                SEGMENT         Demo.GDT
 
                 USE32
 
 ; This macro makes it easy to have a one-line invocation of GDT.Alloc
 ; The parameters are: GDT Base, GDT Limit
-%macro          GDT.Vars                2
-%00             ISTRUC                  GDT.Alloc
-AT GDT.Alloc.Free,         DW           0
-AT GDT.Alloc.Limit,        DW           %2
-AT GDT.Alloc.Pseudo.Base,  DD           %1
-                IEND
+%macro                          Demo.GDT.Vars  2
+%00                             ISTRUC         Demo.GDT.Alloc
+AT Demo.GDT.Alloc.Free,         DW             0
+AT Demo.GDT.Alloc.Limit,        DW             %2
+AT Demo.GDT.Alloc.Pseudo.Base,  DD             %1
+                                IEND
 %endmacro
 
-GDT.Alias.Base  EQU             GDT.Base
-GDT.Alias.Limit EQU             (GDT.Size.Max-1) >> x86.PAGE.Shift  ; Let's use Granular limits
-GDT.Alias.Type  EQU             Type.Mem(.Data, .DPL0, .RW)
-GDT.Alias.Gran  EQU             Gran.Mem(.Page, .Small)
+Demo.GDT.Alias.Base  EQU        Demo.GDT.Base
+Demo.GDT.Alias.Limit EQU        (x86.GDT.Size.Max-1) >> x86.PAGE.Shift  ; Let's use Granular limits
+Demo.GDT.Alias.Type  EQU        x86.Type.Mem(.Data, .DPL0, .RW)
+Demo.GDT.Alias.Gran  EQU        x86.Gran.Mem(.Page, .Small)
 
-GDT.Data.Base   EQU             Data.Base
-GDT.Data.Limit  EQU             Data.Size - 1
-GDT.Data.Type   EQU             Type.Mem(.Data, .DPL0, .RW)
-GDT.Data.Gran   EQU             Gran.Mem(.Byte, .Big)
+Demo.GDT.Data.Base   EQU        Demo.Data.Base
+Demo.GDT.Data.Limit  EQU        Demo.Data.Limit
+Demo.GDT.Data.Type   EQU        x86.Type.Mem(.Data, .DPL0, .RW)
+Demo.GDT.Data.Gran   EQU        x86.Gran.Mem(.Byte, .Big)
 
-GDT.VGA.Base    EQU             Dev.VGA.Base
-GDT.VGA.Limit   EQU             Dev.VGA.Rows * Dev.VGA.Cols * 2 - 1
-GDT.VGA.Type    EQU             Type.Mem(.Data, .DPL3, .RW) ; Let anyone access it!
-GDT.VGA.Gran    EQU             Gran.Mem(.Byte, .Big)
+Demo.GDT.Video.Base  EQU        Screen.Base
+Demo.GDT.Video.Limit EQU        Screen.Rows * Screen.Cols * 2 - 1
+Demo.GDT.Video.Type  EQU        x86.Type.Mem(.Data, .DPL3, .RW) ; Let anyone access it!
+Demo.GDT.Video.Gran  EQU        x86.Gran.Mem(.Byte, .Big)
 
-GDT.Ints.Base   EQU             Ints.Base
-GDT.Ints.Limit  EQU             Ints.Limit
-GDT.Ints.Type   EQU             Type.Mem(.Code, .DPL0, .RW) ; Uses lookup tables
-GDT.Ints.Gran   EQU             Gran.Mem(.Byte, .Def32)
+Demo.GDT.Ints.Base   EQU        Demo.Ints.Base
+Demo.GDT.Ints.Limit  EQU        Demo.Ints.Limit
+Demo.GDT.Ints.Type   EQU        x86.Type.Mem(.Code, .DPL0, .RW) ; Uses lookup tables
+Demo.GDT.Ints.Gran   EQU        x86.Gran.Mem(.Byte, .Def32)
 
-GDT.Exec.LDT.Base  EQU          Exec.LDT.Base
-GDT.Exec.LDT.Limit EQU          Exec.LDT.Limit
-GDT.Exec.LDT.Type  EQU          Type.Sys(.LDT, .DPL0, .286)
-GDT.Exec.LDT.Gran  EQU          Gran.Mem(.Byte, .Small)
+Demo.GDT.Exec.LDT.Base  EQU     Demo.Exec.LDT.Base
+Demo.GDT.Exec.LDT.Limit EQU     Demo.Exec.LDT.Limit
+Demo.GDT.Exec.LDT.Type  EQU     x86.Type.Sys(.LDT, .DPL0, .286)
+Demo.GDT.Exec.LDT.Gran  EQU     x86.Gran.Mem(.Byte, .Small)
 
-GDT:
-GDT.NULL        GDT.Vars        GDT.Base, GDT.Limit
-GDT.Alias       Desc.Mem        GDT.Alias.Base,    GDT.Alias.Limit,    GDT.Alias.Type,    GDT.Alias.Gran
-GDT.Data        Desc.Mem        GDT.Data.Base,     GDT.Data.Limit,     GDT.Data.Type,     GDT.Data.Gran
-GDT.VGA         Desc.Mem        GDT.VGA.Base,      GDT.VGA.Limit,      GDT.VGA.Type,      GDT.VGA.Gran
-GDT.Ints        Desc.Mem        GDT.Ints.Base,     GDT.Ints.Limit,     GDT.Ints.Type,     GDT.Ints.Gran
-GDT.Exec.LDT    Desc.Mem        GDT.Exec.LDT.Base, GDT.Exec.LDT.Limit, GDT.Exec.LDT.Type, GDT.Exec.LDT.Gran
+Demo.GDT:
+Demo.GDT.NULL     Demo.GDT.Vars Demo.GDT.Base, Demo.GDT.Limit
+Demo.GDT.Alias    x86.Desc.Mem  Demo.GDT.Alias.Base,    Demo.GDT.Alias.Limit,    Demo.GDT.Alias.Type,    Demo.GDT.Alias.Gran
+Demo.GDT.Data     x86.Desc.Mem  Demo.GDT.Data.Base,     Demo.GDT.Data.Limit,     Demo.GDT.Data.Type,     Demo.GDT.Data.Gran
+Demo.GDT.Video    x86.Desc.Mem  Demo.GDT.Video.Base,    Demo.GDT.Video.Limit,    Demo.GDT.Video.Type,    Demo.GDT.Video.Gran
+Demo.GDT.Ints     x86.Desc.Mem  Demo.GDT.Ints.Base,     Demo.GDT.Ints.Limit,     Demo.GDT.Ints.Type,     Demo.GDT.Ints.Gran
+Demo.GDT.Exec.LDT x86.Desc.Mem  Demo.GDT.Exec.LDT.Base, Demo.GDT.Exec.LDT.Limit, Demo.GDT.Exec.LDT.Type, Demo.GDT.Exec.LDT.Gran
 
-%if (GDT.Alias-GDT) != DT.Alias
+%if (Demo.GDT.Alias-Demo.GDT) != Demo.DT.Alias
 %error "Invalid GDT alias"
 %endif

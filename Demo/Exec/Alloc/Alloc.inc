@@ -11,14 +11,14 @@
 ; "private:" designator!
 
 ;-------------------------------------------------------------------------------
-%include        "Exec/Alloc/RAM.inc"    ; RAM-related functions
+%include        "Demo/Exec/Alloc/RAM.inc"    ; RAM-related functions
 ;-------------------------------------------------------------------------------
-%include        "Exec/Alloc/DT.inc"     ; Descriptor Table helper functions
+%include        "Demo/Exec/Alloc/DT.inc"     ; Descriptor Table helper functions
 ;-------------------------------------------------------------------------------
-%include        "Exec/Alloc/IDT.inc"    ; IDT-related functions
+%include        "Demo/Exec/Alloc/IDT.inc"    ; IDT-related functions
 ;-------------------------------------------------------------------------------
-%include        "Exec/Alloc/GDT.inc"    ; GDT-related functions
+%include        "Demo/Exec/Alloc/GDT.inc"    ; GDT-related functions
 ;-------------------------------------------------------------------------------
-%include        "Exec/Alloc/LDT.inc"    ; LDT-related functions
+%include        "Demo/Exec/Alloc/LDT.inc"    ; LDT-related functions
 ;-------------------------------------------------------------------------------
-%include        "Exec/Alloc/TSS.inc"    ; TSS-related functions
+%include        "Demo/Exec/Alloc/TSS.inc"    ; TSS-related functions

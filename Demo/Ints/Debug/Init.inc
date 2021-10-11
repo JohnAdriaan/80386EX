@@ -6,10 +6,10 @@
 
 ;...............................................................................
 Ints.Debug.Init:
-                MOV             AX,Selector(GDT.VGA, .GDT, .RPL0)
-                MOV             ES,AX           ; Point to Screen, for STOSW
-                MOV             AX,Selector(GDT.Data, .GDT, .RPL0)
-                MOV             FS,AX           ; Point to global (Key) Data
+                MOV             AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+                MOV             ES, AX           ; Point to Screen, for STOSW
+                MOV             AX, x86.Selector(Demo.GDT.Data, .GDT, .RPL0)
+                MOV             FS, AX           ; Point to global (Key) Data
 
                 ; Default Show.Row format
                 CALL            Ints.Debug.Key.Format.Bytes
@@ -19,14 +19,14 @@ Ints.Debug.Init:
 ;...............................................................................
 Ints.Debug.Done:
                 CLD                             ; Work forwards
-                MOV             AH,Debug.Colour.Blank
-                MOV             AL,' '
-                MOV             DH,Debug.VGA.Height
-                MOV             DI,(Debug.VGA.Top*Dev.VGA.Cols+Debug.VGA.Left)*2
+                MOV             AH, Debug.Colour.Blank
+                MOV             AL, ' '
+                MOV             DH, Debug.VGA.Height
+                MOV             DI, (Debug.VGA.Top * Screen.Cols + Debug.VGA.Left) * 2
 .Loop:
-                MOV             ECX,Debug.VGA.Width
+                MOV             ECX, Debug.VGA.Width
                 REP             STOSW
-                ADD             DI,(Dev.VGA.Cols-Debug.VGA.Width)*2
+                ADD             DI, (Screen.Cols - Debug.VGA.Width) * 2
                 DEC             DH
                 JNZ             .Loop
 

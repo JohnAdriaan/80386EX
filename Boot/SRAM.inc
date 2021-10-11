@@ -9,8 +9,8 @@ SRAM.Mask       EQU             SRAM.Size - 1
                 SEGMENT         SRAM  START=SRAM.Start  NOBITS
 
 ;-------------------------------------------------------------------------------
-                SEGMENT         Boot.Data  VSTART=0   NOBITS
-                
+                SEGMENT         Boot.Data
+
 CPU.ID          RESW            1
 
 ;-------------------------------------------------------------------------------
@@ -52,6 +52,8 @@ Boot.Prot.SRAM:
                 MOV             ECX, SRAM.Size / 4
                 MOV             EDI, SRAM.Start
                 REPE            SCASD
+                MOV             EBX, `S!\r\n`
+                LEA             ESI, [EDI - x86.DWORD.Size]
                 JNE             Boot.Fatal
 
                 MOV             EBX, `S:= `

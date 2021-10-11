@@ -26,7 +26,7 @@ Exec.Alloc.GDT.Sys:
 
                 CALL            Exec.Alloc.DT.Sys ; Call helper function
 
-                LGDT            [ES:GDT.Alloc.Pseudo] ; Update GDT size
+                LGDT            [ES:Demo.GDT.Alloc.Pseudo] ; Update GDT size
 .Finish:
                 MOV             EAX,EBX         ; Return value
                 RET
@@ -55,7 +55,7 @@ Exec.Alloc.GDT.Mem:
 
                 CALL            Exec.Alloc.DT.Mem ; Call helper function
 
-                LGDT            [ES:GDT.Alloc.Pseudo] ; Update GDT size
+                LGDT            [ES:Demo.GDT.Alloc.Pseudo] ; Update GDT size
 .Finish:
                 MOV             EAX,EBX         ; Return value
                 RET

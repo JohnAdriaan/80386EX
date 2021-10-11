@@ -35,8 +35,6 @@ ECB.Mem.Vid.1   RESB            Dev.SBC386EX.VGA3.Mem.Size
 
 Boot.Real.Video:
                 CLD
-                Dev.Lites       0101b
-
 .0:
                 MOV             DX, Vid.0.IO.Start + Dev.SBC386EX.VGA3.IO.CRTC
                 MOV             DI, .1              ; 'Return' address
@@ -127,6 +125,7 @@ Boot.Real.Video:
                 DB              Dev.SBC386EX.VGA3.CRTC.Control.1, Dev.SBC386EX.VGA3.CRTC.Control.1.Sy
 %endif
 .Table.Num      EQU             ($ - .Table) / x86.WORD.Size
+
 .Exit:
 
 ;-------------------------------------------------------------------------------

@@ -26,16 +26,15 @@
 ; Output: EAX = Address of allocated RAM, or zero if insufficient.
 ;         ECX preserved
 Exec.Alloc.RAM:
-                MOV             EAX,[Data.RAM]    ; Get current high-water mark
-.Retry:
-                LEA             EDX,[EAX+ECX+0Fh] ; Get Top, rounded to paragraph
-                AND             EDX,~0Fh          ; Well, it is now!
-                CMP             EDX,[Data.RAMTop] ; Too far?
-                JBE             .Save             ; Not yet...
+                MOV             EAX, [Data.RAM]    ; Get current high-water mark
 
-                MOV             EAX,0010_0000h    ; Skip to 1 MiB
-                MOV    DWORD    [Data.RAMTop],-1  ; And pretend the rest is ours!
-                JMP             .Retry            ; And try again
+                LEA             EDX, [EAX+ECX+0Fh] ; Get Top, rounded to paragraph
+                AND             EDX, ~0Fh          ; Well, it is now!
+                CMP             EDX, [Data.RAMTop] ; Too far?
+                JBE             .Save              ; Not yet...
+
+                XOR             EAX, EAX           ; All gone!
+                JMP             .End               ; So leave
 .Save:
                 MOV             [Data.RAM],EDX    ; Save new high-water mark
 .End:

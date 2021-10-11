@@ -5,8 +5,8 @@
 ; This module installs a Single-Step (Trace) handler
 Exec.Ints.Trace:
                 MOV             EAX, Ints.Single
-                MOV             BX,  IDT.Single
-                MOV             CX,  Selector(GDT.Ints, .GDT, .RPL0)
-                MOV             DL,  Type.Sys(.Trap, .DPL0, .386)
+                MOV             BX,  Demo.IDT.Single
+                MOV             CX,  x86.Selector(Demo.GDT.Ints, .GDT, .RPL0)
+                MOV             DL,  x86.Type.Sys(.Trap, .DPL0, .386)
                 CALL            Exec.Alloc.IDT
                 RET

@@ -35,64 +35,64 @@ Exec.Ints.Fault:
 
                 ENTER           20, 0
 
-                MOV             [%$IDT.Entry],EAX
-                MOV             [%$LDT.Triple],EBX
-                MOV             [%$Handler],EDX
+                MOV             [%$IDT.Entry],  EAX
+                MOV             [%$LDT.Triple], EBX
+                MOV             [%$Handler],    EDX
 
-                MOV             AX,Selector(Exec.LDT.Alias, .LDT, .RPL0)
-                MOV             ES,AX         ; Point to LDT alias
+                MOV             AX, x86.Selector(Demo.Exec.LDT.Alias, .LDT, .RPL0)
+                MOV             ES, AX         ; Point to LDT alias
 
                 ; Allocate Stack for Fault handler
-                MOV             ECX,Exec.Ints.Fault.Stack.Size
+                MOV             ECX, Exec.Ints.Fault.Stack.Size
                 CALL            Exec.Alloc.RAM
-                TEST            EAX,EAX
+                TEST            EAX, EAX
                 JZ              .End
 
                 ; Store in LDT
-                MOV             DL,Type.Mem(.Stack, .DPL0, .RW)
-                MOV             DH,Gran.Mem(.Byte,  .Big)
+                MOV             DL, x86.Type.Mem(.Stack, .DPL0, .RW)
+                MOV             DH, x86.Gran.Mem(.Byte,  .Big)
                 CALL            Exec.Alloc.DT.Mem
 
                 ; Allocate TSS
                 SLDT            AX            ; My LDT
                 CALL            Exec.Alloc.TSS
-                TEST            EAX,EAX
+                TEST            EAX, EAX
                 JZ              .End
 
                 ; Remember its Base
-                MOV             [%$Base],EAX
+                MOV             [%$Base], EAX
 
-                MOV             EBX,[%$LDT.Triple]
-                OR              EBX,x86.Seg.LDT   ; Index inside LDT
-                MOV             EDX,[%$Handler]
+                MOV             EBX, [%$LDT.Triple]
+                OR              EBX, x86.Seg.LDT   ; Index inside LDT
+                MOV             EDX, [%$Handler]
 
                 ; Initialise TSS values
-                MOV             [ES:WORD x86.TSS.SS],BX
-                MOV             [ES:WORD x86.TSS.CS],CS
-                MOV             [ES:WORD x86.TSS.EIP],EDX
+                MOV             [ES:WORD x86.TSS.SS],  BX
+                MOV             [ES:WORD x86.TSS.CS],  CS
+                MOV             [ES:WORD x86.TSS.EIP], EDX
 
                 ; Enable it as a TSS
-                MOV             AH,System.TSS   ; Oh BOY is it a System TSS!
+                MOV             AH, Demo.System.TSS   ; Oh BOY is it a System TSS!
                 CALL            Exec.Alloc.TSS.Enable
 
-                MOV             [%$TSS],EBX
+                MOV             [%$TSS], EBX
 
-                MOV             AX,Selector(Exec.LDT.Alias, .LDT, .RPL0)
-                MOV             ES,AX             ; Point to LDT alias again
+                MOV             AX, x86.Selector(Demo.Exec.LDT.Alias, .LDT, .RPL0)
+                MOV             ES, AX             ; Point to LDT alias again
 
                 ; Set up Alias entry in LDT
-                MOV             EAX,[%$Base]
-                MOV             EBX,[%$LDT.Triple]
-                ADD             EBX,x86.Desc_size ; Point to .TSS Alias in LDT
-                MOV             DL,Type.Mem(.Data, .DPL0, .RNoW) ; TSS Alias
-                MOV             DH,Gran.Mem(.Byte, .Small)
+                MOV             EAX, [%$Base]
+                MOV             EBX, [%$LDT.Triple]
+                ADD             EBX, x86.Desc_size ; Point to .TSS Alias in LDT
+                MOV             DL,  x86.Type.Mem(.Data, .DPL0, .RNoW) ; TSS Alias
+                MOV             DH,  x86.Gran.Mem(.Byte, .Small)
                 CALL            Exec.Alloc.DT.Mem
 
                 ; Finally, update IDT Entry to tell it it's now handled by a TSS
-                XOR             EAX,EAX
-                MOV             EBX,[%$IDT.Entry]
-                MOV             ECX,[%$TSS]
-                MOV             DL,Type.Sys(.Task, .DPL0, .286) ; No '386 variant
+                XOR             EAX, EAX
+                MOV             EBX, [%$IDT.Entry]
+                MOV             ECX, [%$TSS]
+                MOV             DL,  x86.Type.Sys(.Task, .DPL0, .286) ; No '386 variant
                 CALL            Exec.Alloc.IDT
 .End:
                 LEAVE
@@ -110,9 +110,9 @@ Exec.Ints.Fault:
                 CALL            Exec.Ints.Fault.TestIRQs
                 CALL            Exec.Ints.Fault.TSS
 
-                MOV             EDI,[ESP+4]       ; Load Interrupt number
+                MOV             EDI, [ESP+4]      ; Load Interrupt number
                 PUSH            EDX               ; Save faulting TR for display
-                CALL            GDT.Ints : Ints.Fault.External
+                CALL            Demo.GDT.Ints : Ints.Fault.External
 
                 ADD             ESP,4             ; Ignore faulting TR
                 RET
@@ -133,19 +133,19 @@ Exec.Ints.Fault.TestIRQs:
                 ; Isolate IRQ handlers that have started but aren't acknowledged
                 MOV             AL,Dev.PIC.Cmd.ISR
                 OUT             Dev.PIC.A.Cmd,AL
-                JMP             $+2             ; Wait for I/O bus
+                JMP             $+2                ; Wait for I/O bus
                 IN              AL,Dev.PIC.A.Cmd
 
                 AND             AL,Dev.PIC.A.Key|Dev.PIC.A.Timer; Only worried about these
-                JZ              .Finish          ; Nothing to worry about!
-                CMP             AL,Dev.PIC.A.Key ; If keypress outstanding...
-                JE              .KeyInterrupt    ; Handle it
+                JZ              .Finish            ; Nothing to worry about!
+                CMP             AL,Dev.PIC.A.Key   ; If keypress outstanding...
+                JE              .KeyInterrupt      ; Handle it
                 MOV             AL,Dev.PIC.Cmd.EOI ; Acknowledge
-                OUT             Dev.PIC.A.Cmd,AL ; current IRQ (should be Timer)
-                JMP             .Retest          ; And keep looking
+                OUT             Dev.PIC.A.Cmd,AL   ; current IRQ (should be Timer)
+                JMP             .Retest            ; And keep looking
 
 .KeyInterrupt:
-                INT             (IDT.Key-IDT)/x86.Desc_size ; Re-invoke the Key interrupt
+                INT             (Demo.IDT.Key-Demo.IDT)/x86.Desc_size ; Re-invoke the Key interrupt
 .Finish:
                 RET
 ;...............................................................................
@@ -158,22 +158,22 @@ Exec.Ints.Fault.TestIRQs:
 ;          FS = Faulting TSS Alias
 ;         EBX modified
 Exec.Ints.Fault.TSS:
-                MOV             AX,Selector(GDT.Alias, .GDT, .RPL0)
-                MOV             DS,AX         ; Need information from GDT
-                MOV             AX,Selector(Exec.LDT.Alias, .LDT, .RPL0)
-                MOV             ES,AX         ; Need to update alias in LDT
-                LEA             EAX,[EBX + x86.Seg.LDT] ; Need my TSS alias in LDT
-                MOV             FS,AX
+                MOV             AX,  x86.Selector(Demo.GDT.Alias, .GDT, .RPL0)
+                MOV             DS,  AX         ; Need information from GDT
+                MOV             AX,  x86.Selector(Demo.Exec.LDT.Alias, .LDT, .RPL0)
+                MOV             ES,  AX         ; Need to update alias in LDT
+                LEA             EAX, [EBX + x86.Seg.LDT] ; Need my TSS alias in LDT
+                MOV             FS, AX
 
-                ADD             EBX,x86.Desc_size ; Point to TSS alias in LDT
+                ADD             EBX, x86.Desc_size ; Point to TSS alias in LDT
 
-                MOVZX           ESI,WORD [FS:WORD x86.TSS.Back] ; Who called me?
-                MOV             EDX,ESI           ; Remember for later
+                MOVZX           ESI, WORD [FS:WORD x86.TSS.Back] ; Who called me?
+                MOV             EDX, ESI           ; Remember for later
 
-                MOV             AL,Type.Mem(.Data, .DPL0, .RNoW)
+                MOV             AL,  x86.Type.Mem(.Data, .DPL0, .RNoW)
                 CALL            Exec.Ints.Fault.Copy
 
-                LEA             EAX,[EBX + x86.Seg.LDT] ; Selector for alias in LDT
+                LEA             EAX, [EBX + x86.Seg.LDT] ; Selector for alias in LDT
                 MOV             FS,AX
                 RET
 
@@ -185,8 +185,8 @@ Exec.Ints.Fault.TSS:
 Exec.Ints.Fault.Copy:
                 ; Copy faulting Descriptor, then alter .Type to make it an alias
                 CLD                               ; Work forwards
-                MOV             ECX,x86.Desc_size / 4      ; Number of DWords
-                MOVZX           EDI,BX
+                MOV             ECX, x86.Desc_size / 4      ; Number of DWords
+                MOVZX           EDI, BX
                 REP             MOVSD             ; Brute force details across!
-                MOV             [ES:BX+x86.Desc.Type],AL
+                MOV             [ES:BX+x86.Desc.Type], AL
                 RET

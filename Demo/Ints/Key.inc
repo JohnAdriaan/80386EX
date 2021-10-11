@@ -36,18 +36,18 @@ Ints.Key:
                 PUSH            ES              ; For .Hex's STOSW later...
 
                 ; Point to Global Data
-                MOV             AX,Selector(GDT.Data, .GDT, .RPL0)
-                MOV             ES,AX
+                MOV             AX, x86.Selector(Demo.GDT.Data, .GDT, .RPL0)
+                MOV             ES, AX
 
-                IN              AL,Dev.Key.Data ; Get character from keyboard
-                MOV             [ES:Data.Key.Code],AL ; Store in global Data
+                IN              AL, Dev.Key.Data ; Get character from keyboard
+                MOV             [ES:Data.Key.Code], AL ; Store in global Data
 
-                MOV             AH,AL            ; Save to show
+                MOV             AH, AL            ; Save to show
 
-                MOV             AL,Dev.PIC.Cmd.EOI ; Can now acknowledge PIC
-                OUT             Dev.PIC.A.Cmd,AL
+                MOV             AL, Dev.PIC.Cmd.EOI ; Can now acknowledge PIC
+                OUT             Dev.PIC.A.Cmd, AL
 
-                CMP             AH,Debug.Key     ; Was it the debugger key?
+                CMP             AH, Demo.Debug.Key ; Was it the debugger key?
                 JNE             .Continue        ; Don't invoke the Debugger?
                 STI                              ; Do! So need interrupts back on
                 DEBUG                            ; (Debugger uses keyboard)
@@ -65,24 +65,24 @@ Ints.Key:
 
 ; .Key.Pos is chosen as the keyboard IRQ's screen position - but the Hex is two
 ; characters wide. Luckily, the next IRQ (IRQ2) is the Cascade, so it never fires!
-.Key.Pos        EQU             33 * 2          ; Location on screen to show Key
+.Key.Pos        EQU             33 * 2           ; Location on screen to show Key
 .Key.Colour     EQU             Dev.VGA.CyanBack | Dev.VGA.Black
 
-                PUSH            ECX             ; Need these
+                PUSH            ECX              ; Need these
                 PUSH            EDX
-                PUSH            EDI  
+                PUSH            EDI
 
                 ; Now point to screen
-                MOV             DI,Selector(GDT.VGA, .GDT, .RPL0)
-                MOV             ES,DI
+                MOV             DI, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+                MOV             ES, DI
 
-                MOV             DL,AH           ; Code to Hexify
-                MOV             AH,.Key.Colour  ; Colour to use
-                MOV             ECX,2           ; Only 2 digits
-                MOV             EDI,.Key.Pos    ; Position to show it
+                MOV             DL,  AH          ; Code to Hexify
+                MOV             AH,  .Key.Colour ; Colour to use
+                MOV             ECX, 2           ; Only 2 digits
+                MOV             EDI, .Key.Pos    ; Position to show it
                 CALL            Ints.Hex
 
-                POP             EDI             ; Done!
+                POP             EDI              ; Done!
                 POP             EDX
                 POP             ECX
                 RET

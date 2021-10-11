@@ -2,7 +2,7 @@
 ; User/User.inc
 ;
 
-                SEGMENT         User
+                SEGMENT         Demo.User
 
                 USE32
 
@@ -10,10 +10,10 @@
 %define         User.Yield      INT 49
 
 ;-------------------------------------------------------------------------------
-%include        "User/LDT.inc"
+%include        "Demo/User/LDT.inc"
 ;-------------------------------------------------------------------------------
-%include        "User/Data.inc"
+%include        "Demo/User/Data.inc"
 ;-------------------------------------------------------------------------------
-%include        "User/Code.inc"
+%include        "Demo/User/Code.inc"
 ;-------------------------------------------------------------------------------
-%include        "User/Frame.inc"
+%include        "Demo/User/Frame.inc"

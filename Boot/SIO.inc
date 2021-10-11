@@ -3,7 +3,7 @@
 ;
 
 ;-------------------------------------------------------------------------------
-                SEGMENT             Boot.Real
+                SEGMENT         Boot.Real
 
                 USE16
 
@@ -24,6 +24,7 @@ Boot.SIO:
                 MOV             AL, Dev.UART.MCR.DTR | Dev.UART.MCR.RTS
                 OUT             DX, AL
 
+%define HEADER
 %ifdef HEADER
                 CLD
                 MOV             CX,.Mess.Len

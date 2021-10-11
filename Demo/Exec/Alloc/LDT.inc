@@ -26,36 +26,37 @@ Exec.Alloc.LDT:
                 MOV             [%$Size], ECX
 
                 CALL            Exec.Alloc.RAM
-                TEST            EAX,EAX          ; Any left?
+                TEST            EAX, EAX         ; Any left?
                 JZ              .End             ; Pity that!
 
-                MOV             [%$Base],EAX
+                MOV             [%$Base], EAX
 
-                MOV             EBX,EAX          ; Base to allocate
-                MOV             DL,Type.Mem(.Data, .DPL0, .RW) & ~System.Present
-                MOV             DH,Gran.Mem(.Byte, .Small) ; Will become LDT later
+                MOV             EBX, EAX         ; Base to allocate
+                MOV             DL,  x86.Type.Mem(.Data, .DPL0, .RW) & ~Demo.System.Present
+                MOV             DH,  x86.Gran.Mem(.Byte, .Small) ; Will become LDT later
                 CALL            Exec.Alloc.GDT.Mem ; Get Descriptor to use
-                TEST            EAX,EAX          ; Any left?
-                JZ              .End             ; Pity that! **** Memory leak! ****
+                TEST            EAX, EAX          ; Any left?
+                JZ              .End              ; Pity that! **** Memory leak! ****
 
-                MOV             ES,AX            ; Fresh Descriptor!
-                MOV             ECX,[%$Size]     ; Bytes to zero
-                XOR             EDI,EDI          ; Zero everything
+                MOV             ES,  AX           ; Fresh Descriptor!
+                MOV             ECX, [%$Size]     ; Bytes to zero
+                XOR             EDI, EDI          ; Zero everything
                 CALL            Exec.Alloc.RAM.Zero
 
                 ; Set up first entry as an LDT.Alloc
-                MOV     WORD    [ES:LDT.Alloc.Limit],x86.Desc_size - 1
-                MOV     BYTE    [ES:LDT.Alloc.Type],x86.Desc.Sys.Type.LDT
-                MOV             [ES:LDT.Alloc.GDT],ES
+                MOV     WORD    [ES:Demo.LDT.Alloc.Limit], x86.Desc_size - 1
+                MOV     BYTE    [ES:Demo.LDT.Alloc.Type],  x86.Desc.Sys.Type.LDT
+                MOV             [ES:Demo.LDT.Alloc.GDT],   ES
 
                 ; Set up second entry as an alias for this very LDT
-                MOV             EAX,[%$Base]            ; Pass Base in
-                MOV             ECX,[%$Size]            ; Size
-                MOV             DL,Type.Mem(.Data, .DPL0, .RW) & ~System.Present
-                MOV             DH,Gran.Mem(.Byte, .Small)
+                MOV             EAX, [%$Base]           ; Pass Base in
+                MOV             ECX, [%$Size]           ; Size
+                MOV             DL, x86.Type.Mem(.Data, .DPL0, .RW) & ~Demo.System.Present
+                MOV             DH, x86.Gran.Mem(.Byte, .Small)
                 CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT entry
 
-                MOV             AX,ES                   ; Return value
+                MOV             AX, ES                  ; Return value
+DEBUG
 .End:
                 LEAVE
 %pop
@@ -72,10 +73,10 @@ Exec.Alloc.LDT.Enable:
 ; soon-to-be LDT - a Bad Thing. This fixes that!
                 MOV             EBX, ES         ; Get Descriptor to modify
 
-                MOV             AX,GS           ; Get GDT into ES
-                MOV             ES,AX
+                MOV             AX, GS          ; Get GDT into ES
+                MOV             ES, AX
 
-                MOV     BYTE    [ES:EBX+x86.Desc.Type], Type.Sys(.LDT, .DPL0, .286)
+                MOV     BYTE    [ES:EBX+x86.Desc.Type], x86.Type.Sys(.LDT, .DPL0, .286)
 
                 RET
 ;-------------------------------------------------------------------------------
@@ -91,16 +92,16 @@ Exec.Alloc.LDT.Enable:
 Exec.Alloc.LDT.Sys:
                 PUSH            EAX             ; Save for later
                 CALL            Exec.Alloc.DT   ; Allocate an Entry
-                MOV             EBX,EAX         ; This is Descriptor to modify
+                MOV             EBX, EAX        ; This is Descriptor to modify
 
-                TEST            EAX,EAX         ; Any left?
+                TEST            EAX, EAX        ; Any left?
                 POP             EAX             ; It's later!
                 JZ              .Finish         ; Uh oh!
 
                 CALL            Exec.Alloc.DT.Sys ; Call helper function
 
 .Finish:
-                MOV             EAX,EBX         ; Return value
+                MOV             EAX, EBX        ; Return value
                 RET
 
 ;-------------------------------------------------------------------------------
@@ -118,14 +119,14 @@ Exec.Alloc.LDT.Sys:
 Exec.Alloc.LDT.Mem:
                 PUSH            EAX             ; Save for later
                 CALL            Exec.Alloc.DT   ; Allocate an Entry
-                MOV             EBX,EAX         ; This is Descriptor to modify
+                MOV             EBX, EAX        ; This is Descriptor to modify
 
-                TEST            EAX,EAX         ; Any left?
+                TEST            EAX, EAX        ; Any left?
                 POP             EAX             ; It's later!
                 JZ              .Finish         ; Uh oh!
 
                 CALL            Exec.Alloc.DT.Mem ; Call helper function
 
 .Finish:
-                MOV             EAX,EBX         ; Return value
+                MOV             EAX, EBX        ; Return value
                 RET

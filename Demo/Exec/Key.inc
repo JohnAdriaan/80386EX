@@ -11,10 +11,10 @@
 
 Exec.Key:
 ; First, install a Keyboard interrupt handler
-                MOV             EAX, Ints.Key    ; Handler
-                MOV             BX,  IDT.Key      ; Interrupt
-                MOV             CX,  Selector(GDT.Ints, .GDT, .RPL0)
-                MOV             DL,  Type.Sys(.Int, .DPL0, .386)
+                MOV             EAX, Ints.Key      ; Handler
+                MOV             BX,  Demo.IDT.Key  ; Interrupt
+                MOV             CX,  x86.Selector(Demo.GDT.Ints, .GDT, .RPL0)
+                MOV             DL,  x86.Type.Sys(.Int, .DPL0, .386)
                 CALL            Exec.Alloc.IDT
 
 ; Finally, enable the Keyboard interrupt in the PIC

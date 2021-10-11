@@ -31,21 +31,21 @@ Exec.Alloc.DT:
                 PUSH            ES
                 POP             DS              ; Use DS - more efficient
 
-                XOR             EDI,EDI         ; Use base addressing - it's smaller
+                XOR             EDI, EDI        ; Use base addressing - it's smaller
 
-                MOVZX           EAX,WORD [EDI+DT.Alloc.Free] ; Get potential Free one
-                TEST            EAX,EAX                 ; Any?
-                JZ              .Grow                   ; No, so grow DT
+                MOVZX           EAX, WORD [EDI + Demo.DT.Alloc.Free] ; Get potential Free one
+                TEST            EAX, EAX        ; Any?
+                JZ              .Grow           ; No, so grow DT
 
-                MOV             DI,[EAX + DT.Alloc.Free] ; Get Free's next
-                MOV             [EDI+DT.Alloc.Free],DI   ; Store as new Free
-                JMP             .End                     ; Done!
+                MOV             DI, [EAX + Demo.DT.Alloc.Free] ; Get Free's next
+                MOV             [EDI + Demo.DT.Alloc.Free], DI   ; Store as new Free
+                JMP             .End                      ; Done!
 .Grow:
-                MOV             AX,[EDI+DT.Alloc.Limit] ; Get current Limit
-                INC             AX                      ; Add one
-                JZ              .End                    ; Uh oh! Full!
+                MOV             AX, [EDI + Demo.DT.Alloc.Limit] ; Get current Limit
+                INC             AX                       ; Add one
+                JZ              .End                     ; Uh oh! Full!
 
-                ADD     WORD    [EDI+DT.Alloc.Limit],x86.Desc_size ; Increase Limit
+                ADD     WORD    [EDI + Demo.DT.Alloc.Limit], x86.Desc_size ; Increase Limit
 .End:
                 POP             DS
                 RET
@@ -63,11 +63,11 @@ Exec.Alloc.DT:
 
 Exec.Alloc.DT.Sys:
                 MOVZX           EBX,BX
-                MOV             [ES:EBX + x86.Desc.Sys.OffsetLo],AX
+                MOV             [ES:EBX + x86.Desc.Sys.OffsetLo], AX
                 SHR             EAX,16
-                MOV             [ES:EBX + x86.Desc.Sys.Selector],CX
-                MOV             [ES:EBX + x86.Desc.Sys.OffsetHi],AX
-                MOV             [ES:EBX + x86.Desc.Sys.Type],DL
+                MOV             [ES:EBX + x86.Desc.Sys.Selector], CX
+                MOV             [ES:EBX + x86.Desc.Sys.OffsetHi], AX
+                MOV             [ES:EBX + x86.Desc.Sys.Type],     DL
 
                 RET
 
@@ -84,35 +84,35 @@ Exec.Alloc.DT.Sys:
 ; Output: EAX, ECX and DH modified
 
 Exec.Alloc.DT.Mem:
-                TEST            DL,x86.Desc.Mem.Type.Code
+                TEST            DL, x86.Desc.Mem.Type.Code
                 JNZ             .Scale          ; Code cannot be Expand-Down
-                TEST            DL,x86.Desc.Mem.Type.Expand
+                TEST            DL, x86.Desc.Mem.Type.Expand
                 JZ              .Scale          ; Not Expand-Down either
-                ADD             EAX,ECX         ; It is! Add Size to Base
+                ADD             EAX, ECX        ; It is! Add Size to Base
                 NEG             ECX             ; And negate ECX to exclude size
-                TEST            DH,x86.Desc.Mem.Gran.Big ; 32-bit?
+                TEST            DH, x86.Desc.Mem.Gran.Big ; 32-bit?
                 JNZ             .Scale          ; Yes
-                AND             ECX,0000_FFFFh  ; No. Bring down to 16-bit range
-                SUB             EAX,0001_0000h  ; And alter Base to suit
+                AND             ECX, 0000_FFFFh  ; No. Bring down to 16-bit range
+                SUB             EAX, 0001_0000h  ; And alter Base to suit
 .Scale:
                 DEC             ECX                         ; Convert to Limit
-                CMP             ECX,(0_FFFF_FFFFh >> x86.PAGE.Shift)  ; Will Limit fit?
+                CMP             ECX, (0_FFFF_FFFFh >> x86.PAGE.Shift)  ; Will Limit fit?
                 JBE             .Set                        ; Yep, so do so
-                SHR             ECX,x86.PAGE.Shift          ; Nope! Make it
-                OR              DH,x86.Desc.Mem.Gran.Page
+                SHR             ECX, x86.PAGE.Shift         ; Nope! Make it
+                OR              DH,  x86.Desc.Mem.Gran.Page
 .Set:
                 PUSH            DS
 
                 PUSH            ES
                 POP             DS              ; Use DS - more efficient
 
-                MOVZX           EBX,BX
+                MOVZX           EBX, BX
                 MOV             [EBX + x86.Desc.Mem.LimitLo],CX
-                SHR             ECX,16
+                SHR             ECX, 16
                 MOV             [EBX + x86.Desc.Mem.BaseLo], AX
-                SHR             EAX,16
+                SHR             EAX, 16
                 MOV             [EBX + x86.Desc.Mem.BaseMid],AL
-                OR              DH,CL
+                OR              DH, CL
                 MOV             [EBX + x86.Desc.Mem.Type],   DL
                 MOV             [EBX + x86.Desc.Mem.Gran],   DH
                 MOV             [EBX + x86.Desc.Mem.BaseHi], AH

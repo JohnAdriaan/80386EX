@@ -12,8 +12,8 @@
 ; Output: ES, EAX, EDI modified
 
 Exec.Alloc.IDT:
-                MOV             DI,Selector(Exec.LDT.IDT, .LDT, .RPL0)
-                MOV             ES,DI           ; Point to IDT with ES
+                MOV             DI, x86.Selector(Demo.Exec.LDT.IDT, .LDT, .RPL0)
+                MOV             ES, DI           ; Point to IDT with ES
 
                 CALL            Exec.Alloc.DT.Sys
                 RET

@@ -5,7 +5,7 @@
 ; This module defines the Data Segment for the User Code. There will be one copy
 ; of this for every running program.
 
-                  SEGMENT       User.Data  START=0  ALIGN=Align.Para  NOBITS
+                  SEGMENT       Demo.User.Data  START=0  ALIGN=Align.Para  NOBITS
 
                   USE32
 

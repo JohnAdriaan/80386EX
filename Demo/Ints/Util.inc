@@ -21,49 +21,49 @@
 Ints.Switch:
 
 .Type.Mask      EQU             x86.Desc.Type.Present | x86.Desc.Type.Sys | x86.Desc.Type.Type
-.IdleTSS        EQU             Type.Sys(.TSS, .DPL0, .386) ; Target!
+.IdleTSS        EQU             x86.Type.Sys(.TSS, .DPL0, .386) ; Target!
 
                 STR             EAX             ; Get current TSS
-                TEST            EAX,EAX         ; Switching Tasks yet?
+                TEST            EAX, EAX        ; Switching Tasks yet?
                 JZ              .End            ; No, so leave
 
                 PUSH            EBX             ; Need some more registers
                 PUSH            DS              ; And a Segment register
 
-                MOV             EBX,EAX
-                MOV             AX,Selector(GDT.Alias, .GDT, .RPL0)
-                MOV             DS,AX           ; To point to the GDT
+                MOV             EBX, EAX
+                MOV             AX,  x86.Selector(Demo.GDT.Alias, .GDT, .RPL0)
+                MOV             DS,  AX         ; To point to the GDT
 
                 ; I know that EAX holds a TSS - but is it a System TSS?
-                TEST    BYTE    [EBX+x86.Desc.Mem.Gran],System.TSS
+                TEST    BYTE    [EBX+x86.Desc.Mem.Gran], Demo.System.TSS
                 JNZ             .Kill           ; Yes! Abort!
 
                 PUSH            EDX             ; Now need this
 
-                MOV             EDX,EBX         ; Starting point
+                MOV             EDX, EBX        ; Starting point
 .Loop:
-                ADD             BX,x86.Desc_size     ; Look at next descriptor
-                JZ              .Restart             ; Overflow!
-                CMP             BX,[GDT.Alloc.Limit] ; Too far?
-                JB              .Continue            ; Not yet...
+                ADD             BX, x86.Desc_size   ; Look at next descriptor
+                JZ              .Restart            ; Overflow!
+                CMP             BX, [Demo.GDT.Alloc.Limit] ; Too far?
+                JB              .Continue           ; Not yet...
 .Restart:
-                MOV             BX,GDT.Size     ; Yes. Start at original Size
+                MOV             BX,  Demo.GDT.Size  ; Yes. Start at original Size
 .Continue:
-                CMP             EBX,EDX         ; Looped back to here again?
+                CMP             EBX, EDX        ; Looped back to here again?
                 JE              .Finish         ; Yes, so nothing to switch to
 
-                MOV             AL,[EBX+x86.Desc.Mem.Type] ; Get Descriptor Type
-                AND             AL,.Type.Mask   ; Isolate interesting bits
-                CMP             AL,.IdleTSS     ; Is it an Idle TSS?
+                MOV             AL, [EBX+x86.Desc.Mem.Type] ; Get Descriptor Type
+                AND             AL, .Type.Mask  ; Isolate interesting bits
+                CMP             AL, .IdleTSS    ; Is it an Idle TSS?
                 JNE             .Loop           ; No. Keep looking
 
-                TEST    BYTE    [EBX+x86.Desc.Mem.Gran],System.TSS
+                TEST    BYTE    [EBX+x86.Desc.Mem.Gran], Demo.System.TSS
                 JNZ             .Loop           ; Ignore System TSSs too
 
                 PUSH            EBX             ; Found! So JMP to it!
                 PUSH            0               ; (Note that Offset is ignored)
                 JMP     FAR     [ESP]           ; Invokes Task Switch
-                ADD             ESP,8           ; When JMPs back, continues here
+                ADD             ESP, 8          ; When JMPs back, continues here
 .Finish:
                 POP             EDX
 .Kill:
@@ -76,18 +76,18 @@ Ints.Switch:
 ; Output: EAX = whether it modified the Task. Pass this in EBX to .Done
 ;         GS  = GDT
 Ints.System.Init:
-                MOV             AX,Selector(GDT.Alias, .GDT, .RPL0)
-                MOV             GS,AX           ; Point to GDT
+                MOV             AX, x86.Selector(Demo.GDT.Alias, .GDT, .RPL0)
+                MOV             GS, AX           ; Point to GDT
 
                 STR             EAX             ; Get current Task
-                TEST            EAX,EAX         ; Is there one?
+                TEST            EAX, EAX        ; Is there one?
                 JZ              .End            ; No, so nothing to do
-                TEST    BYTE    [GS:EAX+x86.Desc.Mem.Gran],System.TSS
+                TEST    BYTE    [GS:EAX+x86.Desc.Mem.Gran], Demo.System.TSS
                 JNZ             .System         ; Already a System TSS!
-                OR      BYTE    [GS:EAX+x86.Desc.Mem.Gran],System.TSS
+                OR      BYTE    [GS:EAX+x86.Desc.Mem.Gran], Demo.System.TSS
                 JMP             .End            ; Make it one temporarily
 .System:
-                XOR             EAX,EAX         ; Already a System TSS! Don't touch!
+                XOR             EAX, EAX        ; Already a System TSS! Don't touch!
 .End:
                 RET
 ;...............................................................................
@@ -96,9 +96,9 @@ Ints.System.Init:
 ;         GS  = GDT
 
 Ints.System.Done:
-                TEST            EBX,EBX         ; Was current TSS modified?
+                TEST            EBX, EBX        ; Was current TSS modified?
                 JZ              .End            ; No, so just leave
-                AND     BYTE    [GS:EBX+x86.Desc.Mem.Gran],~System.TSS
+                AND     BYTE    [GS:EBX+x86.Desc.Mem.Gran], ~Demo.System.TSS
 .End:
                 RET
 ;...............................................................................
@@ -111,22 +111,22 @@ Ints.System.Done:
 ; Output: AL, EDX modified. ECX zeroed. EDI preserved
 Ints.Hex:
                 STD                             ; Work backwards
-                LEA             EDI,[EDI+ECX*2-2] ; Point to end of number
+                LEA             EDI, [EDI+ECX*2-2] ; Point to end of number
                 PUSH            EDI             ; Save for end
 .Loop:
-                MOV             AL,DL           ; Get lowest byte
-                AND             AL,0Fh          ; Isolate low nybble
-                ADD             AL,'0'          ; Turn into ASCII
-                CMP             AL,'9'          ; Too far?
+                MOV             AL, DL          ; Get lowest byte
+                AND             AL, 0Fh         ; Isolate low nybble
+                ADD             AL, '0'         ; Turn into ASCII
+                CMP             AL, '9'         ; Too far?
                 JBE             .NotHex         ; No
-                ADD             AL,'A'-'9'-1    ; Yes, so turn into Hex
+                ADD             AL, 'A'-'9'-1   ; Yes, so turn into Hex
 .NotHex:
                 STOSW                           ; Store
-                SHR             EDX,4           ; Shift in next nybble
+                SHR             EDX, 4          ; Shift in next nybble
                 LOOP            .Loop           ; Loop
                 CLD                             ; Assume forwards
                 POP             EDI             ; Saved end
-                ADD             EDI,2           ; Past last digit
+                ADD             EDI, 2          ; Past last digit
                 RET                             ; And return
 ;-------------------------------------------------------------------------------
 ; The following table lists the information for each register to show:

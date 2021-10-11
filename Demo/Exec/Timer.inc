@@ -8,17 +8,17 @@
 
 Exec.Timer:
 ; First, install a Timer interrupt handler
-                MOV             EAX, Ints.Timer  ; Offset
-                MOV             BX,  IDT.Timer    ; Interrupt
-                MOV             CX,  Selector(GDT.Ints, .GDT, .RPL0)
-                MOV             DL,  Type.Sys(.Int, .DPL0, .386)
+                MOV             EAX, Ints.Timer      ; Offset
+                MOV             BX,  Demo.IDT.Timer  ; Interrupt
+                MOV             CX,  x86.Selector(Demo.GDT.Ints, .GDT, .RPL0)
+                MOV             DL,  x86.Type.Sys(.Int, .DPL0, .386)
                 CALL            Exec.Alloc.IDT
 
 ; Then, reprogram the Programmable Interrupt Timer to the desired frequency
-                MOV             AX, Dev.Timer.ClockFreq / Timer.Tick
+                MOV             AX, Dev.Timer.ClockFreq / Demo.Timer.Tick
 
                 OUT             Dev.Timer.Port, AL ; Low byte
-                JMP             $+2               ; (Wait for it...)
+                JMP             $+2                ; (Wait for it...)
                 MOV             AL, AH             ; High byte
                 OUT             Dev.Timer.Port, AL
 

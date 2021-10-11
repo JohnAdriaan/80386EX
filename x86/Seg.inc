@@ -20,4 +20,4 @@ x86.Seg.RPL0    EQU            0000_0000_0000_0000b
 
 ; A helper macro, making it easy to set all the fields of a Selector.
 ; The parameters are: Table Index, GDT or LDT, and RPL0-3
-%define         Selector(Index, TI, RPL) ( Index + (x86.Seg%+ TI | x86.Seg%+ RPL) )
+%define         x86.Selector(Index, TI, RPL) ( Index + (x86.Seg%+ TI | x86.Seg%+ RPL) )

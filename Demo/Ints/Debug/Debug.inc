@@ -54,10 +54,10 @@ Debug.Key.Prev   EQU            Dev.Key.Left  ; Previous Segment
 Debug.Key.Next   EQU            Dev.Key.Right ; Next Segment
 
 ; Screen coordinates to use
-Debug.VGA.Top    EQU            (Dev.VGA.Rows-Debug.VGA.Height+1)/2
-Debug.VGA.Left   EQU            (Dev.VGA.Cols-Debug.VGA.Width+1)/2
+Debug.VGA.Top    EQU            (Screen.Rows-Debug.VGA.Height+1)/2
+Debug.VGA.Left   EQU            (Screen.Cols-Debug.VGA.Width+1)/2
 Debug.VGA.Width  EQU            Debug.Width.Addr+Debug.Width.Byte
-Debug.VGA.Height EQU            Dev.VGA.Rows-1
+Debug.VGA.Height EQU            Screen.Rows-1
 Debug.Show.Height EQU           Debug.VGA.Height-Debug.Regs.Rows
 Debug.Regs.Rows  EQU            4
 
@@ -80,11 +80,13 @@ Ints.Debug:
 
                 CALL            .Regs           ; Display registers
 
-                XOR             AX,AX           ; Starting Descriptor
-                MOV             DS,AX
-                CALL            .Desc.Next      ; Get first (real) Descriptor to Show
+;                XOR             AX,AX           ; Starting Descriptor
+;                MOV             DS,AX
+;                CALL            .Desc.Next      ; Get first (real) Descriptor to Show
+MOV AX, [ESP + 28] ; ES
+CALL .Desc.Next.EAX
 .Refresh:
-                INC     BYTE    [ES:WORD (Dev.VGA.Cols-1)*2] ; Display Dingle(tm)
+                INC     BYTE    [ES:WORD (Screen.Cols-1)*2] ; Display Dingle(tm)
 
                 CALL            .Show           ; Display memory
                 CALL            .Key            ; Look at keys
@@ -99,10 +101,12 @@ Ints.Debug:
                 ADD             ESP,8           ; Ignore Int and "Error" values
                 IRETD           ; Return to next instruction
 ;-------------------------------------------------------------------------------
-%include        "Ints/Debug/Init.inc"   ; Initialisation functions
+%include        "Demo/Ints/Debug/Init.inc"   ; Initialisation functions
 ;-------------------------------------------------------------------------------
-%include        "Ints/Debug/Regs.inc"   ; Display registers functions
+%include        "Demo/Ints/Debug/Regs.inc"   ; Display registers functions
 ;-------------------------------------------------------------------------------
-%include        "Ints/Debug/Show.inc"   ; Display memory functions
+%include        "Demo/Ints/Debug/Show.inc"   ; Display memory functions
 ;-------------------------------------------------------------------------------
-%include        "Ints/Debug/Key.inc"    ; Key functions
+%include        "Demo/Ints/Debug/Key.inc"    ; Key functions
+;-------------------------------------------------------------------------------
+%include        "Demo/Ints/Debug/Desc.inc"   ; Descriptor functions
