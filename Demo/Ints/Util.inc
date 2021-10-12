@@ -108,7 +108,7 @@ Ints.System.Done:
 ;         EDX = Value to display
 ;         EDI = Screen position to display
 ;         ES  = Screen segment
-; Output: AL, EDX modified. ECX zeroed. EDI preserved
+; Output: AL, EDX modified. ECX zeroed. EDI moved to end
 Ints.Hex:
                 STD                             ; Work backwards
                 LEA             EDI, [EDI+ECX*2-2] ; Point to end of number

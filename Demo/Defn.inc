@@ -28,8 +28,8 @@
 ; However, on real hardware there isn't that sort of control. Go on, set the
 ; Timer to 1,000,000 times a second - I dare you!
 Demo.Timer.Tick      EQU        1000    ; Number of Timer Interrupts a second
-Demo.Window.Width    EQU        9       ; Width of each Task's Window
-Demo.Window.Height   EQU        6       ; Height of each Task's Window
+Demo.Window.Width    EQU        8       ; Width of each Task's Window
+Demo.Window.Height   EQU        7       ; Height of each Task's Window
 
 Demo.User.Ball         EQU      1       ; Try 3: it is an OEM 'Heart' symbol
 Demo.User.Ball.Colour  EQU      Dev.VGA.BlueBack  | Dev.VGA.White

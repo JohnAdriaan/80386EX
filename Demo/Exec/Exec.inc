@@ -28,7 +28,9 @@ Demo.Entry      EQU             section.Demo.Exec.start
 ;-------------------------------------------------------------------------------
 %include        "Demo/Exec/Timer.inc"        ; Install Timer interrupt handler
 ;-------------------------------------------------------------------------------
-%include        "Demo/Exec/Key.inc"          ; Install keyboard handler
+%include        "Demo/Exec/Key.inc"          ; Install Keyboard interrupt handler
+;-------------------------------------------------------------------------------
+%include        "Demo/Exec/Video.inc"        ; Install Video interrupt handler
 ;-------------------------------------------------------------------------------
 %include        "Demo/Exec/User/User.inc"    ; Start creating User programs
 ;-------------------------------------------------------------------------------

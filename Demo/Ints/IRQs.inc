@@ -6,35 +6,33 @@
 ; They all jump to the same handler, but not before saving away the number
 ; of the interrupt - oh, and a fault code since these should not happen!
 
-; To save space, the handler has been put in the middle of the vectors, to
-; allow the assembler to use shorter JMPs.
 Ints.IRQ0:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    32      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.A.Base + 0  ; Interrupt number
                 JMP             Ints.PIC.A
 Ints.IRQ1:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    33      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.A.Base + 1  ; Interrupt number
                 JMP             Ints.PIC.A
 Ints.IRQ2:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    34      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.A.Base + 2  ; Interrupt number
                 JMP             Ints.PIC.A
 Ints.IRQ3:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    35      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.A.Base + 3  ; Interrupt number
                 JMP             Ints.PIC.A
 Ints.IRQ4:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    36      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.A.Base + 4  ; Interrupt number
                 JMP             Ints.PIC.A
 Ints.IRQ5:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    37      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.A.Base + 5  ; Interrupt number
                 JMP             Ints.PIC.A
 Ints.IRQ6:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    38      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.A.Base + 6  ; Interrupt number
                 JMP             Ints.PIC.A
 Ints.IRQ7:
                 PUSH            EAX     ; Check for spurious interrupt
@@ -58,39 +56,39 @@ Ints.IRQ7:
 ; Acknowledge Master PIC
 Ints.PIC.A:
                 PUSH            EAX
-                MOV             AL,Dev.PIC.Cmd.EOI
-                OUT             Dev.PIC.A.Cmd,AL
+                MOV             AL, Dev.PIC.Cmd.EOI
+                OUT             Dev.PIC.A.Cmd, AL
                 POP             EAX
 ; All IRQs jump to the default Fault handler
                 JMP             Ints.Fault
 
 Ints.IRQ8:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    40      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.B.Base + 0  ; Interrupt number
                 JMP             Ints.PIC.B
 Ints.IRQ9:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    41      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.B.Base + 1  ; Interrupt number
                 JMP             Ints.PIC.B
 Ints.IRQ10:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    42      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.B.Base + 2  ; Interrupt number
                 JMP             Ints.PIC.B
 Ints.IRQ11:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    43      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.B.Base + 3  ; Interrupt number
                 JMP             Ints.PIC.B
 Ints.IRQ12:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    44      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.B.Base + 4  ; Interrupt number
                 JMP             Ints.PIC.B
 Ints.IRQ13:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    45      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.B.Base + 5  ; Interrupt number
                 JMP             Ints.PIC.B
 Ints.IRQ14:
-                PUSH   DWORD    0       ; Pseudo-fault code
-                PUSH   DWORD    46      ; Interrupt number
+                PUSH   DWORD    0                    ; Pseudo-fault code
+                PUSH   DWORD    Boot.PIC.B.Base + 6  ; Interrupt number
                 JMP             Ints.PIC.B
 Ints.IRQ15:
                 PUSH            EAX     ; Check for spurious interrupt

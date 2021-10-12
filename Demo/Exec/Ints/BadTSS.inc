@@ -10,6 +10,7 @@ Exec.Ints.BadTSS:
                 MOV             EDX, .Handler             ; This is the handler
                 CALL            Exec.Ints.Fault           ; Set it up
                 RET
+
 .Handler:
 ;               PUSH   DWORD    0               ; Pseudo-fault code (not required)
                 PUSH            10              ; Interrupt number

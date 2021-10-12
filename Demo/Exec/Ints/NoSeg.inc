@@ -8,10 +8,10 @@
 ; call the Fatal Register displayer: instead it re-implements what the old
 ; handler did, only from the nested Task context.
 Exec.Ints.NoSeg:
-                MOV             AX,  Demo.IDT.NoSeg     ; This is the IDT Entry
+                MOV             AX,  Demo.IDT.NoSeg      ; This is the IDT Entry
                 MOV             BX,  Demo.Exec.LDT.NoSeg ; This is the LDT Triple
-                MOV             EDX, .Handler     ; This is the handler
-                CALL            Exec.Ints.Fault  ; Set it up
+                MOV             EDX, .Handler            ; This is the handler
+                CALL            Exec.Ints.Fault          ; Set it up
                 RET
 
 .Handler:

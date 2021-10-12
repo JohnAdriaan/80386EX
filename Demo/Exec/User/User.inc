@@ -25,12 +25,15 @@
 ;...............................................................................
 %include        "Demo/Exec/User/TSS.inc" ; Creates one TSS for a User-mode Program
 
+Exec.User.Top   EQU             1
+Exec.User.Left  EQU             1 ; 0
+
 Exec.User:
                 ENTER           8, 0
 
                 XOR             EDX, EDX        ; Zero high part of EDX
-;               MOV             DL,  0          ; Start full left
-                MOV             DH,  1          ; Start one row low
+                MOV             DL,  .Left
+                MOV             DH,  .Top
 
 .Loop:
                 MOV             [%$Pos], EDX    ; Store away new position
@@ -51,15 +54,14 @@ Exec.User:
                 CMP             DL,  Screen.Cols - Demo.Window.Width ; Too far?
                 JBE             .Loop                    ; Not yet...
 
-                MOV             DL, 0                    ; Start at left again
+                MOV             DL, .Left
                 ADD             DH, Demo.Window.Height   ; Next row
                 CMP             DH, Screen.Rows - Demo.Window.Height ; Too far?
                 JBE             .Loop                    ; Not yet...
 
 .Finished:
-                HLT
+;                HLT
 ; Wait for <Ctrl><Alt><Del>
-INC BYTE [FS:(Screen.Cols-1)*2] ; Dingle(tm)
                 JMP             .Finished
 
 %pop

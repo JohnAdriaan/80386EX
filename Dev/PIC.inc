@@ -33,6 +33,7 @@ Dev.PIC.A.Floppy  EQU           0100_0000b
 Dev.PIC.A.Printer EQU           1000_0000b
 
 Dev.PIC.B.RTC     EQU           0000_0001b
+Dev.PIC.B.Video   EQU           0000_0010b
 Dev.PIC.B.Mouse   EQU           0001_0000b
 Dev.PIC.B.IDE0    EQU           0100_0000b
 Dev.PIC.B.IDE1    EQU           1000_0000b

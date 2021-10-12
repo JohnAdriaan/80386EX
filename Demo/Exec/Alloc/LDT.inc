@@ -56,7 +56,6 @@ Exec.Alloc.LDT:
                 CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT entry
 
                 MOV             AX, ES                  ; Return value
-DEBUG
 .End:
                 LEAVE
 %pop

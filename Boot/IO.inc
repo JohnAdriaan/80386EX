@@ -71,8 +71,8 @@ Boot.IO:
 ; P3
                 MOV             DX, x86.EX.P3.CFG
                 MOV             AL, x86.EX.P3.SIO.COMCLK | \
-                                    x86.EX.P3.ICU.INT3   | \
-                                    x86.EX.P3.ICU.INT2   | \
-                                    x86.EX.P3.ICU.INT1   | \
-                                    x86.EX.P3.ICU.INT0
+                                    x86.EX.P3.ICU.IRQ7   | \
+                                    x86.EX.P3.ICU.IRQ6   | \
+                                    x86.EX.P3.ICU.IRQ5   | \
+                                    x86.EX.P3.ICU.IRQ1
                 OUT             DX,AL

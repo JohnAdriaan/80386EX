@@ -33,5 +33,8 @@ Demo.Exec.Entry:
                 ; Human interaction (via the keyboard) would be nice...
                 CALL            Exec.Key
 
+                ; But a human needs to be able to see things! So set up a video handler
+                CALL            Exec.Video
+
                 ; Everything's ready! We can start to create User-mode Programs
                 JMP             Exec.User

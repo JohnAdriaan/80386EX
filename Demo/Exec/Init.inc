@@ -23,8 +23,8 @@ Exec.Init:
                 MOV             AX, x86.Selector(Demo.GDT.Alias, .GDT, .RPL0)
                 MOV             GS, AX           ; Try to keep this here
 
-                ; Point to Screen
-                MOV             AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+                ; Point (directly) to Screen (rather than Video double-buffer)
+                MOV             AX, x86.Selector(Demo.GDT.Screen, .GDT, .RPL0)
                 MOV             ES, AX           ; This will be used for lots
                 MOV             FS, AX           ; Try to keep this here
 
@@ -32,10 +32,20 @@ Exec.Init:
                 MOV             AX, x86.Selector(Demo.GDT.Data, .GDT, .RPL0)
                 MOV             DS, AX           ; Try to keep this here
 
-                MOV    DWORD    [Data.RAM],    Demo.First
-                MOV    DWORD    [Data.RAMTop], EBP
+                MOV    DWORD    [Data.RAM], Demo.First
+
+                MOV             ECX, Screen.Rows * Screen.Cols * 2 ; Size of video buffer
+                SUB             EBP, ECX         ; Remove from (passed in) top of RAM
+                MOV             [Data.RAMTop], EBP ; Save away new top of RAM
 
                 MOV     BYTE    [Data.Key.Shifts], 0
+
+                ; First, allocate Video double-buffer
+                MOV             EAX, EBP          ; Start of video buffer
+                MOV             DL, x86.Type.Mem(.Data, .DPL3, .RW) ; Allow anyone to access it
+                MOV             DH, x86.Gran.Mem(.Byte, .Small)
+                CALL            Exec.Alloc.GDT.Mem
+;               CMP             AX, Demo.GDT.Video ; Assume this will work!
 
                 ; Now allocate Exec's TSS. Use Exec's LDT!
                 MOV             AX, x86.Selector(Demo.GDT.Exec.LDT, .GDT, .RPL0)

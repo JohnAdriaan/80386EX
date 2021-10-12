@@ -64,7 +64,7 @@ Boot.Real.DRAM:
                 USE32
 
 Boot.Prot.DRAM:
-; Test size of DRAM, in SRAM.Size increments. Stop when ROM reached
+; Test size of DRAM, in SRAM.Size increments. Stop when ECB reached
                 XOR             EDX, EDX          ; Too many errors counter
                 MOV             EDI, DRAM.Start
 .Loop:

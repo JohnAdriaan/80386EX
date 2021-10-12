@@ -90,6 +90,8 @@ Dev.SBC386EX.VGA3.CRTC.Cursor.Slow   EQU   0110_0000b
 Dev.SBC386EX.VGA3.CRTC.Cursor.Fast   EQU   0100_0000b
 Dev.SBC386EX.VGA3.CRTC.Cursor.On     EQU   0000_0000b
 
-Dev.SBC386EX.VGA3.CRTC.Control.1.Sy  EQU   0000_1000b
+Dev.SBC386EX.VGA3.CRTC.Control.1.IB  EQU   0010_0000b ; Interrupt on Blank
+Dev.SBC386EX.VGA3.CRTC.Control.1.IL  EQU   0001_0000b ; Interrupt on LightPen
+Dev.SBC386EX.VGA3.CRTC.Control.1.Sy  EQU   0000_1000b ; Vertical Sync Adjust
 
 %define        Dev.SBC386EX.VGA3.CRTC.Value(a, v) (((v) << x86.WORD.Hi) | Dev.SBC386EX.VGA3.CRTC %+ a)

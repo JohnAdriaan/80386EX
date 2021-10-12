@@ -64,7 +64,7 @@ Demo.IDT.IRQ5        x86.Desc.Sys    Demo.GDT.Ints, Ints.IRQ5, IDT.Int      ; In
 Demo.IDT.Floppy      x86.Desc.Sys    Demo.GDT.Ints, Ints.IRQ6, IDT.Int      ; Int 26h
 Demo.IDT.Printer     x86.Desc.Sys    Demo.GDT.Ints, Ints.IRQ7, IDT.Int      ; Int 27h
 Demo.IDT.RTC         x86.Desc.Sys    Demo.GDT.Ints, Ints.IRQ8, IDT.Int      ; Int 28h
-Demo.IDT.IRQ9        x86.Desc.Sys    Demo.GDT.Ints, Ints.IRQ9, IDT.Int      ; Int 29h
+Demo.IDT.Video       x86.Desc.Sys    Demo.GDT.Ints, Ints.IRQ9, IDT.Int      ; Int 29h
 Demo.IDT.IRQ10       x86.Desc.Sys    Demo.GDT.Ints, Ints.IRQ10, IDT.Int     ; Int 2Ah
 Demo.IDT.IRQ11       x86.Desc.Sys    Demo.GDT.Ints, Ints.IRQ11, IDT.Int     ; Int 2Bh
 Demo.IDT.Mouse       x86.Desc.Sys    Demo.GDT.Ints, Ints.IRQ12, IDT.Int     ; Int 2Ch

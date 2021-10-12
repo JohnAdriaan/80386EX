@@ -37,10 +37,10 @@ Demo.GDT.Data.Limit  EQU        Demo.Data.Limit
 Demo.GDT.Data.Type   EQU        x86.Type.Mem(.Data, .DPL0, .RW)
 Demo.GDT.Data.Gran   EQU        x86.Gran.Mem(.Byte, .Big)
 
-Demo.GDT.Video.Base  EQU        Screen.Base
-Demo.GDT.Video.Limit EQU        Screen.Rows * Screen.Cols * 2 - 1
-Demo.GDT.Video.Type  EQU        x86.Type.Mem(.Data, .DPL3, .RW) ; Let anyone access it!
-Demo.GDT.Video.Gran  EQU        x86.Gran.Mem(.Byte, .Big)
+Demo.GDT.Screen.Base  EQU        Screen.Base
+Demo.GDT.Screen.Limit EQU        Screen.Rows * Screen.Cols * 2 - 1
+Demo.GDT.Screen.Type  EQU        x86.Type.Mem(.Data, .DPL0, .RW)
+Demo.GDT.Screen.Gran  EQU        x86.Gran.Mem(.Byte, .Small)
 
 Demo.GDT.Ints.Base   EQU        Demo.Ints.Base
 Demo.GDT.Ints.Limit  EQU        Demo.Ints.Limit
@@ -56,9 +56,10 @@ Demo.GDT:
 Demo.GDT.NULL     Demo.GDT.Vars Demo.GDT.Base, Demo.GDT.Limit
 Demo.GDT.Alias    x86.Desc.Mem  Demo.GDT.Alias.Base,    Demo.GDT.Alias.Limit,    Demo.GDT.Alias.Type,    Demo.GDT.Alias.Gran
 Demo.GDT.Data     x86.Desc.Mem  Demo.GDT.Data.Base,     Demo.GDT.Data.Limit,     Demo.GDT.Data.Type,     Demo.GDT.Data.Gran
-Demo.GDT.Video    x86.Desc.Mem  Demo.GDT.Video.Base,    Demo.GDT.Video.Limit,    Demo.GDT.Video.Type,    Demo.GDT.Video.Gran
+Demo.GDT.Screen   x86.Desc.Mem  Demo.GDT.Screen.Base,   Demo.GDT.Screen.Limit,   Demo.GDT.Screen.Type,   Demo.GDT.Screen.Gran
 Demo.GDT.Ints     x86.Desc.Mem  Demo.GDT.Ints.Base,     Demo.GDT.Ints.Limit,     Demo.GDT.Ints.Type,     Demo.GDT.Ints.Gran
 Demo.GDT.Exec.LDT x86.Desc.Mem  Demo.GDT.Exec.LDT.Base, Demo.GDT.Exec.LDT.Limit, Demo.GDT.Exec.LDT.Type, Demo.GDT.Exec.LDT.Gran
+Demo.GDT.Video    EQU           $
 
 %if (Demo.GDT.Alias-Demo.GDT) != Demo.DT.Alias
 %error "Invalid GDT alias"
