@@ -17,6 +17,7 @@ Dev.PIC.B.Mask  EQU             0A1h
 Dev.PIC.Cmd.EOI   EQU           20h
 Dev.PIC.Cmd.IRR   EQU           0Ah             ; Access Interrupt Request Register
 Dev.PIC.Cmd.ISR   EQU           0Bh             ; Access In-Service Register
+Dev.PIC.Spurious  EQU           1000_0000b      ; Mask: ZERO means spurious
 
 Dev.PIC.Cmd.Init  EQU           11h
 Dev.PIC.Init.8086 EQU           01h
