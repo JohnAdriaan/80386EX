@@ -88,3 +88,13 @@ x86.EX.TMR.CON.MODE.5 EQU       0000_1010b  ; Mode 5
 ; Timer Control Format values
 x86.EX.TMR.CON.FMT.Bin EQU      0000_0000b  ; Binary counting format
 x86.EX.TMR.CON.FMT.BCD EQU      0000_0001b  ; Binary-coded Decimal format
+
+; Timer Control Readback values
+x86.EX.TMR.CON.Read.Count    EQU  0000_0000b ; Latch Count
+x86.EX.TMR.CON.Read.NoCount  EQU  0010_0000b ; Don't latch Count
+x86.EX.TMR.CON.Read.Status   EQU  0000_0000b ; Latch Status (read first)
+x86.EX.TMR.CON.Read.NoStatus EQU  0001_0000b ; Don't latch Status
+x86.EX.TMR.CON.Read.CNT2     EQU  0000_1000b ; For Counter2
+x86.EX.TMR.CON.Read.CNT1     EQU  0000_0100b ; For Counter1
+x86.EX.TMR.CON.Read.CNT0     EQU  0000_0010b ; For Counter0
+
