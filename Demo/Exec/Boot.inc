@@ -12,9 +12,9 @@
                 MOV             EDI, Demo.IDT.Base
              CS REP             MOVSD
 
-                MOV             ECX, (x86.IDT.Size.Max - Demo.IDT.Size) / x86.DWORD.Size
-                LEA             ESI, [EDI - x86.Desc.Size] ; Copy last entry
-                REP             MOVSD            ; Repeatedly
+                MOV             ECX, (x86.IDT.Num.Max - Demo.IDT.Num) * x86.Desc.Size / x86.DWORD.Size
+                LEA             ESI, [EDI - x86.Desc.Size] ; Copy final entry
+             ES REP             MOVSD                      ; Repeatedly
 
                 PUSH   DWORD    Demo.IDT.Base        ; Put on stack as Pseudo-descriptor
                 PUSH    WORD    x86.IDT.Size.Max - 1 ; Only this many entries in IDT
