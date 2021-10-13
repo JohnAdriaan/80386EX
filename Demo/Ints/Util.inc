@@ -34,7 +34,7 @@ Ints.Switch:
                 MOV             AX,  x86.Selector(Demo.GDT.Alias, .GDT, .RPL0)
                 MOV             DS,  AX         ; To point to the GDT
 
-                ; I know that EAX holds a TSS - but is it a System TSS?
+                ; I know that EBX points to a TSS - but is it a System TSS?
                 TEST    BYTE    [EBX+x86.Desc.Mem.Gran], Demo.System.TSS
                 JNZ             .Kill           ; Yes! Abort!
 

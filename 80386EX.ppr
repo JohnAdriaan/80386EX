@@ -155,5 +155,5 @@ HTServer=localhost
 Main=80386EX.asm
 Selected=80386EX.asm
 [80386EX.asm]
-TopLine=1
-Caret=1,1
+TopLine=2
+Caret=1,4

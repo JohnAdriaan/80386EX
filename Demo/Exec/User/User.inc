@@ -60,6 +60,7 @@ Exec.User:
                 JBE             .Loop                    ; Not yet...
 
 .Finished:
+                User.Yield                ; I'd love to de-schedule me, but...
 ;                HLT
 ; Wait for <Ctrl><Alt><Del>
                 JMP             .Finished
