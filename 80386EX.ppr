@@ -145,5 +145,10 @@ HTServer=localhost
 		Boot\Reset.inc
 		Boot\Sizes.inc
 [Open project files]
+0=README.md
 [Selected Project Files]
 Main=80386EX.asm
+Selected=README.md
+[README.md]
+TopLine=1
+Caret=1,1

@@ -41,11 +41,11 @@ Ints.IRQ7:
                 IN              AL, Dev.PIC.A.Cmd
                 TEST            AL, Dev.PIC.Spurious
                 JNZ             .NotSpurious
-                PUSH            DS
-                MOV             AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
-                MOV             DS, AX
-                INC   BYTE      [(Boot.PIC.A.Base + 7) * 2]
-                POP             DS
+;               PUSH            DS
+;               MOV             AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+;               MOV             DS, AX
+;               INC   BYTE      [(Boot.PIC.A.Base + 7) * 2] ; Dingle(tm)
+;               POP             DS
                 POP             EAX
                 IRETD
 .NotSpurious:

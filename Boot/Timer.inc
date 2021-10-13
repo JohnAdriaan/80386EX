@@ -16,7 +16,7 @@ Boot.Timer:
                 MOV             DX, x86.EX.TMR.CFG
                 MOV             AL, x86.EX.TMR.CFG.Enable  | \
                                     x86.EX.TMR.CFG.GT0.VCC | \
-                                    x86.EX.TMR.CFG.CK0.PSClk ; Pin ; ***
+                                    x86.EX.TMR.CFG.CK0.Pin
                 OUT             DX, AL
 
                 MOV             DX, x86.EX.TMR.CON
