@@ -4,7 +4,7 @@
 
 ;===============================================================================
 ; This file is a boot ROM for the SBC-386EX from RetroBrew Computers:
-; https://www.retrobrewcomputers.org/doku.php?id=boards:sbc:sbc-386ex:rev2.0
+; https://www.RetroBrewcComputers.org/doku.php?id=boards:sbc:sbc-386ex:rev2.0
 ;
 ; It has been written to be assembled with the Netwide Assembler NASM, which
 ; is a free download (http://www.nasm.us/) and will run on a number of different
