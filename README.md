@@ -2,8 +2,11 @@
 
 ## References
 SBC386EX: https://www.RetroBrewComputers.org/doku.php?id=boards:sbc:sbc-386ex:rev2.0
+
 VGA3:     https://www.RetroBrewComputers.org/doku.php?id=boards:ecb:vga3:vga3
+
 Boot:     https://GitHub.com/JohnAdriaan/80386EX
+
 Demo:     https://Wiki.OSDev.org/User:Johnburger/Demo
 
 ## How to use
