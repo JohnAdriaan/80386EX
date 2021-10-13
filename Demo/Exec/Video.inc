@@ -28,6 +28,13 @@ Exec.Video:
 
                 ; Talk to CRTC
                 MOV             DX, Vid.0.IO.Start + Dev.SBC386EX.VGA3.IO.CRTC.Addr
+
+                ; Turn off cursor
+                MOV             AX, Dev.SBC386EX.VGA3.CRTC.Value(          \
+                                    .Ncs1,                                 \
+                                    Dev.SBC386EX.VGA3.CRTC.Cursor.Off)
+                OUT             DX, AX
+                ; Enable Vertical Retrace interrupt
                 MOV             AX, Dev.SBC386EX.VGA3.CRTC.Value(          \
                                     .Control.1,                            \
                                     Dev.SBC386EX.VGA3.CRTC.Control.1.IB |  \
