@@ -87,18 +87,24 @@ Boot.Real.Video:
 .V.Sync.Width   EQU             2    ; Rasters (not counted)
 .V.Porch.Back   EQU             2    ; Rows
 .V.Total.Adjust EQU             13   ; Rasters
-%elif .V.Displayed == 43 ; (43 + 0 + 4) * 11 + 8 = 525 lines
+%elif .V.Displayed == 43 ; (43 + 1 + 3) * 11 + 8 = 525 lines
 .V.Porch.Front  EQU             1    ; Rows
 .V.Sync.Adjust  EQU             0    ; Rasters (not counted)
 .V.Sync.Width   EQU             2    ; Rasters (not counted)
 .V.Porch.Back   EQU             3    ; Rows
 .V.Total.Adjust EQU             8    ; Rasters
-%elif .V.Displayed == 50 ; (50 + 0 + 5) * 8 + 9 = 449 lines
-.V.Porch.Front  EQU             0    ; Rows
+%elif .V.Displayed == 50 ; (50 + 1 + 4) * 8 + 9 = 449 lines
+.V.Porch.Front  EQU             1    ; Rows
 .V.Sync.Adjust  EQU             12   ; Rasters (not counted)
 .V.Sync.Width   EQU             2    ; Rasters (not counted)
-.V.Porch.Back   EQU             5    ; Rows
+.V.Porch.Back   EQU             4    ; Rows
 .V.Total.Adjust EQU             9    ; Rasters
+%elif .V.Displayed == 63 ; (63 + 0 + 2) * 8 + 5 = 525 lines
+.V.Porch.Front  EQU             0    ; Rows
+.V.Sync.Adjust  EQU             10   ; Rasters (not counted)
+.V.Sync.Width   EQU             2    ; Rasters (not counted)
+.V.Porch.Back   EQU             2    ; Rows
+.V.Total.Adjust EQU             5    ; Rasters
 %endif
 .V.Total        EQU             .V.Displayed + .V.Porch.Front + .V.Porch.Back ; Rows
 

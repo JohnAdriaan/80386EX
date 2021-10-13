@@ -48,6 +48,7 @@ Dev.VGA.Red       EQU           0_4h
 Dev.VGA.Magenta   EQU           0_5h
 Dev.VGA.Brown     EQU           0_6h
 Dev.VGA.Grey      EQU           0_7h
+Dev.VGA.Gray      EQU           0_7h
 
 Dev.VGA.Dark          EQU       Dev.VGA.Bright | Dev.VGA.Black
 Dev.VGA.BrightBlue    EQU       Dev.VGA.Bright | Dev.VGA.Blue

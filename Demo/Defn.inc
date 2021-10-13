@@ -13,9 +13,9 @@
                 DB              Version.Demo
                 ALIGN           Align.Para, DB ' '
 
-                DB              'v', Version.String
-                DB              ' ', Version.Copyright
-                ALIGN           Align.Para, DB ' '
+;                DB              'v', Version.String
+;                DB              ' ', Version.Copyright
+;                ALIGN           Align.Para, DB ' '
 
 %substr         Demo.Date       __?DATE?__ 3,-1
                 DB              Demo.Date
@@ -28,11 +28,11 @@
 ; However, on real hardware there isn't that sort of control. Go on, set the
 ; Timer to 1,000,000 times a second - I dare you!
 Demo.Timer.Tick      EQU        1000    ; Number of Timer Interrupts a second
-Demo.Window.Width    EQU        8       ; Width of each Task's Window
-Demo.Window.Height   EQU        7       ; Height of each Task's Window
+Demo.Window.Width    EQU        6       ; Width of each Task's Window
+Demo.Window.Height   EQU        5       ; Height of each Task's Window
 
 Demo.User.Ball         EQU      1       ; Try 3: it is an OEM 'Heart' symbol
-Demo.User.Ball.Colour  EQU      Dev.VGA.BlueBack  | Dev.VGA.White
+Demo.User.Ball.Colour  EQU      Dev.VGA.BlueBack  | Dev.VGA.Gray
 Demo.User.Frame.Colour EQU      Dev.VGA.GreenBack | Dev.VGA.White
 Demo.User.Delay        EQU      0_FFFFh ; How long to 'idle' the Bounce animation
 

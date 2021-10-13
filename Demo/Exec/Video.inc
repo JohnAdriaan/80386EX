@@ -19,7 +19,7 @@ Exec.Video:
 
                 ; Clear double buffer
                 CLD
-                MOV             AX, Dev.VGA.CharAttr(' ', Boot.Text.Colour)
+                MOV             AX, Dev.VGA.CharAttr(' ', Demo.User.Ball.Colour)
                 MOV             ECX, Screen.Rows * Screen.Cols * 2 / x86.WORD.Size
                 MOV             DX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
                 XOR             EDI, EDI

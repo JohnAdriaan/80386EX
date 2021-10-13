@@ -26,7 +26,7 @@
 %include        "Demo/Exec/User/TSS.inc" ; Creates one TSS for a User-mode Program
 
 Exec.User.Top   EQU             1
-Exec.User.Left  EQU             1 ; 0
+Exec.User.Left  EQU             0
 
 Exec.User:
                 ENTER           8, 0

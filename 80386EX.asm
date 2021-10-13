@@ -36,8 +36,8 @@
 %define         Boot.Protocol     Dev.UART.Word8 | Dev.UART.ParityNone | Dev.UART.Stop1
 
 Screen.Width    EQU               90
-Screen.Height   EQU               43
-Font.Height     EQU               11
+Screen.Height   EQU               43                ; 25 / 30 / 43 / 50 / 63 (not all tested)
+Font.Height     EQU               11                ; 16 / 16 / 11 /  8 /  8
 
 ; These are the hardware-assigned sizes and clocks for the SBC386EX board
 %assign         CPU.CLK2          32_000_000        ; In Hertz
@@ -67,8 +67,8 @@ Font.Height     EQU               11
 
 %assign         ECB.IO.Size       0020h
 %define         ECB.IO.CS         CS0
-%define         ECB.IO.Speed      60
-%define         ECB.IO.Waits      3
+%define         ECB.IO.Speed      40
+%define         ECB.IO.Waits      2
 
 ; These are some version identifiers
 %define         Name              "80386EX"
