@@ -23,6 +23,7 @@
 ; to make it easy to know where to go:
 ; `x86`  : Definitions for the basic x86 CPU
 ; `Dev`  : Definitions for devices
+; 'Demo' : Let's see what we can do with Protected Mode
 ; 'Boot' : Boot code
 ;===============================================================================
 
@@ -79,8 +80,8 @@ Font.Height     EQU               11
 %define         Version.Copyright 169, "2014-", %[Version.Year]
 
 %define         Version.Major     0
-%define         Version.Minor     0
-%define         Version.Build     1
+%define         Version.Minor     1
+%define         Version.Build     0
 
 %defstr         Version.String    %[Version.Major].%[Version.Minor].%[Version.Build]
 %defstr         Version.Stamp     v%[Version.Major]%[Version.Minor]

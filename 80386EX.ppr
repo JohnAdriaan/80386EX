@@ -39,7 +39,7 @@ HTServer=localhost
 			x86\EX\RFS.inc
 			x86\EX\INT.inc
 			x86\EX\TMR.inc
-	+Dev
+	-Dev
 		Dev\Dev.inc
 		Dev\A20.inc
 		Dev\PIC.inc
@@ -47,7 +47,7 @@ HTServer=localhost
 		Dev\Key.inc
 		Dev\VGA.inc
 		Dev\UART.inc
-		+Dev\SBC-386EX
+		-Dev\SBC-386EX
 			Dev\SBC-386EX\SBC-386EX.inc
 			Dev\SBC-386EX\FPU.inc
 			Dev\SBC-386EX\Lite.inc
@@ -55,11 +55,11 @@ HTServer=localhost
 			Dev\SBC-386EX\SDCard.inc
 			Dev\SBC-386EX\IDE.inc
 			Dev\SBC-386EX\VGA3.inc
-	+Demo
+	-Demo
 		Demo\Demo.inc
 		Demo\Defn.inc
 		Demo\Data.inc
-		+Demo\Ints
+		-Demo\Ints
 			Demo\Ints\Ints.inc
 			Demo\Ints\IDT.inc
 			Demo\Ints\Vectors.inc
@@ -84,7 +84,7 @@ HTServer=localhost
 			Demo\User\Data.inc
 			Demo\User\Code.inc
 			Demo\User\Frame.inc
-		+Demo\Exec
+		-Demo\Exec
 			Demo\Exec\Exec.inc
 			Demo\Exec\Boot.inc
 			Demo\Exec\Entry.inc
@@ -101,7 +101,7 @@ HTServer=localhost
 			Demo\Exec\Timer.inc
 			Demo\Exec\Key.inc
 			Demo\Exec\Video.inc
-			+Demo\Exec\User
+			-Demo\Exec\User
 				Demo\Exec\User\User.inc
 				Demo\Exec\User\LDT.inc
 				Demo\Exec\User\TSS.inc
@@ -117,7 +117,7 @@ HTServer=localhost
 			Demo\Exec\GDT.inc
 		Demo\Sizes.inc
 	EEPROM.inc
-	+Boot
+	-Boot
 		Boot\Boot.inc
 		Boot\Defn.inc
 		Boot\CPU.inc
