@@ -17,6 +17,16 @@ Exec.Video:
                 MOV             DL,  x86.Type.Sys(.Int, .DPL0, .386)
                 CALL            Exec.Alloc.IDT
 
+                ; Clear double buffer
+                CLD
+                MOV             AX, Dev.VGA.CharAttr(' ', Boot.Text.Colour)
+                MOV             ECX, Screen.Rows * Screen.Cols * 2 / x86.WORD.Size
+                MOV             DX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+                XOR             EDI, EDI
+                MOV             ES, DX
+                REP             STOSW
+
+                ; Talk to CRTC
                 MOV             DX, Vid.0.IO.Start + Dev.SBC386EX.VGA3.IO.CRTC.Addr
                 MOV             AX, Dev.SBC386EX.VGA3.CRTC.Value(          \
                                     .Control.1,                            \
