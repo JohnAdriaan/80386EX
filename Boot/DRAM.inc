@@ -30,7 +30,7 @@ Boot.Real.DRAM:
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[DRAM.CS] + x86.EX.CS.ADL
-                MOV             AX, x86.EX.CSU.ADL.Value.Mem(DRAM.Start, NOSMM, BS16, NORDY, 2)
+                MOV             AX, x86.EX.CSU.ADL.Value.Mem(DRAM.Start, NOSMM, BS16, NORDY, DRAM.Waits)
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[DRAM.CS] + x86.EX.CS.MSKH

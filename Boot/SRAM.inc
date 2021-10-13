@@ -25,7 +25,7 @@ Boot.Real.SRAM:
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[SRAM.CS] + x86.EX.CS.ADL
-                MOV             AX, x86.EX.CSU.ADL.Value.Mem(SRAM.Start, NOSMM, BS8, NORDY, 0)
+                MOV             AX, x86.EX.CSU.ADL.Value.Mem(SRAM.Start, NOSMM, BS8, NORDY, SRAM.Waits)
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[SRAM.CS] + x86.EX.CS.MSKH

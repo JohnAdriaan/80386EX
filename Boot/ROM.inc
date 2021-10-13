@@ -20,7 +20,7 @@ Boot.Real.ROM:
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[ROM.CS] + x86.EX.CS.ADL
-                MOV             AX, x86.EX.CSU.ADL.Value.Mem(ROM.Start, NOSMM, BS8, NORDY, 3)
+                MOV             AX, x86.EX.CSU.ADL.Value.Mem(ROM.Start, NOSMM, BS8, NORDY, ROM.Waits)
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[ROM.CS] + x86.EX.CS.MSKH

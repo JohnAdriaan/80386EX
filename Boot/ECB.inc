@@ -30,7 +30,7 @@ Boot.Real.ECB:
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[ECB.Mem.CS] + x86.EX.CS.ADL
-                MOV             AX, x86.EX.CSU.ADL.Value.Mem(ECB.Mem.Start, NOSMM, ECB.Mem.Bus, NORDY, 5)
+                MOV             AX, x86.EX.CSU.ADL.Value.Mem(ECB.Mem.Start, NOSMM, ECB.Mem.Bus, NORDY, ECB.Mem.Waits)
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[ECB.Mem.CS] + x86.EX.CS.MSKH
@@ -47,7 +47,7 @@ Boot.Real.ECB:
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[ECB.IO.CS] + x86.EX.CS.ADL
-                MOV             AX, x86.EX.CSU.ADL.Value.IO(ECB.IO.Start, NOSMM, ECB.IO.Bus, NORDY, 3)
+                MOV             AX, x86.EX.CSU.ADL.Value.IO(ECB.IO.Start, NOSMM, ECB.IO.Bus, NORDY, ECB.IO.Waits)
                 OUT             DX, AX
 
                 MOV             DX, x86.EX.CSU.%[ECB.IO.CS] + x86.EX.CS.MSKH

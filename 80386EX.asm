@@ -45,24 +45,29 @@ Font.Height     EQU               11
 %assign         ROM.Size          8 * 1024          ; In bytes
 %define         ROM.CS            UCS
 %assign         ROM.Speed         150               ; In nanoseconds
+%assign         ROM.Waits         3
 
 %assign         SRAM.Size         32 * 1024         ; In bytes
 %define         SRAM.CS           CS4
 %assign         SRAM.Speed        20                ; In nanoseconds
+%assign         SRAM.Waits        0
 
 ;%define        DRAM.Size         8 * 1024 * 1024   ; Calculated at runtime
 %define         DRAM.CS           CS2
 %assign         DRAM.Speed        60                ; In nanoseconds
 %assign         DRAM.Refresh      64                ; In milliseconds
 %assign         DRAM.Rows         1024              ; In... rows
+%assign         DRAM.Waits        2
 
 %assign         ECB.Mem.Size      512 * 1024
 %define         ECB.Mem.CS        CS3
-%define         ECB.Mem.Speed     60
+%define         ECB.Mem.Speed     20
+%define         ECB.Mem.Waits     0
 
 %assign         ECB.IO.Size       0020h
 %define         ECB.IO.CS         CS0
-%define         ECB.IO.Speed      20
+%define         ECB.IO.Speed      60
+%define         ECB.IO.Waits      3
 
 ; These are some version identifiers
 %define         Name              "80386EX"
