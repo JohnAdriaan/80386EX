@@ -21,7 +21,7 @@
 Ints.Switch:
 
 .Type.Mask      EQU             x86.Desc.Type.Present | x86.Desc.Type.Sys | x86.Desc.Type.Type
-.IdleTSS        EQU             x86.Type.Sys(.TSS, .DPL0, .386) ; Target!
+.TSS.Idle        EQU             x86.Type.Sys(.TSS, .DPL0, .386) ; Target!
 
                 STR             EAX             ; Get current TSS
                 TEST            EAX, EAX        ; Switching Tasks yet?
@@ -54,7 +54,7 @@ Ints.Switch:
 
                 MOV             AL, [EBX+x86.Desc.Mem.Type] ; Get Descriptor Type
                 AND             AL, .Type.Mask  ; Isolate interesting bits
-                CMP             AL, .IdleTSS    ; Is it an Idle TSS?
+                CMP             AL, .TSS.Idle   ; Is it an Idle TSS?
                 JNE             .Loop           ; No. Keep looking
 
                 TEST    BYTE    [EBX+x86.Desc.Mem.Gran], Demo.System.TSS

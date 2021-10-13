@@ -11,6 +11,12 @@ Ints.Video:
                 PUSH            DS        ; And these segment registers too
                 PUSH            ES
 
+                MOV             BP, Dev.SBC386EX.Lite.Out ; To measure double-buffer overhead
+
+                MOV             EDX, EBP
+                IN              AL, DX
+                XOR             AL, Dev.SBC386EX.Lite.0
+                OUT             DX, AL
 .0:
                 ; Acknowledge CRTC interrupt
                 MOV             AL, Dev.SBC386EX.VGA3.CRTC.Status
@@ -32,6 +38,11 @@ Ints.Video:
                 OUT             Dev.PIC.B.Cmd, AL   ; Acknowledge slave PIC first
                 OUT             Dev.PIC.A.Cmd, AL
 
+                MOV             EDX, EBP            ; Measurable duty cycle
+                IN              AL, DX
+                XOR             AL, Dev.SBC386EX.Lite.0
+                OUT             DX, AL
+
                 POP             ES
                 POP             DS
                 POPAD
@@ -45,3 +56,4 @@ Ints.Video:
                 XOR             ESI, ESI
                 XOR             EDI, EDI
                 REP             MOVSD
+                RET
