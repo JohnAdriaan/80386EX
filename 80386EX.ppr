@@ -55,7 +55,12 @@ HTServer=localhost
 			Dev\SBC-386EX\SDCard.inc
 			Dev\SBC-386EX\IDE.inc
 			Dev\SBC-386EX\VGA3.inc
-	+Demo
+			Dev\SBC-386EX\M386EX2.PLD
+			Dev\SBC-386EX\DRAM-X.PLD
+			Dev\SBC-386EX\DCTL16-7.PLD
+			Dev\SBC-386EX\VGA3-SEL-02.PLD
+			Dev\SBC-386EX\VGA3-ENB-04.PLD
+	-Demo
 		Demo\Demo.inc
 		Demo\Defn.inc
 		Demo\Data.inc
@@ -145,14 +150,10 @@ HTServer=localhost
 		Boot\Reset.inc
 		Boot\Sizes.inc
 [Open project files]
-0=README.md
-1=Demo\Defn.inc
+0=80386EX.asm
 [Selected Project Files]
 Main=80386EX.asm
-Selected=Demo\Defn.inc
-[README.md]
+Selected=80386EX.asm
+[80386EX.asm]
 TopLine=1
 Caret=1,1
-[Demo\Defn.inc]
-TopLine=1
-Caret=40,30

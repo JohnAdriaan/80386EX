@@ -11,7 +11,7 @@
 ; All Stacks are Expand-Down. All Expand-Down segments need to either be
 ; 16-bit (Small) or Page-Granular. Since these aren't Page-sized, they have to
 ; be Small.
-Demo.User.Stack3.Size EQU       0010h           ; Doesn't need much at all!
+Demo.User.Stack3.Size EQU       0040h           ; Doesn't need much at all!
 Demo.User.Stack0.Size EQU       0200h           ; Needs a bit more...
 
 Demo.User.LDT:

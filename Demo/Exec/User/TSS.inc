@@ -24,6 +24,7 @@ Exec.User.TSS:
 
                 MOV             EDX, [%$Pos]
 
+                MOV             AX, x86.Selector(Demo.User.LDT.Data, .LDT, .RPL3)
                 XOR             EBX,EBX ; Use relative addressing: more code efficient
 ; Note that TSS is already zeroed - no need to store zeroes again
                 MOV     WORD    [EBX + x86.TSS.CS],  x86.Selector(Demo.User.LDT.Code,   .LDT, .RPL3)
@@ -33,7 +34,8 @@ Exec.User.TSS:
                 MOV     WORD    [EBX + x86.TSS.SS],  x86.Selector(Demo.User.LDT.Stack3, .LDT, .RPL3)
 ;               MOV    DWORD    [EBX + x86.TSS.ESP], 0
                 MOV     WORD    [EBX + x86.TSS.ES],  x86.Selector(Demo.GDT.Video,       .GDT, .RPL3)
-                MOV     WORD    [EBX + x86.TSS.DS],  x86.Selector(Demo.User.LDT.Data,   .LDT, .RPL3)
+                MOV     WORD    [EBX + x86.TSS.DS],  AX
+                MOV     WORD    [EBX + x86.TSS.FS],  AX
                 MOV     WORD    [EBX + x86.TSS.EBX], Screen.Cols * 2
                 MOV             [EBX + x86.TSS.ECX], ECX
                 MOV             [EBX + x86.TSS.EDX], EDX

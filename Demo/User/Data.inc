@@ -14,3 +14,5 @@ User.Data.Top     RESB          1               ; Top Y co-ordinate
 User.Data.Width   RESB          1               ; Width of area
 User.Data.Height  RESB          1               ; Height of area
 User.Data.Row     RESD          1               ; Delta from one row to the next
+User.Data.Num     RESD          1               ; Screen position for Num
+User.Data.Turns   RESD          1               ; Number of Turns

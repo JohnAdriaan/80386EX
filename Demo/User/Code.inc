@@ -19,7 +19,7 @@
 ; CS:EIP = User.Entry
 ; SS:ESP = Stack
 ; ES     = Screen
-; DS     = User.Data
+; DS, FS = User.Data
 ; EBX    = Row pointer Delta
 ; CL     = Width
 ; CH     = Height
@@ -34,12 +34,15 @@ User.Entry:
                 CLD                             ; Work forwards
 
                 ; Note that you can safely comment out the following three lines
-                MOV             [WORD User.Data.Row],EBX
-                MOV             [WORD User.Data.Left],DX  ; Left and Top
-                MOV             [WORD User.Data.Width],CX ; Width and Height
+;               MOV             [WORD User.Data.Row],EBX
+;               MOV             [WORD User.Data.Left],DX  ; Left and Top
+;               MOV             [WORD User.Data.Width],CX ; Width and Height
+
+                XOR             EAX, EAX
+                MOV             [WORD User.Data.Turns], EAX
 
                 PUSH            ES
-                POP             DS              ; Don't need DS anymore
+                POP             DS              ; DS is more efficient to use
 
                 MOV             EBP,EBX         ; Save this away
 
@@ -62,6 +65,10 @@ User.Entry:
                 SUB             CX,0202h        ; Shrink both width and height
                 CALL            User.Frame      ; Draw frame...
                 LEA             EDI,[ESI+EBP+2] ; ...and point inside it
+                MOVZX           EAX, CL         ; Get width of Number
+                LEA             ESI, [ESI+EAX*2] ; Add to Frame start
+                MOV             [WORD FS:User.Data.Num], ESI ; Save away
+                STD                             ; Work backwards
 
 .DeltaX:        ; Calculate DeltaX
                 MOV             BL,+1           ; Set DeltaX
@@ -116,8 +123,29 @@ User.Entry:
 .Update:
                 CMP             EDI,EAX         ; After all that, did we move?
                 JE              .Increment      ; Nope! Just increment.
-                MOV     BYTE    [EAX],' '       ; Erase old ball
-                MOV     WORD    [EDI],User.Ball.CharAttr ; And write in new one
+                MOV     BYTE    [EAX], ' '      ; Erase old ball
+                MOV     WORD    [EDI], User.Ball.CharAttr ; And write in new one
+%if Demo.Window.Height > 3
+.Num:
+                PUSHAD
+                MOV             EDX, [WORD FS:User.Data.Turns]
+                MOV             CH, 0
+                MOV             EDI, [WORD FS:User.Data.Num]
+.Num.Loop:
+                MOV             AL, DL       ; Get LSB
+                AND             AL, 0Fh      ; Isolate digit
+                ADD             AL, '0'      ; Convert to ASCII Hex
+                CMP             AL, '9'
+                JBE             .Num.NotHex
+                ADD             AL, 'A'-'9'-1 ; Adjust
+.Num.NotHex:
+                STOSB                        ; Store digit
+                DEC             EDI          ; Skip attribute
+                SHR             EDX, 4       ; Get next digit
+                LOOP            .Num.Loop
+                INC     DWORD   [WORD FS:User.Data.Turns]
+                POPAD
+%endif
                 JMP             .Wait
 .Increment:
                 INC     BYTE    [EDI]           ; Increment screen position
@@ -127,11 +155,11 @@ User.Entry:
 
 ;                User.Halt                       ; So, use system-provided one
 
-                User.Yield                      ; This has a different effect
+;                User.Yield                      ; This has a different effect
 
 ; This is an alternative to using HLT
 ;                PUSH            ECX
-;                MOV             ECX,User.Delay  ; Wait for a little while
+;                MOV             ECX,Demo.User.Delay  ; Wait for a little while
 ;                LOOP            $               ; About this long...
 ;                POP             ECX
 
