@@ -1,0 +1,50 @@
+Name     VGA3-SEL-02 ;
+PartNo   041 ;
+Date     1/29/2015 ;
+Revision 02 ;
+Designer John R Coffman ;
+Company  N8VEM Users' Group ;
+Assembly VGA3-002 ;
+Location  ;
+Device   g16v8 ;
+
+/* *************** INPUT PINS *********************/
+PIN 1   = B8_B0                   ; /*                                 */ 
+PIN 2   = !MREQ                   ; /*                                 */ 
+PIN 3   = !IO_SEL                 ; /*                                 */ 
+PIN 4   = A15                     ; /*                                 */ 
+PIN 5   = !WR                     ; /*                                 */ 
+PIN 6   = A2                      ; /*                                 */ 
+PIN 7   = A1                      ; /*                                 */ 
+PIN 8   = A0                      ; /*                                 */ 
+PIN 9   = !M31                    ; /* select A24..A31                 */ 
+PIN 11  = !M23                    ; /* select A16..A23                 */ 
+
+/* *************** OUTPUT PINS *********************/
+PIN 19  = !EN_BUS_DATA            ; /*                                 */ 
+PIN 18  = !MEM_SEL                ; /*                                 */ 
+PIN 17  = !DATA_SEL               ; /*                                 */ 
+PIN 16  = !WR_ADDR_LO             ; /*                                 */ 
+PIN 15  = !WR_ADDR_HI             ; /*                                 */ 
+PIN 14  = !WR_CFG                 ; /*                                 */ 
+PIN 13  = !CS_CRTC                ; /*                                 */ 
+PIN 12  = !CS_KBD                 ; /*                                 */ 
+
+
+
+/* ******** INTERMEDIATES *********** */
+A15SEL  =  A15 & B8_B0  #  !A15 & !B8_B0	;
+MEM	=  MREQ & M31 & M23 & A15SEL		;
+
+
+/* ******** OUTPUTS ***************** */
+DATA_SEL =	IO_SEL & A2 & A1 & A0		;
+MEM_SEL	 =	MEM				;
+CS_KBD	=	IO_SEL & !A2 & !A1		;
+CS_CRTC	=	IO_SEL & !A2 &  A1		;
+WR_CFG	=	IO_SEL &  A2 & !A1 & !A0 & WR	;
+WR_ADDR_HI =	IO_SEL &  A2 & !A1 &  A0 & WR	;
+WR_ADDR_LO =	IO_SEL &  A2 &  A1 & !A0 & WR	;
+EN_BUS_DATA =	IO_SEL # MEM			;
+
+

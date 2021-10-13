@@ -1,0 +1,48 @@
+Name     DCTL16-7 ;
+PartNo   072 ;
+Date     02/18/2018 ;
+Revision 07 ;
+Designer JRCoffman ;
+Company  Coffman Consulting ;
+Assembly SBC386 ;
+Location  ;
+Device   G16V8 ;
+
+/* *************** INPUT PINS *********************/
+PIN  1  =  CLK2                   ; /* CPU double Clock                */ 
+PIN  2  = !ADS                    ; /*                                 */ 
+PIN  3  = !DRAM                   ; /* DRAM SELECT                     */ 
+PIN  4  = !READY                  ; /*                                 */ 
+PIN  5  = !RD                     ; /*                                 */ 
+PIN  6  =  DT_R                   ; /* W/!R                            */ 
+PIN  7  = !REFRESH                ; /*                                 */ 
+PIN  8  =  D_C                    ; /*                                 */
+PIN  9  =  CLKOUT                 ; /* CPU CLKOUT                      */  
+PIN 11  = !OE                     ; /* GND -- ALWAYS ENABLE            */ 
+
+/* *************** OUTPUT PINS *********************/
+PIN 19  =  Q6                     ; /*                                 */ 
+PIN 18  =  HALT                   ; /*                                 * 
+PIN 17  =                         ; /* UNUSED                          */ 
+PIN 16  =  Q5                     ; /*                                 */ 
+PIN 15  =  Q4                     ; /*                                 */ 
+PIN 14  =  RAS                    ; /*                                 */ 
+PIN 13  =  MUX                    ; /*                                 */ 
+PIN 12  =  CAS                    ; /*                                 */ 
+
+
+Q55	=	READY & !CLKOUT		; /*       */
+
+RAS.D	=	!ADS & DRAM 		& !RESET			;
+MUX.D	=	RAS			& !RESET			;
+CAS.D	=	MUX			& !RESET			;
+Q4.D	=	CAS							;
+/*Q5.D	=	READY & RAS & !Q5 & !Q6	; /* READY ends the cycle   */
+Q6.D	=	(Q55 # Q6) & !ADS	/* ADS low does the reset */		;
+
+
+
+RESET	=	Q6 # Q55 # ADS				; /* SYNCHRONOUS RESET */
+
+
+HALT	=	DT_R & !D_C				;

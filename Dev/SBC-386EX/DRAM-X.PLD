@@ -1,0 +1,48 @@
+Name     DRAM-X ;
+PartNo   052 ;
+Date     02/01/2018 ;
+Revision 01x ;
+Designer JRCoffman ;
+Company  Coffman Consulting ;
+Assembly SBC-386EX ;
+Location  ;
+Device   g16v8a ;
+
+/* *************** INPUT PINS *********************/
+PIN  1  = DT_R                    ; /* W/r out from CPU                */ 
+PIN  2  = RAS                     ; /* RAS timing signal               */ 
+PIN  3  = CAS                     ; /* CAS timing signal               */ 
+PIN  4  = !RFSH                   ; /* REFRESH# from CPU               */ 
+PIN  5  = !BLE                    ; /* Byte Low Enable BLE#            */ 
+PIN  6  = !BHE                    ; /* Byte High Enable BHE#           */ 
+PIN  7  = A1                      ; /* WORD select address             */ 
+PIN  8  = A22                     ; /* 8mb bank select                 */ 
+PIN  9  = A24                     ; /* 32mb bank select                */ 
+PIN 11  = !SZ32                   ; /* 32mb if Double Sided, else 8mb  */ 
+PIN 19  = DSIDE                   ; /* Double Sided SIMM               */ 
+
+/* *************** OUTPUT PINS *********************/
+PIN 12  = !WE                     ; /* Write Enable                    */ 
+PIN 13  = !CAS20                  ; /* ~CAS0 and ~CAS2  low byte       */ 
+PIN 14  = !RAS1                   ; /* DS low word ~RAS                */ 
+PIN 15  = !RAS0                   ; /* SS low word ~RAS                */ 
+PIN 16  = !RAS2                   ; /* SS high word ~RAS               */ 
+PIN 17  = !RAS3                   ; /* DS high word ~RAS               */ 
+PIN 18  = !CAS31                  ; /* ~CAS1 and ~CAS3  high byte      */ 
+
+
+WR	=	 DT_R			; /* Write mode */
+RD	=	!DT_R			; /* Read mode  */
+
+DDRAS	=	DSIDE & (SZ32 & A24   #   !SZ32 & A22)		; /* Back Side enable */
+
+WE	=	 WR & !RFSH		 			; /* DRAM write enable */
+RAS0	=	!A1 & !DDRAS & !RFSH & RAS   #   RFSH & CAS	; /* low word, SS */
+RAS2	=	 A1 & !DDRAS & !RFSH & RAS   #   RFSH & CAS	; /* high word, SS */
+RAS1	=	!A1 &  DDRAS & !RFSH & RAS   #   RFSH & CAS 	; /* low word, DS */
+RAS3	=	 A1 &  DDRAS & !RFSH & RAS   #   RFSH & CAS	; /* high word DS */
+CAS20	=	 BLE & !RFSH & CAS     #   RFSH & RAS	; /* low bytes */
+CAS31	=	 BHE & !RFSH & CAS     #   RFSH & RAS	; /* high bytes */
+
+
+

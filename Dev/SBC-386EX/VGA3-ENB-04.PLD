@@ -1,0 +1,56 @@
+Name     VGA3-ENB-04 ;
+PartNo   042 ;
+Date     5/7/2017 ;
+Revision 04 ;
+Designer John R Coffman ;
+Company  N8VEM Users' Group ;
+Assembly VGA3-002 ;
+Location  ;
+Device   g16v8 ;
+
+/* *************** INPUT PINS *********************/
+PIN 1   = FONT512                 ; /*                                 */ 
+PIN 2   = FONT00                  ; /*                                 */ 
+PIN 3   = AMEM7_OUT               ; /*                                 */ 
+PIN 4   = !DATA_SEL               ; /*                                 */ 
+PIN 5   = !MEM_SEL                ; /*                                 */ 
+PIN 6   = !WR                     ; /*                                 */ 
+PIN 7   = !RD                     ; /*                                 */ 
+PIN 8   = CHARCLK                 ; /*                                 */ 
+PIN 9   = DISPTMG                 ; /*                                 */ 
+PIN 11  = CUR_INT                 ; /*                                 */ 
+
+
+/* *************** OUTPUT PINS *********************/
+PIN 19  = FONT0                   ; /*                                 */ 
+PIN 18  = AL7_IN                  ; /*                                 */ 
+PIN 17  = !EN_MEM_DATA            ; /*                                 */ 
+PIN 16  = !OE                     ; /*                                 */ 
+PIN 15  = !WE                     ; /*                                 */ 
+PIN 14  = !EN_VADDR               ; /*                                 */ 
+PIN 13  = VSYN                    ; /*    */ 
+PIN 12  = !CS_MEM                 ; /*                                 */ 
+
+
+
+/* ******** INTERMEDIATES *********** */
+VGA	=  !FONT512			;
+SELECT	=  MEM_SEL # DATA_SEL		;
+
+
+/* ******** OUTPUTS ***************** */
+FONT0	=	FONT00 & VGA
+	  #	FONT512 & (FONT00 $ AMEM7_OUT)		;  /* $ == XOR */
+AL7_IN	=	VGA & AMEM7_OUT				; /* 04 correct omission */
+EN_VADDR =	!MEM_SEL & !DATA_SEL		;  /*  !SELECT  */
+OE	=	!SELECT & CHARCLK
+	  #	SELECT & (RD # !WR)			; /* 02 */
+/*	  #	SELECT &  RD       			; /* 03 */
+XWRITE	=	SELECT & WR				;
+WE	=	!OE & !EN_VADDR & WR			; /* 02 */
+/*WE	=	      !EN_VADDR & WR			; /* 03 */
+EN_MEM_DATA	=	SELECT				;
+/*CS_MEM	=	SELECT # CHARCLK		; /* 02 */
+CS_MEM	=	!EN_VADDR # CHARCLK			; /* 03 */
+VSYN	=	!DISPTMG & CUR_INT			;
+

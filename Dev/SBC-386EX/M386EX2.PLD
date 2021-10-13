@@ -1,0 +1,53 @@
+Name     M386EX2 ;
+PartNo   49 ;
+Date     1/16/2018 ;
+Revision 02 ;
+Designer JRCoffman ;
+Company  Coffman Consulting ;
+Assembly SBC386EX-2 ;
+Location  ;
+Device   G16V8 ;
+
+/* *************** INPUT PINS *********************/
+PIN  18 = A1                      ; /*  UNUSED                         */ 
+PIN  19 = !CS0                    ; /* XIO -- EXTERNAL I/O             */ 
+PIN   1 = !CS1                    ; /* LIO -- LOCAL I/O                */ 
+PIN   2 = !CS2                    ; /* DRAM SELECT (NEEDS QUALIFICATION)  */ 
+PIN   3 = !CS3                    ; /* XMEM -- EXTERNAL MEMORY         */ 
+PIN   4 = !CS4                    ; /* SRAM SELECT                     */ 
+PIN   5 = !UCS                    ; /* ROM SELECT                      */ 
+PIN   6 = !DACK1                  ; /* IDE PORTS ARE ONLY LOCAL I/O    */ 
+PIN   7 = A2                      ; /*  UNUSED                         */ 
+PIN   8 = A3                      ; /*                                 */ 
+PIN   9 = !WR                     ; /*                                 */ 
+PIN  11 = !RD                     ; /*                                 */ 
+
+/* *************** OUTPUT PINS *********************/
+PIN  12 = !IDE_WR                 ; /*                                 */ 
+PIN  13 = !IDE_RD                 ; /*                                 */ 
+PIN  14 = !DRAM                   ; /* DRAM CYCLE ENABLE               */ 
+PIN  15 = !DATA_EN                ; /* ACCES TO ECB BUS                */ 
+PIN  16 = !IDE_CS0                ; /* IDE CS0 SELECT                  */ 
+PIN  17 = !IDE_CS1                ; /* IDE CS1 SELECT                  */ 
+
+
+XIO		=	CS0			; /* SINGLE TERM -- 8-BIT     */
+XMEM		=	CS3			; /* SINGLE TERM -- 8-BIT     */
+ROM		=	UCS			; /* SINGLE TERM -- 16-BIT / 8-BIT */
+/*BS8		=	ROM			; /* SINGLE TERM, HENCE NOT NEEDED ON A PIN */
+LIO		=	CS1			; /* LOCAL I/O -- IDE */
+SRAM		=	CS4			; /* STATIC RAM, IF PRESENT */
+/*XMEM2		=	CS5			; /* POSSIBLE SECOND XMEM HOLE, IF ENABLED */
+
+DATA_EN	=	XIO # XMEM		; /* ENABLE DATA ACCESS TO ECB BUS */
+DRAM		=	CS2 & !ROM & !XMEM & !SRAM     ; /* DRAM CYCLES SUPPRESSED IN SEVERAL AREAS */
+IDE_CS0	=	LIO & !A3		; /*  $1F0..1F7		*/
+IDE_CS1	=	LIO &  A3 & A2 & A1	; /*  $1FE..1FF		*/
+IDE_RD		=	DACK1 & WR   #   !DACK1 & RD		; /* DMA FLY-BY ENABLED */
+IDE_WR		=	DACK1 & RD   #   !DACK1 & WR		; /* DMA FLY-BY ENABLED */
+
+
+
+
+
+
