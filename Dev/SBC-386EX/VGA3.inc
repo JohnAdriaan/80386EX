@@ -94,4 +94,9 @@ Dev.SBC386EX.VGA3.CRTC.Control.1.IB  EQU   0010_0000b ; Interrupt on Blank
 Dev.SBC386EX.VGA3.CRTC.Control.1.IL  EQU   0001_0000b ; Interrupt on LightPen
 Dev.SBC386EX.VGA3.CRTC.Control.1.Sy  EQU   0000_1000b ; Vertical Sync Adjust
 
+Dev.SBC386EX.VGA3.CRTC.Status.AI     EQU   1000_0000b ; Address Inhibit
+Dev.SBC386EX.VGA3.CRTC.Status.E      EQU   0000_0100b ; Even field
+Dev.SBC386EX.VGA3.CRTC.Status.SB     EQU   0000_0010b ; Status Blanking
+Dev.SBC386EX.VGA3.CRTC.Status.SL     EQU   0000_0001b ; Status Lightpen
+
 %define        Dev.SBC386EX.VGA3.CRTC.Value(a, v) (((v) << x86.WORD.Hi) | Dev.SBC386EX.VGA3.CRTC %+ a)
