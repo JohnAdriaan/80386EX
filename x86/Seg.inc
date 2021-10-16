@@ -6,7 +6,9 @@
 
 x86.Seg.Index   EQU            1111_1111_1111_1000b  ; Index into Table
 x86.Seg.TI      EQU            0000_0000_0000_0100b  ; Table Indicator (GDT/LDT)
+x86.Seg.CPL     EQU            0000_0000_0000_0011b  ; Current Privilege Level (CS)
 x86.Seg.RPL     EQU            0000_0000_0000_0011b  ; Requested Privilege Level
+
 x86.Seg.IDT     EQU            0000_0000_0000_0010b  ; IDT bit in Error code
 x86.Seg.Ext     EQU            0000_0000_0000_0001b  ; Ext bit in Error code
 
