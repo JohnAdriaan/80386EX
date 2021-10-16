@@ -9,9 +9,6 @@
 
                 USE32
 
-Boot.Exit:
-                MOV             EBP, [SRAM.Start + DRAM.Limit]
-                JMP             Demo.Entry
 Boot.Fatal.Hex:
                 CALL            Hex
 Boot.Fatal:
@@ -22,6 +19,3 @@ Boot.Fatal:
             A16 LOOP            $
                 XOR             AL, Dev.SBC386EX.Lite.Mask
                 JMP             .Loop
-
-;-------------------------------------------------------------------------------
-                HLT

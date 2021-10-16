@@ -10,4 +10,3 @@
 Boot.IDE:
                 MOV             EBX, `IDE\r`
                 CALL            Hex
-                JMP             Boot.Exit

@@ -72,6 +72,10 @@ Boot.Code.Entry:                        ; Reset JMP point
 ;-------------------------------------------------------------------------------
 %include        "Boot/SDCard.inc"       ; Init SDCard
 ;-------------------------------------------------------------------------------
+Boot.Exit:
+                MOV             EBP, [SRAM.Start + DRAM.Limit] ; Tell Executive RAM limit
+                JMP             Demo.Boot
+;-------------------------------------------------------------------------------
 %include        "Boot/Hex.inc"          ; Hex out the serial port
 ;-------------------------------------------------------------------------------
 %include        "Boot/Fatal.inc"        ; Fatal routine

@@ -17,4 +17,3 @@ Boot.Real.Keyboard:
 Boot.Prot.Keyboard:
                 MOV             EBX, `KBD\r`
                 CALL            Hex
-                JMP             Boot.Exit

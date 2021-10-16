@@ -20,4 +20,3 @@ RTC.Data        RESB            RTC.Data.Len
 Boot.RTC:
                 MOV             EBX, `RTC\r`
                 CALL            Hex
-                JMP             Boot.Exit

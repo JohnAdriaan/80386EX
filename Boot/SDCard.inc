@@ -10,4 +10,3 @@
 Boot.SDCard:
                 MOV             EBX, `SD\r\n`
                 CALL            Hex
-                JMP             Boot.Exit
