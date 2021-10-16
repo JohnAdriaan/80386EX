@@ -32,16 +32,15 @@ Exec.Init:
                 MOV             AX, x86.Selector(Demo.GDT.Data, .GDT, .RPL0)
                 MOV             DS, AX           ; Try to keep this here
 
-                MOV    DWORD    [Data.RAM], Demo.First
-
-                MOV             ECX, Screen.Rows * Screen.Cols * 2 ; Size of video buffer
-                SUB             EBP, ECX         ; Remove from (passed in) top of RAM
-                MOV             [Data.RAMTop], EBP ; Save away new top of RAM
+                MOV    DWORD    [WORD Data.RAM], Demo.First
+                INC             EBP                     ; Convert Limit to Size
+                MOV             [WORD Data.RAMTop], EBP ; Save away new top of RAM
 
                 MOV     BYTE    [Data.Key.Shifts], 0
 
                 ; First, allocate Video double-buffer
-                MOV             EAX, EBP          ; Start of video buffer
+                MOV             EAX, (SRAM.Start + SRAM.Size - Screen.Size) & ~x86.PAGE.Mask
+                MOV             ECX, Screen.Size
                 MOV             DL, x86.Type.Mem(.Data, .DPL3, .RW) ; Allow anyone to access it
                 MOV             DH, x86.Gran.Mem(.Byte, .Small)
                 CALL            Exec.Alloc.GDT.Mem
