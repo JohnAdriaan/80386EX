@@ -36,7 +36,9 @@ Exec.Init:
                 INC             EBP                     ; Convert Limit to Size
                 MOV             [WORD Data.RAMTop], EBP ; Save away new top of RAM
 
-                MOV     BYTE    [Data.Key.Shifts], 0
+                XOR             EAX, EAX
+                MOV             [WORD Data.Ticks], EAX
+                MOV     BYTE    [WORD Data.Key.Shifts], 0
 
                 ; First, allocate Video double-buffer
                 MOV             EAX, (SRAM.Start + SRAM.Size - Screen.Size) & ~x86.PAGE.Mask
