@@ -87,12 +87,13 @@ Boot.Prot.DRAM:
                 XOR             EDX, EDX
 .Next:
                 ADD             EDI, SRAM.Size
-                CMP             EDI, ECB.Mem.Start
+;               CMP             EDI, ECB.Mem.Start
+                CMP             EDI, x86.EX.Addr.Size / 2 ; Maximum CS resolution?
                 JB              .Loop
 
 ; Because of DRAM wrap-around, [DRAM.Start] (kind of) holds the inverse of the DRAM size
                 MOV             EDX, [DRAM.Start]
-                OR              EDX, x86.EX.Addr.Size     ; Set maximum value
+                OR              EDX, x86.EX.Addr.Size / 2 ; Set maximum value
                 MOV             EAX, EDX                  ; Get copy
                 NOT             EDX                       ; NOT one
                 DEC             EAX                       ; DEC the other
