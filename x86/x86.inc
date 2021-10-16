@@ -33,9 +33,11 @@ x86.QWORD.Hi.8  EQU        32 + 16 + 8
 
 x86.PARA.Size   EQU        16
 x86.PARA.Bits   EQU       (x86.PARA.Size * x86.BYTE.Bits)
+x86.PARA.Mask   EQU        x86.PARA.Size - 1
 
 x86.PAGE.Shift  EQU        12
 x86.PAGE.Size   EQU       (0001h << x86.PAGE.Shift)
+x86.PAGE.Mask   EQU        x86.PAGE.Size - 1
 
 x86.Reset       EQU        0_FFF0h
 
@@ -48,8 +50,7 @@ Align.Para      EQU        x86.PARA.Size
 Mask.Byte       EQU        x86.BYTE.Mask
 Mask.Word       EQU        x86.WORD.Mask
 Mask.DWord      EQU        x86.DWORD.Mask
-
-Mask.Para       EQU        x86.PARA.Size - 1
+Mask.Para       EQU        x86.PARA.Mask
 
                 SEGMENT                 IO   VSTART=0   NOBITS
 
