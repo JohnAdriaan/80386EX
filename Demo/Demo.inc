@@ -2,6 +2,8 @@
 ; Demo.inc
 ;
 
+;%define USE_SRAM
+
                 SEGMENT         Demo
 
 Demo.IDT.Base   EQU             0000_0000h
@@ -13,15 +15,27 @@ Demo.Exec.Stack.Top  EQU        Demo.Exec.Stack.Base + Demo.Exec.Stack.Size
 Demo.First      EQU             Demo.Exec.Stack.Top ; First unallocated RAM
 
 Screen.Base     EQU             03F0_0000h
-Screen.Cols     EQU             90
-Screen.Rows     EQU             43
+Screen.Cols     EQU             Screen.Width
+Screen.Rows     EQU             Screen.Height   
 
 %include        "Demo/Defn.inc"         ; Definitions for various parameters
 ;-------------------------------------------------------------------------------
+                SEGMENT         Demo.Boot
+
+%include        "Demo/Boot.inc"         ; Move to final positions
+;-------------------------------------------------------------------------------
+                SEGMENT         Demo.Data   NOBITS
+
 %include        "Demo/Data.inc"         ; Global Data Segment
 ;-------------------------------------------------------------------------------
+                SEGMENT         Demo.IDT
+
+                SEGMENT         Demo.Ints
+
 %include        "Demo/Ints/Ints.inc"    ; Interrupt handlers
 ;-------------------------------------------------------------------------------
+                SEGMENT         Demo.User
+
 %include        "Demo/User/User.inc"    ; User Mode program
 ;-------------------------------------------------------------------------------
                 SEGMENT         Demo.Exec

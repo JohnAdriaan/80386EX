@@ -18,8 +18,6 @@ Demo.Exec.Stack.Size  EQU       x86.PAGE.Size    ; Don't need much
 ; Be careful with addresses!
 Demo.Entry      EQU             section.Demo.Exec.start
 ;-------------------------------------------------------------------------------
-%include        "Demo/Exec/Boot.inc"         ; Move to final positions
-;-------------------------------------------------------------------------------
 %include        "Demo/Exec/Entry.inc"        ; Entry point in Executive's LDT
 ;-------------------------------------------------------------------------------
 %include        "Demo/Exec/Init.inc"         ; Initialise rest of Protected Mode

@@ -6,7 +6,7 @@
 ; changing them. Some expect to be changed (these first few), while others
 ; will have far-reaching impacts.
 
-                SEGMENT         Demo
+                SEGMENT         Demo.Boot
 
                 DB              Version.Author, "'s"
                 ALIGN           Align.Para, DB ' '
@@ -17,9 +17,9 @@
 ;                DB              ' ', Version.Copyright
 ;                ALIGN           Align.Para, DB ' '
 
-%substr         Demo.Date       __?DATE?__ 3,-1
-                DB              Demo.Date
-                DB              __?TIME?__
+;%substr         Demo.Date       __?DATE?__ 3,-1
+;                DB              Demo.Date
+;                DB              __?TIME?__
 
 ; Change these to (almost) whatever you'd like. If you're too extreme, you'll
 ; get assemble-time errors. Others you won't know until you try...
@@ -28,8 +28,8 @@
 ; However, on real hardware there isn't that sort of control. Go on, set the
 ; Timer to 1,000,000 times a second - I dare you!
 Demo.Timer.Tick      EQU        1000    ; Number of Timer Interrupts a second
-Demo.Window.Width    EQU        6       ; Width of each Task's Window
-Demo.Window.Height   EQU        5       ; Height of each Task's Window
+Demo.Window.Width    EQU        1;6       ; Width of each Task's Window
+Demo.Window.Height   EQU        1;5       ; Height of each Task's Window
 
 Demo.User.Ball         EQU      1       ; Try 3: it is an OEM 'Heart' symbol
 Demo.User.Ball.Colour  EQU      Dev.VGA.BlueBack  | Dev.VGA.Gray
