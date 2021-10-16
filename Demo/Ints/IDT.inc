@@ -7,8 +7,11 @@
 ; Note that only the first 32 Intel-reserved interrupts, and the 16 Interrupt
 ; ReQuest IRQs, are set up. Although sufficient memory has been allocated for
 ; all 256 interrupts, the IDT is only initialised with these first 48.
+; Well, OK: 49. The last one points to an IRET, so that any `INT` instruction
+; will immmediately return. The copy code duplicates that entry through the
+; rest of the IDT.
 ;
-; EDIT: I decided to add two more, to be called from User mode:
+; EDIT: I decided to add two more, callable from User mode:
 ; * INT 48 is a User-mode HLT replacement;
 ; * INT 49 is a Yield call - go to next Task.
 

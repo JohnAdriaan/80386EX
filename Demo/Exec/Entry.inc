@@ -9,6 +9,7 @@
 ; Made it! We're booted in Protected Mode! (You can un-cross your fingers now...)
 ; Before we can do anything else though, we need to set up a Protected Mode stack
 Demo.Exec.Entry:
+
                 ; Point to Stack
                 MOV             AX,  x86.Selector(Demo.Exec.LDT.Stack, .LDT, .RPL0)
                 MOV             SS,  AX
@@ -37,4 +38,22 @@ Demo.Exec.Entry:
                 CALL            Exec.Video
 
                 ; Everything's ready! We can start to create User-mode Programs
-                JMP             Exec.User
+                CALL            Exec.User
+.Idle:
+                User.Yield
+                JMP             .Idle
+
+%if 0
+.Forever:
+                MOV             DX, Dev.UART.COM1 + Dev.UART.LSR
+.Full:
+                IN              AL, DX
+                TEST            AL, Dev.UART.LSR.TBE
+                JZ              .Full
+
+                MOV             AL, 42
+                MOV             DX, Dev.UART.COM1 + Dev.UART.Data
+                OUT             DX, AL
+                JMP             .Forever
+%endif
+

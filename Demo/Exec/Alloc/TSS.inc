@@ -49,7 +49,7 @@ Demo.Exec.TSS.EFlags EQU        x86.EFlags.IF | x86.EFlags.1 ; | x86.EFlags.TF ;
                 XOR             EDI, EDI          ; Zero everything
                 CALL            Exec.Alloc.RAM.Zero
 
-                MOV             AX,  [%$LDT]
+                MOV             EAX, [%$LDT]
                 MOV             ECX, [%$Size]
                 MOV             [ES:WORD x86.TSS.LDT],    AX
                 MOV             [ES:WORD x86.TSS.IOMap],  CX
@@ -80,6 +80,6 @@ Exec.Alloc.TSS.Enable:
                 POP             ES
 
                 MOV             [ES:EBX + x86.Desc.Type],     BYTE x86.Type.Sys(.TSS, .DPL0, .386)
-                OR              [ES:EBX + x86.Desc.Mem.Gran], AH ; OR in Demo.System.TSS
+                OR              [ES:EBX + x86.Desc.Mem.Gran], AH ; OR in Demo.System.TSS?
 
                 RET

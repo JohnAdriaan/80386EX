@@ -28,8 +28,8 @@
 Exec.Alloc.RAM:
                 MOV             EAX, [Data.RAM]    ; Get current high-water mark
 
-                LEA             EDX, [EAX+ECX+0Fh] ; Get Top, rounded to paragraph
-                AND             EDX, ~0Fh          ; Well, it is now!
+                LEA             EDX, [EAX+ECX+x86.PARA.Size-1] ; Get Top, rounded to paragraph
+                AND             EDX, ~x86.PARA.Mask            ; Well, it is now!
                 CMP             EDX, [Data.RAMTop] ; Too far?
                 JBE             .Save              ; Not yet...
 

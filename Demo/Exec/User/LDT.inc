@@ -52,8 +52,8 @@ Exec.User.LDT:
                 JNE             .Failed
 
                 ; Allocate Code
-                MOV             EAX, Demo.User.Base           ; Assembled User code
-                MOV             CX,  Demo.User.Size
+                MOV             EAX, Demo.User.Base     ; Assembled User code
+                MOV             CX,  Demo.User.Limit+1
                 MOV             DL,  x86.Type.Mem(.Code, .DPL3, .RNoW) & ~Demo.System.Present
                 MOV             DH,  x86.Gran.Mem(.Byte, .Def32)
                 CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry

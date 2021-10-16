@@ -37,10 +37,10 @@ Demo.GDT.Data.Limit  EQU        Demo.Data.Limit
 Demo.GDT.Data.Type   EQU        x86.Type.Mem(.Data, .DPL0, .RW)
 Demo.GDT.Data.Gran   EQU        x86.Gran.Mem(.Byte, .Big)
 
-Demo.GDT.Screen.Base  EQU        Screen.Base
-Demo.GDT.Screen.Limit EQU        Screen.Rows * Screen.Cols * 2 - 1
-Demo.GDT.Screen.Type  EQU        x86.Type.Mem(.Data, .DPL0, .RW)
-Demo.GDT.Screen.Gran  EQU        x86.Gran.Mem(.Byte, .Small)
+Demo.GDT.Screen.Base  EQU       Screen.Base
+Demo.GDT.Screen.Limit EQU       Screen.Rows * Screen.Cols * 2 - 1
+Demo.GDT.Screen.Type  EQU       x86.Type.Mem(.Data, .DPL0, .RW)
+Demo.GDT.Screen.Gran  EQU       x86.Gran.Mem(.Byte, .Small)
 
 Demo.GDT.Ints.Base   EQU        Demo.Ints.Base
 Demo.GDT.Ints.Limit  EQU        Demo.Ints.Limit

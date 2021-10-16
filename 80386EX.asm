@@ -37,6 +37,8 @@
 
 Screen.Width    EQU               90
 Screen.Height   EQU               43                ; 25 / 30 / 43 / 50 / 63 (not all tested)
+Screen.Size     EQU               Screen.Width * Screen.Height * 2
+
 Font.Height     EQU               11                ; 16 / 16 / 11 /  8 /  8
 
 ; These are the hardware-assigned sizes and clocks for the SBC386EX board
@@ -92,11 +94,11 @@ Font.Height     EQU               11                ; 16 / 16 / 11 /  8 /  8
 ; whether the assembler understands what you thought you told it...
                 [map all 80386EX.map]
 
-%assign         Image.Size      0     ; Starting size. See Sizes.inc below
-
 %assign         Demo.Size       0     ; Size of Demo part. See */Sizes.inc below
 
-%assign         Boot.Size       0     ; Size of Boot part. See Sizes.inc below
+%assign         Boot.Size       0     ; Size of Boot part. See /*Sizes.inc below
+
+%assign         Image.Size      0     ; Whole Image size. See */Sizes.inc below
 
 ;===============================================================================
                 ORG             ROM.ORG

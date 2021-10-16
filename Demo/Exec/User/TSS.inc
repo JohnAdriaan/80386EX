@@ -22,9 +22,9 @@ Exec.User.TSS:
                 MOV             CL, Demo.Window.Width
                 MOV             CH, Demo.Window.Height
 
+                MOV             AX, x86.Selector(Demo.User.LDT.Data, .LDT, .RPL3)
                 MOV             EDX, [%$Pos]
 
-                MOV             AX, x86.Selector(Demo.User.LDT.Data, .LDT, .RPL3)
                 XOR             EBX,EBX ; Use relative addressing: more code efficient
 ; Note that TSS is already zeroed - no need to store zeroes again
                 MOV     WORD    [EBX + x86.TSS.CS],  x86.Selector(Demo.User.LDT.Code,   .LDT, .RPL3)
