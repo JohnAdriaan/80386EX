@@ -26,7 +26,7 @@
 %include        "Demo/Exec/User/TSS.inc" ; Creates one TSS for a User-mode Program
 
 Exec.User.Top   EQU             1
-Exec.User.Left  EQU             0
+Exec.User.Left  EQU             (Screen.Width % Demo.Window.Width) / 2
 
 Exec.User:
                 ENTER           8, 0
@@ -37,6 +37,12 @@ Exec.User:
 
 .Loop:
                 MOV             [%$Pos], EDX    ; Store away new position
+                CALL            .Mem
+                MOV             AL, ' '
+                STOSW
+                MOV             EDX, [WORD Data.Ticks]
+                CALL            .Hex
+                CLD
 
                 ; Create a new User LDT
                 CALL            Exec.User.LDT
@@ -44,7 +50,7 @@ Exec.User:
                 JZ              .Finished
 
                 ; Create a TSS to run that User Task
-                ; Note that this function wants the TSS in AX. Oh, look!
+                ; Note that this function wants the LDT in AX. Oh, look!
                 CALL            Exec.User.TSS
                 TEST            EAX, EAX
                 JZ              .Finished
@@ -60,9 +66,33 @@ Exec.User:
                 JBE             .Loop                    ; Not yet...
 
 .Finished:
-                User.Yield                ; I'd love to de-schedule me, but...
-;                HLT
-; Wait for <Ctrl><Alt><Del>
-                JMP             .Finished
-
+                LEAVE
+                RET
 %pop
+
+.Mem:
+                STD                          ; Work backwards
+                MOV             AH, Dev.VGA.RedBack | Dev.VGA.White
+                MOV             DX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+                MOV             EDI, (Screen.Width - 1) * 2
+                MOV             ES, DX
+
+                MOV             EDX, [WORD Data.RAMTop]
+                CALL            .Hex
+                MOV             AL,  '/'
+                STOSW
+                MOV             EDX, [WORD Data.RAM]
+.Hex:
+                MOV             ECX, x86.DWORD.Size * 2
+.Hex.Loop:
+                MOV             AL, DL
+                AND             AL, 0Fh
+                ADD             AL, '0'
+                CMP             AL, '9'
+                JBE             .Hex.Not
+                ADD             AL, 'A' - '9' - 1
+.Hex.Not:
+                STOSW
+                SHR             EDX, 4
+                LOOP            .Hex.Loop
+                RET
