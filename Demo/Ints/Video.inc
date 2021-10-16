@@ -11,6 +11,12 @@ Ints.Video:
                 PUSH            DS        ; And these segment registers too
                 PUSH            ES
 
+                ; This is going to take a LONG time, so acknowledge and re-enable interrupts
+                MOV             AL, Dev.PIC.Cmd.EOI ; Acknowledge interrupt in PIC
+                OUT             Dev.PIC.B.Cmd, AL   ; Acknowledge slave PIC first
+                OUT             Dev.PIC.A.Cmd, AL
+                STI
+
                 MOV             BP, Dev.SBC386EX.Lite.Out ; To measure double-buffer overhead
 
                 MOV             EDX, EBP
@@ -33,10 +39,6 @@ Ints.Video:
 
                 CALL            .Copy
 .1:
-
-                MOV             AL, Dev.PIC.Cmd.EOI ; Acknowledge interrupt in PIC
-                OUT             Dev.PIC.B.Cmd, AL   ; Acknowledge slave PIC first
-                OUT             Dev.PIC.A.Cmd, AL
 
                 MOV             EDX, EBP            ; Measurable duty cycle
                 IN              AL, DX
