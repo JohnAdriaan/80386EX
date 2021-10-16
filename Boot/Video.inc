@@ -75,12 +75,12 @@ Boot.Real.Video:
 %endif
 .H.Total        EQU             .H.Displayed + .H.Porch.Front + .H.Sync.Width + .H.Porch.Back
 
-%if .V.Displayed == 25   ; (25 + 0 + 3) * 16 + 1 = 449 lines
+%if .V.Displayed == 25   ; (25 + 0 + 3) * 16 + 2 = 450 lines
 .V.Porch.Front  EQU             0    ; Rows
 .V.Sync.Adjust  EQU             12   ; Rasters (not counted)
 .V.Sync.Width   EQU             2    ; Rasters (not counted)
 .V.Porch.Back   EQU             3    ; Rows
-.V.Total.Adjust EQU             1    ; Rasters
+.V.Total.Adjust EQU             2    ; Rasters
 %elif .V.Displayed == 30 ; (30 + 0 + 2) * 16 + 13 = 525 lines
 .V.Porch.Front  EQU             0    ; Rows
 .V.Sync.Adjust  EQU             10   ; Rasters (not counted)
@@ -93,15 +93,21 @@ Boot.Real.Video:
 .V.Sync.Width   EQU             2    ; Rasters (not counted)
 .V.Porch.Back   EQU             3    ; Rows
 .V.Total.Adjust EQU             8    ; Rasters
-%elif .V.Displayed == 50 ; (50 + 1 + 4) * 8 + 9 = 449 lines
+%elif .V.Displayed == 50 ; (50 + 1 + 5) * 8 + 2 = 450 lines
 .V.Porch.Front  EQU             1    ; Rows
-.V.Sync.Adjust  EQU             12   ; Rasters (not counted)
+.V.Sync.Adjust  EQU             2    ; Rasters (not counted)
 .V.Sync.Width   EQU             2    ; Rasters (not counted)
-.V.Porch.Back   EQU             4    ; Rows
-.V.Total.Adjust EQU             9    ; Rasters
+.V.Porch.Back   EQU             5    ; Rows
+.V.Total.Adjust EQU             2    ; Rasters
+%elif .V.Displayed == 60 ; (60 + 0 + 5) * 8 + 5 = 525 lines ; More blanking time!
+.V.Porch.Front  EQU             0    ; Rows
+.V.Sync.Adjust  EQU             1    ; Rasters (not counted)
+.V.Sync.Width   EQU             1    ; Rasters (not counted)
+.V.Porch.Back   EQU             5    ; Rows
+.V.Total.Adjust EQU             5    ; Rasters
 %elif .V.Displayed == 63 ; (63 + 0 + 2) * 8 + 5 = 525 lines
 .V.Porch.Front  EQU             0    ; Rows
-.V.Sync.Adjust  EQU             10   ; Rasters (not counted)
+.V.Sync.Adjust  EQU             2    ; Rasters (not counted)
 .V.Sync.Width   EQU             2    ; Rasters (not counted)
 .V.Porch.Back   EQU             2    ; Rows
 .V.Total.Adjust EQU             5    ; Rasters

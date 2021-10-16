@@ -34,6 +34,7 @@ Exec.Init:
 
                 MOV    DWORD    [WORD Data.RAM], Demo.First
                 INC             EBP                     ; Convert Limit to Size
+;               SUB             EBP, ((Screen.Size + x86.PAGE.Size - 1) & ~x86.PAGE.Mask) - 1
                 MOV             [WORD Data.RAMTop], EBP ; Save away new top of RAM
 
                 XOR             EAX, EAX
@@ -42,6 +43,7 @@ Exec.Init:
 
                 ; First, allocate Video double-buffer
                 MOV             EAX, (SRAM.Start + SRAM.Size - Screen.Size) & ~x86.PAGE.Mask
+;               MOV             EAX, EBP
                 MOV             ECX, Screen.Size
                 MOV             DL, x86.Type.Mem(.Data, .DPL3, .RW) ; Allow anyone to access it
                 MOV             DH, x86.Gran.Mem(.Byte, .Small)

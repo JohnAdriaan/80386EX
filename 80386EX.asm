@@ -36,10 +36,10 @@
 %define         Boot.Protocol     Dev.UART.Word8 | Dev.UART.ParityNone | Dev.UART.Stop1
 
 Screen.Width    EQU               90
-Screen.Height   EQU               43                ; 25 / 30 / 43 / 50 / 63 (not all tested)
+Screen.Height   EQU               50                ; 25 / 30 / 43 / 50 / 60 / 63 (not all tested)
 Screen.Size     EQU               Screen.Width * Screen.Height * 2
 
-Font.Height     EQU               11                ; 16 / 16 / 11 /  8 /  8
+Font.Height     EQU               8                ; 16 / 16 / 11 /  8 /  8
 
 ; These are the hardware-assigned sizes and clocks for the SBC386EX board
 %assign         CPU.CLK2          32_000_000        ; In Hertz
