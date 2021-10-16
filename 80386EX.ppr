@@ -63,6 +63,7 @@ HTServer=localhost
 	-Demo
 		Demo\Demo.inc
 		Demo\Defn.inc
+		Demo\Boot.inc
 		Demo\Data.inc
 		-Demo\Ints
 			Demo\Ints\Ints.inc
@@ -91,7 +92,6 @@ HTServer=localhost
 			Demo\User\Frame.inc
 		-Demo\Exec
 			Demo\Exec\Exec.inc
-			Demo\Exec\Boot.inc
 			Demo\Exec\Entry.inc
 			Demo\Exec\Init.inc
 			-Demo\Exec\Ints
@@ -155,5 +155,5 @@ HTServer=localhost
 Main=80386EX.asm
 Selected=80386EX.asm
 [80386EX.asm]
-TopLine=2
-Caret=1,4
+TopLine=1
+Caret=1,1
