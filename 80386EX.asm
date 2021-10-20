@@ -119,8 +119,8 @@ Font.Height     EQU               8                ; 16 / 16 / 11 /  8 /  8
 
 %include        "Demo/Sizes.inc"
 ;===============================================================================
-                SEGMENT         EEPROM
-%include        "EEPROM.inc"    ; Padding for unused EEPROM
+                SEGMENT         EPROM
+%include        "EPROM.inc"     ; Padding for unused EPROM
 ;===============================================================================
                 USE16           ; Boot in 16-bit Real Mode
 

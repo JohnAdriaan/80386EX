@@ -63,15 +63,15 @@ Boot.Reset.Size EQU             $ - $$
 %assign         Boot.Size       Boot.Size + Boot.Reset.Size
 
 ;-------------------------------------------------------------------------------
-; Fill EEPROM Segment with 0FFh.
+; Fill EPROM Segment with 0FFh.
 ; Note that this declaration needs to be the last PROGBITS segment
-                SEGMENT         EEPROM  ALIGN=Align.Byte
+                SEGMENT         EPROM  ALIGN=Align.Byte
 
-EEPROM.Pad      EQU             ROM.Size - Image.Size
+EPROM.Pad       EQU             ROM.Size - Image.Size
 
-                TIMES           EEPROM.Pad DB 0FFh
+                TIMES           EPROM.Pad DB 0FFh
 
-%assign         Image.Size      Image.Size + EEPROM.Pad
+%assign         Image.Size      Image.Size + EPROM.Pad
 ;-------------------------------------------------------------------------------
 ; Ensure Boot.Data is not too large
                 SEGMENT         Boot.Data  VSTART=0  NOBITS
