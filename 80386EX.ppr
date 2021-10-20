@@ -48,8 +48,8 @@ HTServer=localhost
 		Dev\VGA.inc
 		Dev\UART.inc
 		-RTC
-			Dev\RTC\DS1302.inc
 			Dev\RTC\RTC.inc
+			Dev\RTC\DS1302.inc
 		-Dev\SBC-386EX
 			Dev\SBC-386EX\SBC-386EX.inc
 			Dev\SBC-386EX\FPU.inc

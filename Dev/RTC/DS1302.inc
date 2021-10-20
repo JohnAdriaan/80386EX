@@ -27,31 +27,32 @@ Dev.RTC.DS1302.WP       EQU         0000_1110b   ; Write Protect
 Dev.RTC.DS1302.Trickle  EQU         0001_0000b
 
 Dev.RTC.DS1302.Sec.CH   EQU         1000_0000b   ; Clock Halt
-Dev.RTS.DS1302.Sec.10   EQU         0111_0000b   ; Seconds Tens
-Dev.RTS.DS1302.Sec.1    EQU         0000_1111b   ; Seconds Ones
+Dev.RTC.DS1302.Sec.10   EQU         0111_0000b   ; Seconds Tens
+Dev.RTC.DS1302.Sec.1    EQU         0000_1111b   ; Seconds Ones
 
-Dev.RTS.DS1302.Min.10   EQU         0111_0000b   ; Minutes Tens
-Dev.RTS.DS1302.Min.1    EQU         0000_1111b   ; Minutes Ones
+Dev.RTC.DS1302.Min.10   EQU         0111_0000b   ; Minutes Tens
+Dev.RTC.DS1302.Min.1    EQU         0000_1111b   ; Minutes Ones
 
-Dev.RTS.DS1302.Hour.10  EQU         0011_0000b   ; Hour Tens
-Dev.RTS.DS1302.Hour.1   EQU         0000_1111b   ; Hour Ones
-Dev.RTS.DS1302.Hour.AM  EQU         0000_0000b   ; Hour AM
-Dev.RTS.DS1302.Hour.PM  EQU         0010_0000b   ; Hour PM
-Dev.RTS.DS1302.Hour.12  EQU         1000_0000b   ; 12 Hour Time
-Dev.RTS.DS1302.Hour.24  EQU         0000_0000b   ; 24 Hour Time
+Dev.RTC.DS1302.Hour.10  EQU         0011_0000b   ; Hour Tens
+Dev.RTC.DS1302.Hour.1   EQU         0000_1111b   ; Hour Ones
+Dev.RTC.DS1302.Hour.AM  EQU         0000_0000b   ; Hour AM
+Dev.RTC.DS1302.Hour.PM  EQU         0010_0000b   ; Hour PM
+Dev.RTC.DS1302.Hour.12  EQU         1000_0000b   ; 12 Hour Time
+Dev.RTC.DS1302.Hour.24  EQU         0000_0000b   ; 24 Hour Time
 
-Dev.RTS.DS1302.Date.10  EQU         0011_0000b   ; Date Tens
-Dev.RTS.DS1302.Date.1   EQU         0000_1111b   ; Date Ones
+Dev.RTC.DS1302.Date.10  EQU         0011_0000b   ; Date Tens
+Dev.RTC.DS1302.Date.1   EQU         0000_1111b   ; Date Ones
 
-Dev.RTS.DS1302.Month.10 EQU         0001_0000b   ; Month Tens
-Dev.RTS.DS1302.Month.1  EQU         0000_1111b   ; Month Ones
+Dev.RTC.DS1302.Month.10 EQU         0001_0000b   ; Month Tens
+Dev.RTC.DS1302.Month.1  EQU         0000_1111b   ; Month Ones
 
-Dev.RTS.DS1302.Day.1    EQU         0000_0111b   ; Day Ones
+Dev.RTC.DS1302.Day.1    EQU         0000_0111b   ; Day Ones
 
-Dev.RTS.DS1302.Year.10  EQU         1111_0000b   ; Year Tens
-Dev.RTS.DS1302.Year.1   EQU         0000_1111b   ; Year Ones
+Dev.RTC.DS1302.Year.10  EQU         1111_0000b   ; Year Tens
+Dev.RTC.DS1302.Year.1   EQU         0000_1111b   ; Year Ones
 
-Dev.RTC.DS1302.WP.WP    EQU         1000_0000b   ; Write Permit
+Dev.RTC.DS1302.WP.Deny  EQU         1000_0000b
+Dev.RTC.DS1302.WP.Allow EQU         0000_0000b
 
 Dev.RTC.DS1302.Trickle.TCS          EQU     1010_0000b
 Dev.RTC.DS1302.Trickle.Diode.1      EQU     0000_0100b
