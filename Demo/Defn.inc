@@ -13,13 +13,13 @@
                 DB              Version.Demo
                 ALIGN           Align.Para, DB ' '
 
-;                DB              'v', Version.String
-;                DB              ' ', Version.Copyright
-;                ALIGN           Align.Para, DB ' '
+                DB              'v', Version.String
+                DB              ' ', Version.Copyright
+                ALIGN           Align.Para, DB ' '
 
-;%substr         Demo.Date       __?DATE?__ 3,-1
-;                DB              Demo.Date
-;                DB              __?TIME?__
+%substr         Demo.Date       __?DATE?__ 3,-1
+                DB              Demo.Date
+                DB              __?TIME?__
 
 ; Change these to (almost) whatever you'd like. If you're too extreme, you'll
 ; get assemble-time errors. Others you won't know until you try...
@@ -28,8 +28,8 @@
 ; However, on real hardware there isn't that sort of control. Go on, set the
 ; Timer to 1,000,000 times a second - I dare you!
 Demo.Timer.Tick      EQU        1000    ; Number of Timer Interrupts a second
-Demo.Window.Width    EQU        1;6       ; Width of each Task's Window
-Demo.Window.Height   EQU        1;5       ; Height of each Task's Window
+Demo.Window.Width    EQU        6       ; Width of each Task's Window
+Demo.Window.Height   EQU        5       ; Height of each Task's Window
 
 Demo.User.Ball         EQU      1       ; Try 3: it is an OEM 'Heart' symbol
 Demo.User.Ball.Colour  EQU      Dev.VGA.BlueBack  | Dev.VGA.Gray
@@ -63,7 +63,7 @@ Demo.System.TSS      EQU        x86.Desc.Mem.Gran.Avail
 Demo.System.Present  EQU        0 ; x86.Desc.Type.Present
 
 ; This is the Descriptor for the Alias for the Descriptor Table that holds it
-Demo.DT.Alias        EQU             x86.Desc_size
+Demo.DT.Alias        EQU        x86.Desc_size
 
 ; The following structure is held in the first (NULL) GDT entry. It holds the
 ; information about the current state of the GDT: how big it is, and which

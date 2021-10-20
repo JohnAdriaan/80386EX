@@ -28,7 +28,7 @@
 
                 SEGMENT         Demo.User
 
-User.Ball.CharAttr EQU           Dev.VGA.CharAttr(Demo.User.Ball, Demo.User.Ball.Colour)
+User.Ball.CharAttr EQU          Dev.VGA.CharAttr(Demo.User.Ball, Demo.User.Ball.Colour)
 
 User.Entry:
                 CLD                             ; Work forwards
