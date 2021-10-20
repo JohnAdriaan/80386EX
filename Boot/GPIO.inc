@@ -55,11 +55,11 @@ Boot.GPIO:
                                     Dev.SBC386EX.Lite.2    | \
                                     Dev.SBC386EX.Lite.1    | \
                                     Dev.SBC386EX.Lite.0    | \
-                                    Dev.SBC386EX.RTC.CE    | \
-                                    Dev.SBC386EX.RTC.SCLK
+                                    Dev.SBC386EX.RTC.IO    ; Bi-directional
 ; Skipped the following:
+;                                   Dev.SBC386EX.RTC.CE
+;                                   Dev.SBC386EX.RTC.SCLK
 ;                                   x86.EX.P1.SIO0.RTS
-;                                   Dev.SBC386EX.RTC.Data
                 OUT             DX, AL
 
 ; P2 GPIOs: All of P2 is dedicated to internal peripherals: no GPIOs used
@@ -90,21 +90,21 @@ Boot.GPIO:
 
                 OUT             DX, AL
 
-; Configure Outputs for GPIO pins
-; P1 GPIO Outputs
+; Configure Inputs for GPIO pins
+; P1 GPIO Inputs
                 MOV             DX, x86.EX.P1 + x86.EX.GPIO.DIR
-                MOV             AL, Dev.SBC386EX.Lite.3    | \
-                                    Dev.SBC386EX.Lite.2    | \
-                                    Dev.SBC386EX.Lite.1    | \
-                                    Dev.SBC386EX.Lite.0    | \
-                                    Dev.SBC386EX.RTC.CE    | \
-                                    Dev.SBC386EX.RTC.SCLK  | \
-                                    Dev.SBC386EX.RTC.IO        ; Note bi-dir
+                MOV             AL, Dev.SBC386EX.RTC.IO        ; Note bi-dir
 ; Skipped the following:
+;                                   Dev.SBC386EX.Lite.3
+;                                   Dev.SBC386EX.Lite.2
+;                                   Dev.SBC386EX.Lite.1
+;                                   Dev.SBC386EX.Lite.0
+;                                   Dev.SBC386EX.RTC.CE
+;                                   Dev.SBC386EX.RTC.SCLK
 ;                                   x86.EX.P1.SIO0.RTS
                 OUT             DX, AL
 
-; P2 GPIO Outputs: All of P2 is dedicated to internal peripherals: no GPIOs configurable
+; P2 GPIO Inputs: All of P2 is dedicated to internal peripherals: no GPIOs configurable
 ;               MOV             DX, x86.EX.P2 + x86.EX.GPIO.DIR
 ;               MOV             AL, 0
 ; Skipped the following:
@@ -118,19 +118,15 @@ Boot.GPIO:
 ;                                   x86.EX.P2.CSU.CS0
 ;               OUT             DX, AL
 
-; P3 GPIO Outputs
+; P3 GPIO Inputs
                 MOV             DX, x86.EX.P3 + x86.EX.GPIO.DIR
-                MOV             AL, Dev.SBC386EX.SDCard.CS
+                MOV             AL, Dev.SBC386EX.SDCard.CD | \
+                                    Dev.SBC386EX.FPU.PEREQ
 ; Skipped the following:
+;                                   Dev.SBC386EX.SDCard.CS
 ;                                   x86.EX.P3.SIO.COMCLK
 ;                                   x86.EX.P3.ICU.INT3
 ;                                   x86.EX.P3.ICU.INT2
 ;                                   x86.EX.P3.ICU.INT1
 ;                                   x86.EX.P3.ICU.INT0
-;                                   Dev.SBC386EX.SDCard.CD
-;                                   Dev.SBC386EX.FPU.PEREQ
-                 OUT             DX, AL
-
-                 MOV             DX, Dev.SBC386EX.Lite.Out
-                 MOV             AL, 0x90
                  OUT             DX, AL

@@ -42,6 +42,20 @@ Exec.User:
                 STOSW
                 MOV             EDX, [WORD Data.Ticks]
                 CALL            .Hex
+
+                MOV             AH, Dev.VGA.CyanBack | Dev.VGA.White
+
+                MOV             BL, Dev.RTC.DS1302.Clock.Len + 1 + Dev.RTC.DS1302.Data.Len
+                MOV             ESI, Boot.RTC.Data + Dev.RTC.DS1302.Data.Len - 1
+                MOV             EDI, Screen.Size - 2
+.Loop.RTC:
+             FS LODSB
+                MOV             DL, AL
+                MOV             CL, 2
+                CALL            .Hex.Loop
+                DEC             BL
+                JNZ             .Loop.RTC
+
                 CLD
 
                 ; Create a new User LDT

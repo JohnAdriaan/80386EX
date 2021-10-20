@@ -47,6 +47,9 @@ HTServer=localhost
 		Dev\Key.inc
 		Dev\VGA.inc
 		Dev\UART.inc
+		-RTC
+			Dev\RTC\DS1302.inc
+			Dev\RTC\RTC.inc
 		-Dev\SBC-386EX
 			Dev\SBC-386EX\SBC-386EX.inc
 			Dev\SBC-386EX\FPU.inc
@@ -121,7 +124,7 @@ HTServer=localhost
 			Demo\Exec\LDT.inc
 			Demo\Exec\GDT.inc
 		Demo\Sizes.inc
-	EEPROM.inc
+	EPROM.inc
 	-Boot
 		Boot\Boot.inc
 		Boot\Defn.inc
