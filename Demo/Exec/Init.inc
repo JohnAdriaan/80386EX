@@ -23,9 +23,8 @@ Exec.Init:
                 MOV             AX, x86.Selector(Demo.GDT.Alias, .GDT, .RPL0)
                 MOV             GS, AX           ; Try to keep this here
 
-                ; Point (directly) to Screen (rather than Video double-buffer)
-                MOV             AX, x86.Selector(Demo.GDT.Screen, .GDT, .RPL0)
-                MOV             ES, AX           ; This will be used for lots
+                ; Point to SRAM
+                MOV             AX, x86.Selector(Demo.GDT.SRAM, .GDT, .RPL0)
                 MOV             FS, AX           ; Try to keep this here
 
                 ; Point to global Data

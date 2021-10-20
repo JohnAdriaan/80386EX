@@ -37,6 +37,11 @@ Demo.GDT.Data.Limit  EQU        Demo.Data.Limit
 Demo.GDT.Data.Type   EQU        x86.Type.Mem(.Data, .DPL0, .RW)
 Demo.GDT.Data.Gran   EQU        x86.Gran.Mem(.Byte, .Big)
 
+Demo.GDT.SRAM.Base   EQU        SRAM.Start
+Demo.GDT.SRAM.Limit  EQU        SRAM.Size - 1
+Demo.GDT.SRAM.Type   EQU        x86.Type.Mem(.Data, .DPL0, .RW)
+Demo.GDT.SRAM.Gran   EQU        x86.Gran.Mem(.Byte, .Small)
+
 Demo.GDT.Screen.Base  EQU       Screen.Base
 Demo.GDT.Screen.Limit EQU       Screen.Rows * Screen.Cols * 2 - 1
 Demo.GDT.Screen.Type  EQU       x86.Type.Mem(.Data, .DPL0, .RW)
@@ -56,6 +61,7 @@ Demo.GDT:
 Demo.GDT.NULL     Demo.GDT.Vars Demo.GDT.Base, Demo.GDT.Limit
 Demo.GDT.Alias    x86.Desc.Mem  Demo.GDT.Alias.Base,    Demo.GDT.Alias.Limit,    Demo.GDT.Alias.Type,    Demo.GDT.Alias.Gran
 Demo.GDT.Data     x86.Desc.Mem  Demo.GDT.Data.Base,     Demo.GDT.Data.Limit,     Demo.GDT.Data.Type,     Demo.GDT.Data.Gran
+Demo.GDT.SRAM     x86.Desc.Mem  Demo.GDT.SRAM.Base,     Demo.GDT.SRAM.Limit,     Demo.GDT.SRAM.Type,     Demo.GDT.SRAM.Gran
 Demo.GDT.Screen   x86.Desc.Mem  Demo.GDT.Screen.Base,   Demo.GDT.Screen.Limit,   Demo.GDT.Screen.Type,   Demo.GDT.Screen.Gran
 Demo.GDT.Ints     x86.Desc.Mem  Demo.GDT.Ints.Base,     Demo.GDT.Ints.Limit,     Demo.GDT.Ints.Type,     Demo.GDT.Ints.Gran
 Demo.GDT.Exec.LDT x86.Desc.Mem  Demo.GDT.Exec.LDT.Base, Demo.GDT.Exec.LDT.Limit, Demo.GDT.Exec.LDT.Type, Demo.GDT.Exec.LDT.Gran

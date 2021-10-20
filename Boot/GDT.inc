@@ -13,7 +13,6 @@
 Boot.Real.GDT:
             O32 LIDT            [CS:Boot.GDT.LIDT]   ; ZEROES OUT IDT!
             O32 LGDT            [CS:Boot.GDT.LGDT]   ; This only works because I made it do!
-                Dev.Lites       0111b
                 MOV             EAX, CR0
                 OR              AX,  x86.CR0.PE      ; Protected mode Enable
                 MOV             CR0, EAX
