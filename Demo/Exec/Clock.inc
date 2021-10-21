@@ -2,6 +2,8 @@
 ; Exec/Clock.inc
 ;
 
+Exec.Clock.Attr EQU             Dev.VGA.BlackBack | Dev.VGA.Grey
+
 Exec.Clock:
                 MOV             EAX, [WORD Data.Secs]
                 MOV             EDI, (Screen.Cols - (3+3+3+2+3+3+2)) * 2
@@ -86,7 +88,7 @@ Exec.Clock:
                 JNE             .Dec.Show ; No, so show AL
                 MOV             AL, BL
 .Dec.Show:
-                MOV             AH, Dev.VGA.BlackBack | Dev.VGA.White
+                MOV             AH, .Attr
                 STOSW
                 MOV             AL, CH
                 ADD             AL, '0'

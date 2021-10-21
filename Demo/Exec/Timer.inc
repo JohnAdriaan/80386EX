@@ -15,7 +15,7 @@ Exec.Timer:
                 CALL            Exec.Alloc.IDT
 
 ; Then, reprogram the Programmable Interrupt Timer to the desired frequency
-                MOV             AX, Dev.Timer.ClockFreq / Demo.Timer.Tick
+                MOV             AX, Demo.Timer.Div
 
                 OUT             Dev.Timer.Port, AL ; Low byte
                 MOV             AL, AH             ; High byte
