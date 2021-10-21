@@ -40,9 +40,13 @@ Demo.Exec.Entry:
 
                 ; Everything's ready! We can start to create User-mode Programs
                 CALL            Exec.User
+
+                CLD
+                MOV             AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+                MOV             ES, AX
 .Idle:
+                CALL            Exec.Clock
                 User.Yield
-                CALL            Exec.Data.Show
                 JMP             .Idle
 
 %if 0

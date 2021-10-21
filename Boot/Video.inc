@@ -111,11 +111,11 @@ Boot.Real.Video:
 .V.Sync.Width   EQU             2    ; Rasters (not counted)
 .V.Porch.Back   EQU             5    ; Rows
 .V.Total.Adjust EQU             2    ; Rasters
-%elif .V.Displayed == 59 ; (59 + 1 + 5) * 8 + 5 = 525 lines ; More blanking time!
-.V.Porch.Front  EQU             1    ; Rows
-.V.Sync.Adjust  EQU             1    ; Rasters (not counted)
-.V.Sync.Width   EQU             1    ; Rasters (not counted)
-.V.Porch.Back   EQU             5    ; Rows
+%elif .V.Displayed == 59 ; (59 + 2 + 4) * 8 + 5 = 525 lines ; More blanking time!
+.V.Porch.Front  EQU             2    ; Rows
+.V.Sync.Adjust  EQU             7    ; Rasters (not counted)
+.V.Sync.Width   EQU             2    ; Rasters (not counted)
+.V.Porch.Back   EQU             4    ; Rows
 .V.Total.Adjust EQU             5    ; Rasters
 %elif .V.Displayed == 60 ; (60 + 0 + 5) * 8 + 5 = 525 lines ; More blanking time!
 .V.Porch.Front  EQU             0    ; Rows

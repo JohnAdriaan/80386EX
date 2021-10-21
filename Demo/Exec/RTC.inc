@@ -3,12 +3,10 @@
 ;
 
 
-%push    Exec.RTC    ; Don't leave these %defines lying around
+%push           Exec.RTC    ; Don't leave these %defines lying around
 
-%define         Clock           WORD Boot.RTC.Clock
-%define         DS1302(a)       Dev.RTC.DS1302.Clock %+ a
-
-%macro          BCD             0
+%macro          BCD             1
+                MOV             AL, [WORD Boot.RTC.Clock + Dev.RTC.DS1302.Clock %+ %1]
                 SHL             EAX, 4              ; AL BCD to AH:AL BCD
                 SHR             AL, 4               ; Well, it is now!
                 AAD                                 ; AH:AL BCD to AL binary
@@ -21,8 +19,7 @@ Exec.RTC:
                 PUSH            FS
                 POP             DS                  ; More efficient to use DS
 
-                MOV             AL, [Clock + DS1302(.Year)]
-                BCD
+                BCD             .Year
                 MOV             DH, AL              ; Save year
                 DEC             AL                  ; Was it Year 0?
                 JS              .Save               ; Yes, so ignore
@@ -33,8 +30,7 @@ Exec.RTC:
                 SHR             EAX, 2              ; Number of leap years (not including this year)
                 ADD             ECX, EAX            ; Include leap days
 
-                MOV             AL, [Clock + DS1302(.Month)]
-                BCD
+                BCD             .Month
                 MOV             DL, AL              ; Save month
                 DEC             AL                  ; Was it Month 0?
                 JS              .Save               ; Yes, so ignore
@@ -49,8 +45,7 @@ Exec.RTC:
 .Not256:
                 ADD             ECX, EAX            ; Add in number of days
 
-                MOV             AL, [Clock + DS1302(.Date)]
-                BCD
+                BCD             .Date
                 DEC             AL                  ; Was it Date 0?
                 JS              .Save               ; Yes, so ignore
                 CMP             AL, 31              ; Was it more than 31?
@@ -64,22 +59,19 @@ Exec.RTC:
                 JB              .NotLeap
                 INC             ECX                 ; Add one for Feb 29 this year
 .NotLeap:
-                MOV             AL, [Clock + DS1302(.Hour)]
-                BCD
+                BCD             .Hour
                 CMP             AL, 24              ; More than 24 hours?
                 JAE             .Save
                 IMUL            ECX, 24             ; Days into Hours
                 ADD             ECX, EAX
 
-                MOV             AL, [Clock + DS1302(.Min)]
-                BCD
+                BCD             .Min
                 CMP             AL, 60              ; More than 60 minutes?
                 JAE             .Save
                 IMUL            ECX, 60             ; Hours into Minutes
                 ADD             ECX, EAX
 
-                MOV             AL, [Clock + DS1302(.Sec)]
-                BCD
+                BCD             .Sec
                 CMP             AL, 60              ; More than 60 seconds?
                 JAE             .Save
                 IMUL            ECX, 60             ; Minutes into Seconds

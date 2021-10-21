@@ -122,6 +122,7 @@ HTServer=localhost
 				Demo\Exec\Alloc\GDT.inc
 				Demo\Exec\Alloc\LDT.inc
 				Demo\Exec\Alloc\TSS.inc
+			Demo\Exec\Clock.inc
 			Demo\Exec\LDT.inc
 			Demo\Exec\GDT.inc
 		Demo\Sizes.inc

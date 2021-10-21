@@ -20,6 +20,7 @@ Data.Key.Shifts RESB            1       ; Storage for current Key Shift states
 
                 SEGMENT         Demo.Exec
 
+%if 0
 Exec.Data.Show:
                 STD                          ; Work backwards
                 MOV             AH, Dev.VGA.RedBack | Dev.VGA.White
@@ -33,14 +34,14 @@ Exec.Data.Show:
                 STOSW
                 MOV             EDX, [WORD Data.RAM]
                 CALL            .Hex
-                MOV             AL, ' '
-                STOSW
-                MOV             EDX, [WORD Data.Ticks]
-                CALL            .Hex
-                MOV             AL, ':'
-                STOSW
-                MOV             EDX, [WORD Data.Secs]
-                CALL            .Hex
+;               MOV             AL, ' '
+;               STOSW
+;               MOV             EDX, [WORD Data.Ticks]
+;               CALL            .Hex
+;               MOV             AL, ':'
+;               STOSW
+;               MOV             EDX, [WORD Data.Secs]
+;               CALL            .Hex
 
                 CLD
                 RET
@@ -58,3 +59,4 @@ Exec.Data.Show:
                 SHR             EDX, 4
                 LOOP            .Hex.Loop
                 RET
+%endif

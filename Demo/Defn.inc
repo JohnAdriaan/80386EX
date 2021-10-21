@@ -27,7 +27,7 @@
 ; so that even programming ludicrous values will result in staid performance.
 ; However, on real hardware there isn't that sort of control. Go on, set the
 ; Timer to 1,000,000 times a second - I dare you!
-Demo.Timer.Tick      EQU        1000    ; Number of Timer Interrupts a second
+Demo.Timer.Tick      EQU        1024    ; Number of Timer Interrupts a second
 Demo.Timer.Delta     EQU        1_0000_0000h / Demo.Timer.Tick
 Demo.Window.Width    EQU        6       ; Width of each Task's Window
 Demo.Window.Height   EQU        5       ; Height of each Task's Window

@@ -37,7 +37,7 @@ Exec.User:
 
 .Loop:
                 MOV             [%$Pos], EDX    ; Store away new position
-                CALL            Exec.Data.Show
+;               CALL            Exec.Data.Show
 
                 ; Create a new User LDT
                 CALL            Exec.User.LDT
