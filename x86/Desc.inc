@@ -88,7 +88,7 @@ x86.Desc.Mem.Type.Stack    EQU  0000_0100b ; (Best used for Stacks)
 x86.Desc.Mem.Type.RW       EQU  0000_0010b ; Data Read & Writeable
 x86.Desc.Mem.Type.RNoW     EQU  0000_0000b ; Data Read & not Writeable
 x86.Desc.Mem.Type.R        EQU  0000_0010b ; Code Readable
-x86.Desc.Mem.Type.NoR      EQU  0000_0000b ; Data not Readable
+x86.Desc.Mem.Type.NoR      EQU  0000_0000b ; Code not Readable
 x86.Desc.Mem.Type.Accessed EQU  0000_0001b ; Set when Descriptor loaded
 
 ; These are the bitfields of the .Gran field in Memory Descriptors

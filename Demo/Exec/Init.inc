@@ -31,13 +31,17 @@ Exec.Init:
                 MOV             AX, x86.Selector(Demo.GDT.Data, .GDT, .RPL0)
                 MOV             DS, AX           ; Try to keep this here
 
+                ; Initialise RAM variables
                 MOV    DWORD    [WORD Data.RAM], Demo.First
                 INC             EBP                     ; Convert Limit to Size
 ;               SUB             EBP, ((Screen.Size + x86.PAGE.Size - 1) & ~x86.PAGE.Mask) - 1
                 MOV             [WORD Data.RAMTop], EBP ; Save away new top of RAM
 
                 XOR             EAX, EAX
+                MOV             [WORD Data.Secs], EAX
                 MOV             [WORD Data.Ticks], EAX
+
+                ; Initialise Keyboard variables
                 MOV     BYTE    [WORD Data.Key.Shifts], 0
 
                 ; First, allocate Video double-buffer

@@ -14,9 +14,6 @@
 
 Demo.Exec.Stack.Size  EQU       x86.PAGE.Size    ; Don't need much
 
-; At this point we're still in Boot-time Linear addressing.
-; Be careful with addresses!
-Demo.Entry      EQU             section.Demo.Exec.start
 ;-------------------------------------------------------------------------------
 %include        "Demo/Exec/Entry.inc"        ; Entry point in Executive's LDT
 ;-------------------------------------------------------------------------------
@@ -29,6 +26,8 @@ Demo.Entry      EQU             section.Demo.Exec.start
 %include        "Demo/Exec/Key.inc"          ; Install Keyboard interrupt handler
 ;-------------------------------------------------------------------------------
 %include        "Demo/Exec/Video.inc"        ; Install Video interrupt handler
+;-------------------------------------------------------------------------------
+%include        "Demo/Exec/RTC.inc"          ; Set up Real Time Clock data
 ;-------------------------------------------------------------------------------
 %include        "Demo/Exec/User/User.inc"    ; Start creating User programs
 ;-------------------------------------------------------------------------------

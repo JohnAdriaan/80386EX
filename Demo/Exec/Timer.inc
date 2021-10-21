@@ -18,7 +18,6 @@ Exec.Timer:
                 MOV             AX, Dev.Timer.ClockFreq / Demo.Timer.Tick
 
                 OUT             Dev.Timer.Port, AL ; Low byte
-                JMP             $+2                ; (Wait for it...)
                 MOV             AL, AH             ; High byte
                 OUT             Dev.Timer.Port, AL
 

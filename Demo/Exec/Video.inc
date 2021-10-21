@@ -10,7 +10,7 @@
 ; so we can simply copy the values from a buffer to the screen.
 
 Exec.Video:
-; First, install a Video interrupt handler
+                ; First, install a Video interrupt handler
                 MOV             EAX, Ints.Video     ; Handler
                 MOV             BX,  Demo.IDT.Video ; Interrupt
                 MOV             CX,  x86.Selector(Demo.GDT.Ints, .GDT, .RPL0)

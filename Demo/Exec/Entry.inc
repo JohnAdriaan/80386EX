@@ -4,8 +4,6 @@
 
                 SEGMENT         Demo.Exec
 
-                ALIGN           Align.Para, DB 0FFh
-
 ; Made it! We're booted in Protected Mode! (You can un-cross your fingers now...)
 ; Before we can do anything else though, we need to set up a Protected Mode stack
 Demo.Exec.Entry:
@@ -37,10 +35,14 @@ Demo.Exec.Entry:
                 ; But a human needs to be able to see things! So set up a video handler
                 CALL            Exec.Video
 
+                ; Let's set the time
+                CALL            Exec.RTC
+
                 ; Everything's ready! We can start to create User-mode Programs
                 CALL            Exec.User
 .Idle:
                 User.Yield
+                CALL            Exec.Data.Show
                 JMP             .Idle
 
 %if 0
@@ -56,4 +58,3 @@ Demo.Exec.Entry:
                 OUT             DX, AL
                 JMP             .Forever
 %endif
-

@@ -18,7 +18,8 @@ Ints.Timer:
                 PUSH            DS              ; And this one
                 MOV             AX, Demo.GDT.Data
                 MOV             DS, AX
-                INC     DWORD   [WORD Data.Ticks]
+                ADD             [WORD Data.Ticks], DWORD Demo.Timer.Delta
+                ADC             [WORD Data.Secs],  DWORD 0
                 POP             DS              ; Not anymore
 
                 MOV             AL, Dev.PIC.Cmd.EOI ; Acknowledge interrupt in PIC

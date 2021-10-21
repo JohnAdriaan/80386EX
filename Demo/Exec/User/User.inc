@@ -37,26 +37,7 @@ Exec.User:
 
 .Loop:
                 MOV             [%$Pos], EDX    ; Store away new position
-                CALL            .Mem
-                MOV             AL, ' '
-                STOSW
-                MOV             EDX, [WORD Data.Ticks]
-                CALL            .Hex
-
-                MOV             AH, Dev.VGA.CyanBack | Dev.VGA.White
-
-                MOV             BL, Dev.RTC.DS1302.Clock.Len + 1 + Dev.RTC.DS1302.Data.Len
-                MOV             ESI, Boot.RTC.Data + Dev.RTC.DS1302.Data.Len - 1
-                MOV             EDI, Screen.Size - 2
-.Loop.RTC:
-             FS LODSB
-                MOV             DL, AL
-                MOV             CL, 2
-                CALL            .Hex.Loop
-                DEC             BL
-                JNZ             .Loop.RTC
-
-                CLD
+                CALL            Exec.Data.Show
 
                 ; Create a new User LDT
                 CALL            Exec.User.LDT
@@ -83,30 +64,3 @@ Exec.User:
                 LEAVE
                 RET
 %pop
-
-.Mem:
-                STD                          ; Work backwards
-                MOV             AH, Dev.VGA.RedBack | Dev.VGA.White
-                MOV             DX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
-                MOV             EDI, (Screen.Width - 1) * 2
-                MOV             ES, DX
-
-                MOV             EDX, [WORD Data.RAMTop]
-                CALL            .Hex
-                MOV             AL,  '/'
-                STOSW
-                MOV             EDX, [WORD Data.RAM]
-.Hex:
-                MOV             ECX, x86.DWORD.Size * 2
-.Hex.Loop:
-                MOV             AL, DL
-                AND             AL, 0Fh
-                ADD             AL, '0'
-                CMP             AL, '9'
-                JBE             .Hex.Not
-                ADD             AL, 'A' - '9' - 1
-.Hex.Not:
-                STOSW
-                SHR             EDX, 4
-                LOOP            .Hex.Loop
-                RET

@@ -5,7 +5,7 @@
 ; This module handles the various keyboard actions.
 
 Ints.Debug.Key:
-                HLT                             ; Wait for interrupt
+;               HLT                             ; Wait for interrupt
 
                 MOV             AL,0            ; Consume any keypress
                 XCHG            [FS:WORD Data.Key.Code],AL ; Avoid repeats

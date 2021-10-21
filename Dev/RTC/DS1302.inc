@@ -5,7 +5,7 @@
 Dev.RTC.DS1302:
 
 Dev.RTC.DS1302.Data.Len     EQU             31
-Dev.RTC.DS1302.Clock.Len    EQU             8
+Dev.RTC.DS1302.Clock.Len    EQU             8   ; Can't burst Trickle
 
 Dev.RTC.DS1302.Cmd.Enable       EQU         1000_0000b
 Dev.RTC.DS1302.Cmd.Data         EQU         0100_0000b
@@ -16,13 +16,23 @@ Dev.RTC.DS1302.Cmd.Addr.Burst   EQU         .Cmd.Addr.Mask
 Dev.RTC.DS1302.Cmd.Read         EQU         0000_0001b
 Dev.RTC.DS1302.Cmd.Write        EQU         0000_0000b
 
-Dev.RTC.DS1302.Sec      EQU         0000_0000b
-Dev.RTC.DS1302.Min      EQU         0000_0010b
-Dev.RTC.DS1302.Hour     EQU         0000_0100b
-Dev.RTC.DS1302.Date     EQU         0000_0110b
-Dev.RTC.DS1302.Month    EQU         0000_1000b
-Dev.RTC.DS1302.Day      EQU         0000_1010b
-Dev.RTC.DS1302.Year     EQU         0000_1100b
+                STRUC           Dev.RTC.DS1302.Clock
+.Sec            RESB            1
+.Min            RESB            1
+.Hour           RESB            1
+.Date           RESB            1
+.Month          RESB            1
+.Day            RESB            1
+.Year           RESB            1
+                ENDSTRUC
+
+Dev.RTC.DS1302.Sec      EQU         Dev.RTC.DS1302.Clock.Sec   << 1
+Dev.RTC.DS1302.Min      EQU         Dev.RTC.DS1302.Clock.Min   << 1
+Dev.RTC.DS1302.Hour     EQU         Dev.RTC.DS1302.Clock.Hour  << 1
+Dev.RTC.DS1302.Date     EQU         Dev.RTC.DS1302.Clock.Date  << 1
+Dev.RTC.DS1302.Month    EQU         Dev.RTC.DS1302.Clock.Month << 1
+Dev.RTC.DS1302.Day      EQU         Dev.RTC.DS1302.Clock.Day   << 1
+Dev.RTC.DS1302.Year     EQU         Dev.RTC.DS1302.Clock.Year  << 1
 Dev.RTC.DS1302.WP       EQU         0000_1110b   ; Write Protect
 Dev.RTC.DS1302.Trickle  EQU         0001_0000b
 

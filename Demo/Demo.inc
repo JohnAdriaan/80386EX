@@ -16,28 +16,30 @@ Demo.First      EQU             Demo.Exec.Stack.Top ; First unallocated RAM
 
 Screen.Base     EQU             03F0_0000h
 Screen.Cols     EQU             Screen.Width
-Screen.Rows     EQU             Screen.Height   
+Screen.Rows     EQU             Screen.Height
+
+                SEGMENT         Demo.Data       NOBITS
+                SEGMENT         Demo.Boot
+                SEGMENT         Demo.IDT
+                SEGMENT         Demo.Ints
+                SEGMENT         Demo.User
+                SEGMENT         Demo.User.LDT   NOBITS
+                SEGMENT         Demo.User.Data  NOBITS
+                SEGMENT         Demo.Exec
+                SEGMENT         Demo.Exec.LDT
+                SEGMENT         Demo.GDT
+
+; At this point we're still in Boot-time Linear addressing.
+; Be careful with addresses!
 
 %include        "Demo/Defn.inc"         ; Definitions for various parameters
 ;-------------------------------------------------------------------------------
-                SEGMENT         Demo.Boot
-
-%include        "Demo/Boot.inc"         ; Move to final positions
-;-------------------------------------------------------------------------------
-                SEGMENT         Demo.Data   NOBITS
-
 %include        "Demo/Data.inc"         ; Global Data Segment
 ;-------------------------------------------------------------------------------
-                SEGMENT         Demo.IDT
-
-                SEGMENT         Demo.Ints
-
+%include        "Demo/Boot.inc"         ; Initialise Executive structures
+;-------------------------------------------------------------------------------
 %include        "Demo/Ints/Ints.inc"    ; Interrupt handlers
 ;-------------------------------------------------------------------------------
-                SEGMENT         Demo.User
-
 %include        "Demo/User/User.inc"    ; User Mode program
 ;-------------------------------------------------------------------------------
-                SEGMENT         Demo.Exec
-
 %include        "Demo/Exec/Exec.inc"    ; Supervisor Mode executive

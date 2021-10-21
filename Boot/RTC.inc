@@ -1,6 +1,10 @@
 ;
 ; Boot/RTC.inc
 ;
+; The SBC386EX Real-Time Clock (RTC) has a Super Capacitor to supply maintenance
+; power while the main power is off. The RTC chip will charge that capacitor,
+; if told to do so. Unfortunately, the command requires the Write Protect lock
+; to be removed first, so it's a multi-step operation.
 
 %if Dev.SBC386EX.RTC.IO != 0000_0001b
 %error I/O bit is not LSb! Change the algorithm
@@ -58,52 +62,6 @@ Boot.RTC:
 ;                MOV             CH, Dev.RTC.DS1302.Data.Len
 ;                CALL            Boot.RTC.Write
 
-                JMP             Boot.RTC.Get
-;...............................................................................
-;.Time:
-;                DB              00h        ; Secs
-;                DB              55h        ; Mins
-;                DB              Dev.RTC.DS1302.Hour.24 | 00h ; Hours (UTC)
-;                DB              21h        ; Date
-;                DB              10h        ; Month
-;                DB              04h        ; Day (1=Monday)
-;                DB              21h        ; Year
-;...............................................................................
-Boot.RTC.Write:
-                OR              AL, Dev.SBC386EX.RTC.CE     ; Chip Enable
-                OUT             DX, AL
-                MOV             BH, AL                      ; Into BH
-
-                CALL            Boot.RTC.Send
-.Loop:
-                TEST            ESI, ESI
-                JZ              .BL
-                MOV             BL, [CS:ESI]
-                INC             ESI
-.BL:
-                MOV             AH, BL
-                CALL            Boot.RTC.Send
-                DEC             CH                          ; Any more bytes?
-                JNZ             .Loop
-
-                AND             AL, ~(Dev.SBC386EX.RTC.CE | Dev.SBC386EX.RTC.SCLK | Dev.SBC386EX.RTC.IO) ; Everything RTC off
-                OUT             DX, AL
-                RET
-;...............................................................................
-Boot.RTC.Send:
-                MOV             CL, 8                       ; Bits in Cmd
-.Loop:
-                SHR             AH, 1                       ; LSb into Carry
-                ADC             AL, 0                       ; Only works if .IO is LSb
-                OUT             DX, AL
-                OR              AL, Dev.SBC386EX.RTC.SCLK   ; Clock high
-                OUT             DX, AL
-                MOV             AL, BH                      ; Clock, Data Low
-                DEC             CL
-                JNZ             .Loop
-                RET
-;...............................................................................
-Boot.RTC.Get:
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Read
                 MOV             CH, Dev.RTC.DS1302.Clock.Len
                 MOV             EDI, SRAM.Start + Boot.RTC.Clock
@@ -157,4 +115,48 @@ Boot.RTC.Read:
                 AND             AL, ~(Dev.SBC386EX.RTC.CE | Dev.SBC386EX.RTC.SCLK | Dev.SBC386EX.RTC.IO) ; Everything RTC off
                 OUT             DX, AL
                 RET
+;...............................................................................
+;.Time:
+;                DB              00h        ; Secs
+;                DB              55h        ; Mins
+;                DB              Dev.RTC.DS1302.Hour.24 | 00h ; Hours (UTC)
+;                DB              21h        ; Date
+;                DB              10h        ; Month
+;                DB              04h        ; Day (1=Monday)
+;                DB              21h        ; Year
+;...............................................................................
+Boot.RTC.Write:
+                OR              AL, Dev.SBC386EX.RTC.CE     ; Chip Enable
+                OUT             DX, AL
+                MOV             BH, AL                      ; Into BH
+
+                CALL            Boot.RTC.Send
+.Loop:
+                TEST            ESI, ESI
+                JZ              .BL
+                MOV             BL, [CS:ESI]
+                INC             ESI
+.BL:
+                MOV             AH, BL
+                CALL            Boot.RTC.Send
+                DEC             CH                          ; Any more bytes?
+                JNZ             .Loop
+
+                AND             AL, ~(Dev.SBC386EX.RTC.CE | Dev.SBC386EX.RTC.SCLK | Dev.SBC386EX.RTC.IO) ; Everything RTC off
+                OUT             DX, AL
+                RET
+;...............................................................................
+Boot.RTC.Send:
+                MOV             CL, 8                       ; Bits in Cmd
+.Loop:
+                SHR             AH, 1                       ; LSb into Carry
+                ADC             AL, 0                       ; Only works if .IO is LSb
+                OUT             DX, AL
+                OR              AL, Dev.SBC386EX.RTC.SCLK   ; Clock high
+                OUT             DX, AL
+                MOV             AL, BH                      ; Clock, Data Low
+                DEC             CL
+                JNZ             .Loop
+                RET
+;...............................................................................
 Boot.RTC.Exit:

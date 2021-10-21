@@ -8,9 +8,10 @@
 
 Ints.Fault:
                 PUSHAD                          ; Save all registers
+
                 CALL            .Frame.Create   ; Create Stack Frame for display
 
-                XOR             AX, AX          ; No TSS!
+                XOR             EAX, EAX        ; No TSS!
                 MOV             FS, AX
 
                 MOV             EDI, [ESP+64]   ; Load Interrupt number
@@ -134,7 +135,8 @@ Ints.Fault.ShowRegs:
                 CMP             SI, Ints.Names.End ; End of registers?
                 JB              .Dump           ; No, so continue
 
-                HLT                             ; Nothing more to do
+;               HLT                             ; Nothing more to do
+                JMP             $
 ; If interrupts are disabled, the HLT will "zombie" the PC, requiring a power
 ; off. VMware detects this condition, but it lets you look at the screen first!
 ; If interrupts are enabled, one will wake us up and continue from here, which

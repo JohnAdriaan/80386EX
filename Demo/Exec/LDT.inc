@@ -37,7 +37,7 @@ Demo.Exec.LDT.Stack.Gran  EQU        x86.Gran.Mem(.Page, .Big)
 
 Demo.Exec.LDT.Code.Base   EQU        Demo.Exec.Base
 Demo.Exec.LDT.Code.Limit  EQU        Demo.Exec.Limit
-Demo.Exec.LDT.Code.Type   EQU        x86.Type.Mem(.Code, .DPL0, .RNoW)
+Demo.Exec.LDT.Code.Type   EQU        x86.Type.Mem(.Code, .DPL0, .R)
 Demo.Exec.LDT.Code.Gran   EQU        x86.Gran.Mem(.Byte, .Def32)
 
 Demo.Exec.LDT:

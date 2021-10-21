@@ -34,7 +34,7 @@ Ints.Single:
 .Loop:
                 INC     BYTE    [ES:WORD 0001h*2] ; Dingle(tm) screen location
 
-                HLT                              ; Wait for interrupt
+;               HLT                               ; Wait for interrupt
 
                 MOV             AL, 0             ; Consume any keypress
                 XCHG            [Data.Key.Code], AL
