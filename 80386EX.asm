@@ -41,37 +41,6 @@ Screen.Size     EQU               Screen.Width * Screen.Height * 2
 
 Font.Height     EQU               8
 
-; These are the hardware-assigned sizes and clocks for the SBC386EX board
-%assign         CPU.CLK2          32_000_000        ; In Hertz
-
-%define         ROM.ORG           (1_0000h - ROM.Size)
-%assign         ROM.Size          8 * 1024          ; In bytes
-%define         ROM.CS            UCS
-%assign         ROM.Speed         150               ; In nanoseconds
-%assign         ROM.Waits         3
-
-%assign         SRAM.Size         32 * 1024         ; In bytes
-%define         SRAM.CS           CS4
-%assign         SRAM.Speed        20                ; In nanoseconds
-%assign         SRAM.Waits        0
-
-;%define        DRAM.Size         8 * 1024 * 1024   ; Calculated at runtime
-%define         DRAM.CS           CS2
-%assign         DRAM.Speed        60                ; In nanoseconds
-%assign         DRAM.Refresh      64                ; In milliseconds
-%assign         DRAM.Rows         1024              ; In... rows
-%assign         DRAM.Waits        2
-
-%assign         ECB.Mem.Size      512 * 1024
-%define         ECB.Mem.CS        CS3
-%define         ECB.Mem.Speed     20
-%define         ECB.Mem.Waits     0
-
-%assign         ECB.IO.Size       0020h
-%define         ECB.IO.CS         CS0
-%define         ECB.IO.Speed      40
-%define         ECB.IO.Waits      2
-
 ; These are some version identifiers
 %define         Name              "80386EX"
 %substr         Name.Stamp        %[Name] 3, 5
@@ -101,8 +70,6 @@ Font.Height     EQU               8
 %assign         Image.Size      0     ; Whole Image size. See */Sizes.inc below
 
 ;===============================================================================
-                ORG             ROM.ORG
-
 ; The following are just definitions. Lots and lots of definitions...
 ; I hate "magic" numbers. Only 0 and 1 are numbers; the rest need labels!
 ; And comments. Lots and lots of comments...

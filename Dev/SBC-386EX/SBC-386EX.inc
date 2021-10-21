@@ -5,6 +5,8 @@
 ; These are the definitions for the specific SBC-386EX devices
 
 ;-------------------------------------------------------------------------------
+%include        "Dev/SBC-386EX/Defn.inc"       ; The main board hardware
+;-------------------------------------------------------------------------------
 %include        "Dev/SBC-386EX/FPU.inc"        ; Floating Point Unit detect
 ;-------------------------------------------------------------------------------
 %include        "Dev/SBC-386EX/Lite.inc"       ; General Purpose Input/Output ports

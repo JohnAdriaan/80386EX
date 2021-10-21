@@ -52,6 +52,7 @@ HTServer=localhost
 			Dev\RTC\DS1302.inc
 		-Dev\SBC-386EX
 			Dev\SBC-386EX\SBC-386EX.inc
+			Dev\SBC-386EX\Defn.inc
 			Dev\SBC-386EX\FPU.inc
 			Dev\SBC-386EX\Lite.inc
 			Dev\SBC-386EX\RTC.inc
@@ -93,7 +94,7 @@ HTServer=localhost
 			Demo\User\Data.inc
 			Demo\User\Code.inc
 			Demo\User\Frame.inc
-		+Demo\Exec
+		-Demo\Exec
 			Demo\Exec\Exec.inc
 			Demo\Exec\Entry.inc
 			Demo\Exec\Init.inc
