@@ -13,7 +13,7 @@ Boot.Fatal.Hex:
                 CALL            Hex
 Boot.Fatal:
                 MOV             DX, Dev.SBC386EX.Lite.Out
-                MOV             AL, 5 << Dev.SBC386EX.Lite.Shift
+                MOV             AL, 0101b << Dev.SBC386EX.Lite.Shift
 .Loop:
                 OUT             DX, AL
             A16 LOOP            $

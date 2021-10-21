@@ -25,17 +25,18 @@ Boot.RTC:
                 IN              AL, DX          ; Get current Latch state
 
                 AND             AL, ~(Dev.SBC386EX.RTC.CE | Dev.SBC386EX.RTC.SCLK | Dev.SBC386EX.RTC.IO) ; Everything RTC off
-                MOV             BL, AL          ; Into BL
                 OUT             DX, AL
 
+                XOR             ESI, ESI        ; Single-byte writes
+
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.WP | Dev.RTC.DS1302.Cmd.Write
+                MOV             BL, Dev.RTC.DS1302.WP.Allow
                 MOV             CH, 1
-                MOV             ESI, .WP.Allow             ; Write out CS:.WP.Allow
                 CALL            Boot.RTC.Write
 
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Trickle | Dev.RTC.DS1302.Cmd.Write
+                MOV             BL, Dev.RTC.DS1302.Trickle.TCS | Dev.RTC.DS1302.Trickle.Diode.1 | Dev.RTC.DS1302.Trickle.Resistor.2
                 MOV             CH, 1
-                MOV             SI, .Charge                ; Write out CS:.Charge
                 CALL            Boot.RTC.Write
 
 ; Send .Time
@@ -44,33 +45,29 @@ Boot.RTC:
 ;                MOV             SI, .Time                 ; Write out CS:.Time
 ;                CALL            Boot.RTC.Write
 
+                XOR             ESI, ESI                   ; Single-byte writes again
+
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.WP | Dev.RTC.DS1302.Cmd.Write
+                MOV             BL, Dev.RTC.DS1302.WP.Deny
                 MOV             CH, 1
-                MOV             ESI, .WP.Deny              ; Write out CS:.WP.Deny
                 CALL            Boot.RTC.Write
 
-; Zero .Data
+; Zero RTC Data
 ;                MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Data | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Write
+;                MOV             BL, 0
 ;                MOV             CH, Dev.RTC.DS1302.Data.Len
-;                XOR             ESI, ESI
 ;                CALL            Boot.RTC.Write
 
                 JMP             Boot.RTC.Get
 ;...............................................................................
-.WP.Allow:
-                DB              Dev.RTC.DS1302.WP.Allow
-.Charge:
-                DB              Dev.RTC.DS1302.Trickle.TCS | Dev.RTC.DS1302.Trickle.Diode.1 | Dev.RTC.DS1302.Trickle.Resistor.2
 ;.Time:
 ;                DB              00h        ; Secs
-;                DB              35h        ; Mins
-;                DB              Dev.RTC.DS1302.Hour.24 | 21h ; Hours
-;                DB              20h        ; Date
+;                DB              55h        ; Mins
+;                DB              Dev.RTC.DS1302.Hour.24 | 00h ; Hours (UTC)
+;                DB              21h        ; Date
 ;                DB              10h        ; Month
-;                DB              03h        ; Day
+;                DB              04h        ; Day (1=Monday)
 ;                DB              21h        ; Year
-.WP.Deny:
-                DB              Dev.RTC.DS1302.WP.Deny
 ;...............................................................................
 Boot.RTC.Write:
                 OR              AL, Dev.SBC386EX.RTC.CE     ; Chip Enable
@@ -80,15 +77,16 @@ Boot.RTC.Write:
                 CALL            Boot.RTC.Send
 .Loop:
                 TEST            ESI, ESI
-                JZ              .AH
-                MOV             AH, [CS:ESI]
+                JZ              .BL
+                MOV             BL, [CS:ESI]
                 INC             ESI
-.AH:
+.BL:
+                MOV             AH, BL
                 CALL            Boot.RTC.Send
                 DEC             CH                          ; Any more bytes?
                 JNZ             .Loop
 
-                MOV             AL, BL                      ; Back to idle (disabled)
+                AND             AL, ~(Dev.SBC386EX.RTC.CE | Dev.SBC386EX.RTC.SCLK | Dev.SBC386EX.RTC.IO) ; Everything RTC off
                 OUT             DX, AL
                 RET
 ;...............................................................................
@@ -156,7 +154,7 @@ Boot.RTC.Read:
                 DEC             CH                          ; Any more bytes?
                 JNZ             .Loop.Bytes
 
-                MOV             AL, BL                      ; Back to idle (disabled)
+                AND             AL, ~(Dev.SBC386EX.RTC.CE | Dev.SBC386EX.RTC.SCLK | Dev.SBC386EX.RTC.IO) ; Everything RTC off
                 OUT             DX, AL
                 RET
 Boot.RTC.Exit:
