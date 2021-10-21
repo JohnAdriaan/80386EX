@@ -73,10 +73,8 @@ Exec.Clock:
                 MOV             AL, ':'
                 STOSW
                 MOV             CH, DH
-                CALL            .Dec
-
-                User.Yield
-                JMP             .Time
+;               CALL            .Dec
+;               RET
 ;...............................................................................
 .Dec:
                 MOV             AX, 10    ; AL=Divisor, AH=0
