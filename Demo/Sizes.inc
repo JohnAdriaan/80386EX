@@ -126,7 +126,7 @@ Demo.Exec.LDT.Limit EQU         Demo.Exec.LDT.Pos-1
 
 Demo.Exec.LDT.Size  EQU         Demo.Exec.LDT.Pos
 
-                ALIGN           Align.Para, DB 0
+                ALIGN           Align.Para, DB 0FFh
 
 %assign         Demo.Size       Demo.Size + ($ - $$)
 

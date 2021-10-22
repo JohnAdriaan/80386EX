@@ -14,6 +14,7 @@
                 USE32
 
 Hex:
+%if 0
                 PUSH            ECX
                 PUSH            EDX
 
@@ -48,4 +49,5 @@ Hex:
 
                 POP             EDX
                 POP             ECX
+%endif
                 RET

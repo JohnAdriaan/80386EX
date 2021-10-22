@@ -95,7 +95,7 @@ Font.Height     EQU               8
 
                 SEGMENT         Boot.Reset
 
-                ALIGN           8
+                ALIGN           8, DB 0FFh
 
                 DB              Name.Stamp, Version.Stamp
 

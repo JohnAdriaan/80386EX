@@ -44,10 +44,45 @@ Demo.Exec.Entry:
                 CLD
                 MOV             AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
                 MOV             ES, AX
-.Idle:
+
+                ENTER           Clock.String, 0                 ; Make room on stack
+                MOV             [EBP], DWORD `\r\n`             ; Overwrite saved EBP with CRLF
+
+                MOV             EAX, (12 * 60 + 34) * 60 + 56
+Demo.Exec.Idle:
+                LEA             EDX, [EAX + 24 * 60 * 60 + 61]
+                PUSH            EDX
                 CALL            Exec.Clock
+
+                MOV             ECX, Clock.String + 2
+                LEA             ESI, [EBP - Clock.String]
+.Send:
+                MOV             DX, Dev.UART.COM1 + Dev.UART.LSR
+.Full:
+                IN              AL, DX
+                TEST            AL, Dev.UART.LSR.TBE
+                JZ              .Full
+
+             SS LODSB
+                MOV             DX, Dev.UART.COM1 + Dev.UART.Data
+                OUT             DX, AL
+                LOOP            .Send
+
+                CALL            Exec.Clock.Get     ; EDX:EAX gets Secs:Ticks
+                MOV             EAX, EDX           ; EAX is Secs
+                CALL            Exec.Clock
+                MOV             AH, Dev.VGA.BlackBack | Dev.VGA.Grey
+                MOV             ECX, Clock.String
+                LEA             ESI, [EBP - Clock.String]
+                MOV             EDI, (Screen.Cols - Clock.String) * 2
+.Show:
+             SS LODSB
+                STOSW
+                LOOP            .Show
                 User.Yield
-                JMP             .Idle
+
+                POP             EAX
+                JMP             Demo.Exec.Idle
 
 %if 0
 .Forever:
