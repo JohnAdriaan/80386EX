@@ -1,9 +1,13 @@
 ;
-; Boot/IO.inc
+; Boot/386EX.inc
 ;
-; The 80386EX Advanced Peripheral I/O space by default is disabled.
+; The 80386EX has a number of enhancements, such as on-chip peripherals.
+; Before these can be enabled individually, they need to be "pre-enabled".
+; The Advanced Peripheral I/O space by default is disabled.
 ; Since we want to use some of them, it needs to be enabled with a sequence
 ; of accesses.
+; Then, the multiplexed pins need to be configured as to which peripheral
+; they are connected to. Note this is VERY board-dependent!
 ;
 ; +======+=====+===========+=====+===========================+
 ; | Port | Pin | Function  | Dir | Notes                     |
@@ -42,7 +46,7 @@
 
                 USE16
 
-Boot.IO:
+Boot.386EX:
                 IN              AL, x86.EX.Remap.Port + x86.EX.Remap.CTRL ; Reset to State A
                 MOV             AX, x86.EX.Remap.CFG.ESE                  ; Enable Expanded I/O
                 OUT             x86.EX.Remap.Port + x86.EX.Remap.CTRL, AL ; Move to State B

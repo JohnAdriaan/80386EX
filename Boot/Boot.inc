@@ -23,16 +23,16 @@
 
 ;===============================================================================
                 SEGMENT         Boot.Real
-                
+
 %include        "Boot/Defn.inc"         ; Definitions for use by ROM routines
 ;-------------------------------------------------------------------------------
 Boot.Code.Entry:                        ; Reset JMP point
 
 %include        "Boot/CPU.inc"          ; Init CPU
 ;-------------------------------------------------------------------------------
-%include        "Boot/IO.inc"           ; Init Advanced I/O space
+%include        "Boot/386EX.inc"        ; Init 386EX peripherals
 ;-------------------------------------------------------------------------------
-%include        "Boot/FPU.inc"          ; Init FPU (need I/O port for detection)
+%include        "Boot/FPU.inc"          ; Init FPU, if present
 ;-------------------------------------------------------------------------------
 %include        "Boot/PIC.inc"          ; Init Priority Interrupt Controllers
 ;-------------------------------------------------------------------------------

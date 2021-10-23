@@ -132,7 +132,7 @@ HTServer=localhost
 		Boot\Boot.inc
 		Boot\Defn.inc
 		Boot\CPU.inc
-		Boot\IO.inc
+		Boot\386EX.inc
 		Boot\FPU.inc
 		Boot\PIC.inc
 		Boot\GPIO.inc
