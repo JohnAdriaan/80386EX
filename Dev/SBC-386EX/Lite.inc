@@ -15,10 +15,26 @@ Dev.SBC386EX.Lite.3     EQU  x86.EX.PIN.7
 Dev.SBC386EX.Lite.Mask  EQU  .0 | .1 | .2 | .3
 Dev.SBC386EX.Lite.Shift EQU  4
 
-%macro          Dev.Lites       1
+%macro         Dev.Lites       1
                MOV             DX, Dev.SBC386EX.Lite.Out
-               MOV             AL, (~%1 << Dev.SBC386EX.Lite.Shift) & x86.BYTE.Mask
+               MOV             AL, (~%1 << Dev.SBC386EX.Lite.Shift) & Dev.SBC386EX.Lite.Mask
                OUT             DX, AL
+%endmacro
+
+%macro         Dev.Lites.Count 0
+%if __BITS__ == 16
+               XOR             CX, CX
+%else
+               XOR             ECX, ECX
+%endif
+               MOV             DX, Dev.SBC386EX.Lite.Out
+               IN              AL, DX
+
+%%Loop:
+               ADD             AL, Dev.SBC386EX.Lite.0
+               OUT             DX, AL
+           A16 LOOP            $
+               JMP             %%Loop
 %endmacro
 
 ; All these macros assume:
