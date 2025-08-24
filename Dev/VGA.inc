@@ -27,8 +27,6 @@
 
 Dev.VGA:
 
-Dev.VGA.Base      EQU           000B_8000h      ; Base memory address
-
 Dev.VGA.Cols      EQU           80
 Dev.VGA.Rows      EQU           25
 
@@ -71,10 +69,18 @@ Dev.VGA.WhiteBack     EQU       Dev.VGA.Grey    << Dev.VGA.Back.Shift
 ; Combine character and attributes in one value
 %define           Dev.VGA.CharAttr(c,a) (((a) << Dev.VGA.Attr.Shift) | (c))
 
-                  SEGMENT         IO
+Dev.VGA.Base      EQU           000B_8000h      ; Base memory address
+
+%define           VGA.Base      Dev.VGA.Base
+
+                  SEGMENT       IO
 
 Dev.VGA.Misc.Port EQU           3C2h            ; VGA miscellaneous port
 
 Dev.VGA.Seq.Base  EQU           3C4h            ; VGA Sequencer base port
 
 Dev.VGA.CRTC.Base EQU           3D4h            ; VGA CRTC base port
+
+%define           VGA.Misc.Port Dev.VGA.Misc.Port
+%define           VGA.Seq.Base  Dev.VGA.Seq.Base
+%define           VGA.CRTC.Base Dev.VGA.CRTC.Base

@@ -27,7 +27,7 @@ Exec.Video:
                 REP             STOSW
 
                 ; Talk to CRTC
-                MOV             DX, Vid.0.IO.Start + Dev.SBC386EX.VGA3.IO.CRTC.Addr
+                MOV             DX, Vid.IO.Start + Dev.SBC386EX.VGA3.IO.CRTC.Addr
 
                 ; Turn off cursor
                 MOV             AX, Dev.SBC386EX.VGA3.CRTC.Value(          \
@@ -40,7 +40,6 @@ Exec.Video:
                                     Dev.SBC386EX.VGA3.CRTC.Control.1.IB |  \
                                     Dev.SBC386EX.VGA3.CRTC.Control.1.Sy)
                 OUT             DX, AX
-
 
 ; Finally, enable the Video interrupt in the PIC
                 IN              AL,  Dev.PIC.B.Mask
