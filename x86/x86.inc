@@ -66,3 +66,5 @@ Mask.Para       EQU        x86.PARA.Mask
 %include        "x86/TSS.inc"           ; Definitions for Task State Segment
 ;-------------------------------------------------------------------------------
 %include        "x86/IVT.inc"           ; Definitions for Interrupt Vector Table
+;-------------------------------------------------------------------------------
+%include        "x86/FPU.inc"           ; Definitions for Floating Point Unit
