@@ -1,0 +1,14 @@
+-Wall
+-w-unknown-warning
+-w-reloc-rel-word
+-w-reloc-rel-dword
+-w-reloc-abs-word
+-w-reloc-abs-dword
+-dROM.Chip=29F040
+-dROM.Chip=29F010
+-dROM.Chip=28C256
+-dROM.Chip=28C64
+-dROM.Chip=28C128
+-dDRAM.Chip=MT16D832
+-dDRAM.Chip=HY5116494B
+
