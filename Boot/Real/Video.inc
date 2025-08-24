@@ -1,48 +1,15 @@
 ;
-; Boot/Video.inc
+; Boot/Real/Video.inc
 ;
 
-; These definitions are for the Video section of the RBC VGA3 card.
-
-Vid.0.Mem.Start EQU             ECB.Mem.Vid.0
-Vid.0.IO.Start  EQU             ECB.IO.Vid.0
-
-Vid.1.Mem.Start EQU             ECB.Mem.Vid.1
-Vid.1.IO.Start  EQU             ECB.IO.Vid.1
-
-Vid.Font.Page   EQU            (Dev.SBC386EX.VGA3.Mem.Size >> x86.PAGE.Shift) - 1 ; For 512-char fonts, this must be even
-Vid.Font.Addr   EQU            (Vid.Font.Page << x86.PAGE.Shift)
-Vid.Font.CFG    EQU            (Vid.Font.Page << Dev.SBC386EX.VGA3.IO.CFG.Font.Shift)
-
-Boot.Text.Colour EQU            Dev.VGA.BlackBack | Dev.VGA.Grey
-
-;...............................................................................
-                SEGMENT         IO
-
-ECB.IO.Vid.0    EQU             ECB.IO.Start + 0*Dev.SBC386EX.VGA3.IO.Size
-ECB.IO.Vid.1    EQU             ECB.IO.Start + 1*Dev.SBC386EX.VGA3.IO.Size
-
-;-------------------------------------------------------------------------------
-                SEGMENT         ECB
-
-ECB.Mem.Vid.0   RESB            Dev.SBC386EX.VGA3.Mem.Size
-ECB.Mem.Vid.1   RESB            Dev.SBC386EX.VGA3.Mem.Size
-
-;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Real
 
                 USE16
 
 Boot.Real.Video:
                 CLD
-.0:
-                MOV             DX, Vid.0.IO.Start + Dev.SBC386EX.VGA3.IO.CRTC
-                MOV             DI, .1              ; 'Return' address
-                JMP             .Init
-.1:
-                MOV             DX, Vid.1.IO.Start + Dev.SBC386EX.VGA3.IO.CRTC
-                MOV             DI, .Exit           ; 'Return' address
-.Init:
+                MOV             DX, Vid.IO.Start + Dev.SBC386EX.VGA3.IO.CRTC
+
                 MOV             AX, 0000h
                 MOV             CX, Dev.SBC386EX.VGA3.CRTC_size
 .Zero:
@@ -51,14 +18,13 @@ Boot.Real.Video:
                 LOOP            .Zero
 
                 MOV             CX, .Table.Num
-                MOV             SI, .Table
+                MOV             SI, .Table + Boot.CS
 .Loop:
              CS LODSW
                 OUT             DX, AX
                 LOOP            .Loop
 
-                JMP             DI
-
+                JMP             .Exit
 
 .H.Displayed    EQU             Screen.Width
 .V.Displayed    EQU             Screen.Height
@@ -156,53 +122,4 @@ Boot.Real.Video:
 %endif
 .Table.Num      EQU             ($ - .Table) / x86.WORD.Size
 
-.Exit:
-
-;-------------------------------------------------------------------------------
-                SEGMENT         Boot.Prot
-
-                USE32
-
-Boot.Prot.Video:
-                MOV             DX, Vid.0.IO.Start + Dev.SBC386EX.VGA3.IO.CFG
-                MOV             EDI, Vid.0.Mem.Start
-                CALL            .Init
-                MOV             DX, Vid.1.IO.Start + Dev.SBC386EX.VGA3.IO.CFG
-                MOV             EDI, Vid.1.Mem.Start
-;               CALL            .Init
-;               JMP             .Exit
-                PUSH            .Exit
-
-.Init:
-                MOV             AX, Dev.VGA.CharAttr(' ', Boot.Text.Colour)
-                MOV             ECX, Vid.Font.Addr / x86.WORD.Size
-.Blank:
-                REP             STOSW                ; Blank video pages
-
-                SHRD            EBX, EDI, 8          ; Get Vid.Mem.A15 into BL
-                AND             BL, Dev.SBC386EX.VGA3.IO.CFG.A15
-
-                MOV             ESI, section.Boot.Font.start
-%if Font.Height == Dev.SBC386EX.VGA3.Font.Max
-                MOV             CX, Boot.Font.Size / x86.DWORD.Size
-             CS REP             MOVSD                ; Copy font from Boot.Font
-%else
-                XOR             EAX,EAX
-.Font:
-                MOV             CL, Font.Height
-             CS REP             MOVSB
-                MOV             CL, Dev.SBC386EX.VGA3.Font.Max - Font.Height
-                REP             STOSB
-                DEC             AH                    ; 256 characters in font
-                JNZ             .Font
-%endif
-
-                MOV             AL, BL
-                OR              AL, Vid.Font.CFG | \
-                                    Dev.SBC386EX.VGA3.IO.CFG.Font.256 | \
-                                    Dev.SBC386EX.VGA3.IO.CFG.Enable   | \
-                                    Dev.SBC386EX.VGA3.IO.CFG.Width.9
-                OUT             DX, AL
-
-                RET
 .Exit:

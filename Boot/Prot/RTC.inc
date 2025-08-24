@@ -1,5 +1,5 @@
 ;
-; Boot/RTC.inc
+; Boot/Prot/RTC.inc
 ;
 ; The SBC386EX Real-Time Clock (RTC) has a Super Capacitor to supply maintenance
 ; power while the main power is off. The RTC chip will charge that capacitor,
@@ -46,7 +46,7 @@ Boot.RTC:
 ; Send .Time
 ;                MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Write
 ;                MOV             CH, Dev.RTC.DS1302.Clock.Len
-;                MOV             SI, .Time                 ; Write out CS:.Time
+;                MOV             SI, .Time                  ; Write out CS:.Time
 ;                CALL            Boot.RTC.Write
 
                 XOR             ESI, ESI                   ; Single-byte writes again
@@ -75,9 +75,17 @@ Boot.RTC:
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Data | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Read
                 MOV             CH, Dev.RTC.DS1302.Data.Len
                 MOV             EDI, SRAM.Start + Boot.RTC.Data
-;               CALL            Boot.RTC.Read
-;               JMP             Boot.RTC.Exit
-                PUSH            Boot.RTC.Exit
+                CALL            Boot.RTC.Read
+                JMP             Boot.RTC.Exit
+;...............................................................................
+;.Time:                                     ; All values are BCD
+;                DB              00h        ; Secs
+;                DB              05h        ; Mins
+;                DB              Dev.RTC.DS1302.Hour.24 | 05h ; Hours (UTC)
+;                DB              22h        ; Date
+;                DB              08h        ; Month
+;                DB              05h        ; Day (1=Monday)
+;                DB              25h        ; Year
 ;...............................................................................
 Boot.RTC.Read:
                 OR              AL, Dev.SBC386EX.RTC.CE     ; Chip Enable
@@ -115,15 +123,6 @@ Boot.RTC.Read:
                 AND             AL, ~(Dev.SBC386EX.RTC.CE | Dev.SBC386EX.RTC.SCLK | Dev.SBC386EX.RTC.IO) ; Everything RTC off
                 OUT             DX, AL
                 RET
-;...............................................................................
-;.Time:
-;                DB              00h        ; Secs
-;                DB              55h        ; Mins
-;                DB              Dev.RTC.DS1302.Hour.24 | 00h ; Hours (UTC)
-;                DB              21h        ; Date
-;                DB              10h        ; Month
-;                DB              04h        ; Day (1=Monday)
-;                DB              21h        ; Year
 ;...............................................................................
 Boot.RTC.Write:
                 OR              AL, Dev.SBC386EX.RTC.CE     ; Chip Enable

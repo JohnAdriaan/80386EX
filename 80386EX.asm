@@ -8,11 +8,13 @@
 ;
 ; It has been written to be assembled with the Netwide Assembler NASM, which
 ; is a free download (http://www.nasm.us/) and will run on a number of different
-; development platforms - Windows, Linux and OS-X.
+; development platforms - Windows, Linux and MacOS.
 ;
 ; The NASM command line to assemble this source depends on the output format:
-; Binary format: nasm.exe -l80386EX.lst 80386EX.asm
-; Intel Hex format: nasm.exe -fith -l80386EX.lst -o80386EX.hex 80386EX.asm
+; Binary format: nasm.exe -@ Options.txt -l80386EX.lst 80386EX.asm
+; Intel Hex format: nasm.exe -@ Options.txt -fith -l80386EX.lst -o80386EX.hex 80386EX.asm
+; Note that the Options.txt file contains definitions for which ICs were used
+; in the target board
 ;
 ; Unlike many projects, this one is not a series of modules that need to be
 ; independently compiled/assembled. Instead, this one file `%include`s all other
@@ -25,6 +27,8 @@
 ; `Dev`  : Definitions for devices
 ; 'Demo' : Let's see what we can do with Protected Mode
 ; 'Boot' : Boot code
+; 'Boot/Real' : Real-mode boot code
+; 'Boor/Prot' : Protected-mode boot code
 ;===============================================================================
 
                 SECTALIGN         OFF   ; No implicit ALIGN => SECTALIGN effects
@@ -32,14 +36,14 @@
                 CPU               386
 
 ; These are the boot-time definitions
-%define         Boot.BaudRate     115_200
-%define         Boot.Protocol     Dev.UART.Word8 | Dev.UART.ParityNone | Dev.UART.Stop1
+%define         Boot.SIO.BaudRate 115_200
+%define         Boot.SIO.Protocol Dev.UART.Word8 | Dev.UART.ParityNone | Dev.UART.Stop1
 
-Screen.Width    EQU               90
-Screen.Height   EQU               59
+Screen.Width    EQU               80
+Screen.Height   EQU               25
 Screen.Size     EQU               Screen.Width * Screen.Height * 2
 
-Font.Height     EQU               8
+Font.Height     EQU               16
 
 ; These are some version identifiers
 %define         Name              "80386EX"
@@ -62,6 +66,10 @@ Font.Height     EQU               8
 ; Define .map file output. Map files are your friend! They can help you work out
 ; whether the assembler understands what you thought you told it...
                 [map all 80386EX.map]
+
+%define         ROM.ORG         0
+
+                ORG             ROM.ORG
 
 %assign         Demo.Size       0     ; Size of Demo part. See */Sizes.inc below
 
@@ -99,4 +107,4 @@ Font.Height     EQU               8
 
                 DB              Name.Stamp, Version.Stamp
 
-%include        "Boot/Sizes.inc"
+%include        "Sizes.inc"     ; Clean up all Segment sizes

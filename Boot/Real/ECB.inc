@@ -2,18 +2,7 @@
 ; Boot/ECB.inc
 ;
 
-ECB.Mem.Start   EQU             x86.EX.Addr.Size - (1024 * 1024)
-ECB.Mem.Mask    EQU             ECB.Mem.Size - 1
-%define         ECB.Mem.Bus     BS8
-
-ECB.IO.Start    EQU             00E0h
-ECB.IO.Mask     EQU             ECB.IO.Size - 1
-%define         ECB.IO.Bus      BS8
-
-;-------------------------------------------------------------------------------
-                SEGMENT         ECB   START=ECB.Mem.Start  NOBITS
-
-;-------------------------------------------------------------------------------
+; This is the Euro Card Bus initialisation
 
 ; Set the Chip Select Unit for the ECB
 ; Chip Select XIO  (CS0):  00E0h-00FFh
@@ -57,10 +46,3 @@ Boot.Real.ECB:
                 MOV             DX, x86.EX.CSU.%[ECB.IO.CS] + x86.EX.CS.MSKL
                 MOV             AX, x86.EX.CSU.MSKL.Value.IO(ECB.IO.Mask, NOSMM, CSEN)
                 OUT             DX,AX
-
-;-------------------------------------------------------------------------------
-                SEGMENT         Boot.Prot
-
-                USE32
-
-Boot.Prot.ECB:

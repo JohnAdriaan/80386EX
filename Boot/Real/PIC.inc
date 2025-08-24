@@ -1,8 +1,15 @@
 ;
-; Boot/PIC.inc
+; Boot/Real/PIC.inc
 ;
 
-;
+; The original IBM PC had one Priority Interrupt Controller (PIC) to allow up to
+; eight individually controlled interrupts. The 80286 IBM AT added a cascaded
+; PIC to IRQ 2 for eight more (less IRQ 2, so actually 7). They wired the old
+; IRQ 2 to IRQ 9. All future PCs only had two PICs - until they invented the
+; Advanced Priority Interrupt Controller (APIC), that could handle 256 interrupts.
+; The original PIC was configured to avoid the 8086's 5 base interrupts, so
+; the original BIOS starts IRQ 0 at Int 8. Intel has now reserved the first 32
+; vectors for its own use, so we need to program  them appropriately.
 ; To program a PIC, you first give it the Init Cmd, then you program the Mask
 ; register a few times in a prescribed order. The details change depending on
 ; whether the PIC is a Master or a Slave.

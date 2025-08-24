@@ -1,5 +1,5 @@
 ;
-; Boot/CPU.inc
+; Boot/Real/CPU.inc
 ;
 ; At boot, the DX register contains ID and Stepping information.
 ; In real mode, BP needs to be maintained - but the high part of EBP isn't used...

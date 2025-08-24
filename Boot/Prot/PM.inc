@@ -1,5 +1,5 @@
 ;
-; Boot/PM.inc
+; Boot/Prot/PM.inc
 ;
 
                 SEGMENT         Boot.Prot

@@ -1,10 +1,6 @@
 ;
-; Boot/Sizes.inc
+; Sizes.inc
 ;
-
-%define         ROM.ORG           (1_0000h - ROM.Size)
-
-                ORG             ROM.ORG
 
 ;===============================================================================
 ; Calculate final Boot.Real Segment size

@@ -1,5 +1,5 @@
 ;
-; Boot/GPIO.inc
+; Boot/Real/GPIO.inc
 ;
 
 ; The SBC-386EX has used some of the CPU's internal peripherals, and has added
@@ -39,7 +39,7 @@
 ; |      |  1  | SD_CD     | In  | SDCard Change Detect      |
 ; |      |  0  | PEREQ     | In  | 80387SX request detect    |
 ; +======+=====+===========+=====+===========================+
-; (Table repeated in IO.inc)
+; (Table repeated in Boot/Real/386EX.inc)
 
 ;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Real

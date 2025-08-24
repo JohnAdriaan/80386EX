@@ -1,11 +1,8 @@
 ;
-; Boot/Timer.inc
+; Boot/Real/Timer.inc
 ;
 
 ; Enable Timer 0. All other timers are purely internal - their pins are used elsewhere
-
-;-------------------------------------------------------------------------------
-                SEGMENT         Boot.Data
 
 ;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Real

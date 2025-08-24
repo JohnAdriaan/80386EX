@@ -1,5 +1,5 @@
 ;
-; Boot/386EX.inc
+; Boot/Real/386EX.inc
 ;
 ; The 80386EX has a number of enhancements, such as on-chip peripherals.
 ; Before these can be enabled individually, they need to be "pre-enabled".
@@ -39,7 +39,7 @@
 ; |      |  1  | SD_CD     | In  | SDCard Change Detect      |
 ; |      |  0  | PEREQ     | In  | 80387SX request detect    |
 ; +======+=====+===========+=====+===========================+
-; (Table repeated in GPIO.inc)
+; (Table repeated in Boot/Real/GPIO.inc)
 
 ;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Real

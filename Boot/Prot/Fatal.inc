@@ -1,5 +1,5 @@
 ;
-; Boot/Fatal.inc
+; Boot/Prot/Fatal.inc
 ;
 
 ; This module shows a fatal hardware condition detected during Boot

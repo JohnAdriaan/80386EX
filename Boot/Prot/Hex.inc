@@ -1,5 +1,5 @@
 ;
-; Boot/Hex.inc
+; Boot/Prot/Hex.inc
 ;
 
 ; This subroutine transmits 12 characters:
@@ -14,7 +14,6 @@
                 USE32
 
 Hex:
-%if 0
                 PUSH            ECX
                 PUSH            EDX
 
@@ -23,13 +22,13 @@ Hex:
                 MOV             DX, Dev.UART.COM1 + Dev.UART.LSR
 .Full:
                 IN              AL, DX
-                TEST            AL, Dev.UART.LSR.TBE
+                TEST            AL, Dev.UART.LSR.TBE ; Is Transmit Buffer Empty (TBE)?
                 JZ              .Full
 
-                CMP             EBX, 0x0000_FFFF
-                JA              .DoEBX
-                CMP             CX, 2
-                JBE             .DoEBX
+                CMP             EBX, 0000_FFFFh      ; Are there prefix characters?
+                JA              .DoEBX               ; Yes, so show them
+                CMP             CX, 2                ; Have we finished the ESI digits?
+                JBE             .DoEBX               ; Yes, so show EBX suffixes
 
                 SHLD            EAX, ESI, 4
                 SHL             ESI, 4
@@ -49,5 +48,4 @@ Hex:
 
                 POP             EDX
                 POP             ECX
-%endif
                 RET

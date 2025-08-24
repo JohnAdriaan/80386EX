@@ -1,12 +1,6 @@
 ;
-; Boot/ROM.inc
+; Boot/Real/ROM.inc
 ;
-
-ROM.Start       EQU             x86.EX.Addr.Size - ROM.Size
-ROM.Mask        EQU             ROM.Size - 1
-
-;-------------------------------------------------------------------------------
-                SEGMENT         ROM   START=ROM.Start  NOBITS
 
 ;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Real
