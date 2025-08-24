@@ -2,7 +2,6 @@
 ; Exec/RTC.inc
 ;
 
-
 %push           Exec.RTC    ; Don't leave these %defines lying around
 
 %macro          BCD             1

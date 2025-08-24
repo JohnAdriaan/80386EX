@@ -1,6 +1,6 @@
 [Config]
 Compilator.FileName=C:\NASM\NASM.exe
-Compilator.PSPar=-l%Name%.lst -o%NAME%.bin %Name%%Ext%
+Compilator.PSPar=-@Options.txt -l%Name%.lst -o%NAME%.bin %Name%%Ext%
 Compilator.Log=%Name%.log
 Compilator.SaveAll=1
 Compilator.Capture=1
@@ -20,6 +20,7 @@ HTServer=localhost
 [Project tree]
 80386EX
 	80386EX.asm
+	Options.txt
 	80386EX.lst
 	80386EX.map
 	80386EX.bin
@@ -31,6 +32,7 @@ HTServer=localhost
 		x86\Desc.inc
 		x86\TSS.inc
 		x86\IVT.inc
+		x86\FPU.inc
 		-x86\EX
 			x86\EX\386EX.inc
 			x86\EX\Remap.inc
@@ -41,9 +43,13 @@ HTServer=localhost
 			x86\EX\TMR.inc
 	-Dev
 		Dev\Dev.inc
+		Dev\ROM.inc
+		Dev\SRAM.inc
+		Dev\DRAM.inc
 		Dev\A20.inc
 		Dev\PIC.inc
 		Dev\Timer.inc
+		Dev\Kbd.inc
 		Dev\Key.inc
 		Dev\VGA.inc
 		Dev\UART.inc
@@ -58,7 +64,9 @@ HTServer=localhost
 			Dev\SBC-386EX\RTC.inc
 			Dev\SBC-386EX\SDCard.inc
 			Dev\SBC-386EX\IDE.inc
+			Dev\SBC-386EX\ECB.inc
 			Dev\SBC-386EX\VGA3.inc
+			Dev\SBC-386EX\Video.inc
 			Dev\SBC-386EX\M386EX2.PLD
 			Dev\SBC-386EX\DRAM-X.PLD
 			Dev\SBC-386EX\DCTL16-7.PLD
@@ -94,7 +102,7 @@ HTServer=localhost
 			Demo\User\Data.inc
 			Demo\User\Code.inc
 			Demo\User\Frame.inc
-		-Demo\Exec
+		+Demo\Exec
 			Demo\Exec\Exec.inc
 			Demo\Exec\Entry.inc
 			Demo\Exec\Init.inc
@@ -128,33 +136,41 @@ HTServer=localhost
 			Demo\Exec\GDT.inc
 		Demo\Sizes.inc
 	EPROM.inc
-	-Boot
+	+Boot
 		Boot\Boot.inc
 		Boot\Defn.inc
-		Boot\CPU.inc
-		Boot\386EX.inc
-		Boot\FPU.inc
-		Boot\PIC.inc
-		Boot\GPIO.inc
-		Boot\Timer.inc
-		Boot\SIO.inc
-		Boot\CSU.inc
+		-Real
+			Boot\Real\Real.inc
+			Boot\Real\Defn.inc
+			Boot\Real\CPU.inc
+			Boot\Real\386EX.inc
+			Boot\Real\CSU.inc
+			Boot\Real\ROM.inc
+			Boot\Real\SRAM.inc
+			Boot\Real\DRAM.inc
+			Boot\Real\FPU.inc
+			Boot\Real\PIC.inc
+			Boot\Real\GPIO.inc
+			Boot\Real\Timer.inc
+			Boot\Real\SIO.inc
+			Boot\Real\ECB.inc
+			Boot\Real\Video.inc
+			Boot\Real\IDE.inc
+			Boot\Real\SDCard.inc
 		Boot\GDT.inc
 		Boot\Font.inc
-		Boot\PM.inc
-		Boot\ROM.inc
-		Boot\SRAM.inc
-		Boot\DRAM.inc
-		Boot\ECB.inc
-		Boot\Video.inc
-		Boot\Keyboard.inc
-		Boot\RTC.inc
-		Boot\IDE.inc
-		Boot\SDCard.inc
-		Boot\Hex.inc
-		Boot\Fatal.inc
+		+Prot
+			Boot\Prot\Prot.inc
+			Boot\Prot\PM.inc
+			Boot\Prot\SRAM.inc
+			Boot\Prot\DRAM.inc
+			Boot\Prot\Video.inc
+			Boot\Prot\Keyboard.inc
+			Boot\Prot\RTC.inc
+			Boot\Prot\Hex.inc
+			Boot\Prot\Fatal.inc
 		Boot\Reset.inc
-		Boot\Sizes.inc
+	Sizes.inc
 [Open project files]
 0=80386EX.asm
 [Selected Project Files]
@@ -162,4 +178,4 @@ Main=80386EX.asm
 Selected=80386EX.asm
 [80386EX.asm]
 TopLine=1
-Caret=1,1
+Caret=2,17

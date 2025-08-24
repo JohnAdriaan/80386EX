@@ -48,7 +48,7 @@ Copy.Source     EQU             section.Demo.Ints.start
 
 Copy.Dest       EQU             Demo.Ints.Base
 %else
-Demo.Ints.Base  EQU             x86.EX.Addr.Size - ROM.Size + Demo.Size
+Demo.Ints.Base  EQU             ROM.Start + Demo.Size
 %endif
 
 %assign         Demo.Size       Demo.Size + Demo.Ints.Size
@@ -65,7 +65,7 @@ Demo.User.Limit EQU             $ - $$ - 1
 %ifdef USE_SRAM
 Demo.User.Base  EQU             SRAM.Start + Demo.Size
 %else
-Demo.User.Base  EQU             x86.EX.Addr.Size - ROM.Size + Demo.Size
+Demo.User.Base  EQU             ROM.Start + Demo.Size
 %endif
 
 Demo.User.Size  EQU             $ - $$
@@ -102,7 +102,7 @@ Demo.Exec.Limit EQU             $ - $$ - 1
 %ifdef USE_SRAM
 Demo.Exec.Base  EQU             SRAM.Start + Demo.Size
 %else
-Demo.Exec.Base  EQU             x86.EX.Addr.Size - ROM.Size + Demo.Size
+Demo.Exec.Base  EQU             ROM.Start + Demo.Size
 %endif
 
 Demo.Exec.Size  EQU             $ - $$
