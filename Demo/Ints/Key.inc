@@ -39,7 +39,7 @@ Ints.Key:
                 MOV             AX, x86.Selector(Demo.GDT.Data, .GDT, .RPL0)
                 MOV             ES, AX
 
-                IN              AL, Dev.Key.Data ; Get character from keyboard
+                IN              AL, Kbd.Data    ; Get character from keyboard
                 MOV             [ES:Data.Key.Code], AL ; Store in global Data
 
                 MOV             AH, AL            ; Save to show

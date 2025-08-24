@@ -2,14 +2,11 @@
 ; Dev/Key.inc
 ;
 
-; These are the definitions for the Keyboard
+; These are the definitions for Keys
 
                 SEGMENT         IO
 
-Dev.Key:                
-
-Dev.Key.Data    EQU             060h
-Dev.Key.Ctrl    EQU             064h
+Dev.Key:
 
 Dev.Key.Make    EQU             000h            ; "Make" codes have high bit off
 Dev.Key.Break   EQU             080h            ; "Break" codes have high bit on
