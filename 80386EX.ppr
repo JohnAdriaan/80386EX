@@ -74,6 +74,7 @@ HTServer=localhost
 			Dev\SBC-386EX\VGA3-ENB-04.PLD
 	-Demo
 		Demo\Demo.inc
+		Demo\Label.inc
 		Demo\Defn.inc
 		Demo\Data.inc
 		Demo\Boot.inc
@@ -102,7 +103,7 @@ HTServer=localhost
 			Demo\User\Data.inc
 			Demo\User\Code.inc
 			Demo\User\Frame.inc
-		+Demo\Exec
+		-Demo\Exec
 			Demo\Exec\Exec.inc
 			Demo\Exec\Entry.inc
 			Demo\Exec\Init.inc
@@ -134,14 +135,15 @@ HTServer=localhost
 			Demo\Exec\Clock.inc
 			Demo\Exec\LDT.inc
 			Demo\Exec\GDT.inc
+		Demo\GDT.inc
 		Demo\Sizes.inc
 	EPROM.inc
-	+Boot
+	-Boot
 		Boot\Boot.inc
+		Boot\Label.inc
 		Boot\Defn.inc
 		-Real
 			Boot\Real\Real.inc
-			Boot\Real\Defn.inc
 			Boot\Real\CPU.inc
 			Boot\Real\386EX.inc
 			Boot\Real\CSU.inc
@@ -159,7 +161,7 @@ HTServer=localhost
 			Boot\Real\SDCard.inc
 		Boot\GDT.inc
 		Boot\Font.inc
-		+Prot
+		-Prot
 			Boot\Prot\Prot.inc
 			Boot\Prot\PM.inc
 			Boot\Prot\SRAM.inc
@@ -178,4 +180,4 @@ Main=80386EX.asm
 Selected=80386EX.asm
 [80386EX.asm]
 TopLine=1
-Caret=2,17
+Caret=1,1
