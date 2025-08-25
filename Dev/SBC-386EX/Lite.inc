@@ -22,11 +22,7 @@ Dev.SBC386EX.Lite.Shift EQU  4
 %endmacro
 
 %macro         Dev.Lites.Count 0
-%if __BITS__ == 16
-               XOR             CX, CX
-%else
-               XOR             ECX, ECX
-%endif
+               ZeroCX
                MOV             DX, Dev.SBC386EX.Lite.Out
                IN              AL, DX
 

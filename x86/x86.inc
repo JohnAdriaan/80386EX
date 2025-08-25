@@ -52,6 +52,17 @@ Mask.Word       EQU        x86.WORD.Mask
 Mask.DWord      EQU        x86.DWORD.Mask
 Mask.Para       EQU        x86.PARA.Mask
 
+; Sometimes, you want to LOOP 64K times.
+; So you want to zero CX. Best way is to XOR CX, CX.
+; But XOR ECX, ECX is often possible, and more efficient!
+%macro          ZeroCX     0
+%if __BITS__ == 16
+                XOR        CX, CX
+%else
+                XOR        ECX, ECX
+%endif
+%endmacro
+
                 SEGMENT                 IO   VSTART=0   NOBITS
 
 ;-------------------------------------------------------------------------------
