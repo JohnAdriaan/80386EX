@@ -65,7 +65,7 @@ Ints.Key:
 
 ; .Key.Pos is chosen as the keyboard IRQ's screen position - but the Hex is two
 ; characters wide. Luckily, the next IRQ (IRQ2) is the Cascade, so it never fires!
-.Key.Pos        EQU             33 * 2           ; Location on screen to show Key
+.Key.Pos        EQU             (Boot.PIC.A.Base + 1) * x86.WORD.Size ; Location on screen to show Key
 .Key.Colour     EQU             Dev.VGA.CyanBack | Dev.VGA.Black
 
                 PUSH            ECX              ; Need these

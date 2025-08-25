@@ -19,7 +19,7 @@ x86.EX.INT.CFG.IR6     EQU      0000_1000b    ; Slave Interrupt Request 6
 x86.EX.INT.CFG.IR6.Dis EQU      0000_0000b    ; Slave Interrupt Request 6 disable
 x86.EX.INT.CFG.IR5     EQU      0000_0100b    ; Slave Interrupt Request 5 (see documentation)
 x86.EX.INT.CFG.IR5.Dis EQU      0000_0000b    ; Slave Interrupt Request 5 disable
-x86.EX.INT.CFG.IR1     EQU      0000_0010b    ; Slave Interrupt Request 1
+x86.EX.INT.CFG.IR1     EQU      0000_0010b    ; Slave Interrupt Request 1 (Video)
 x86.EX.INT.CFG.SSIO    EQU      0000_0000b    ; SSIO interrupt (IRQ9)
 x86.EX.INT.CFG.IR0     EQU      0000_0001b    ; Slave Interrupt Request 0
 x86.EX.INT.CFG.IR0.Dis EQU      0000_0000b    ; Slave Interrupt Request 0 disable

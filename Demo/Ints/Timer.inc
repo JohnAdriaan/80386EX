@@ -16,7 +16,10 @@ Ints.Timer:
 
                 PUSH            EAX             ; Need this register
                 PUSH            DS              ; And this one
-                MOV             AX, Demo.GDT.Data
+MOV AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+MOV DS, AX
+INC BYTE [WORD (Boot.PIC.A.Base + 0) * x86.WORD.Size]
+                MOV             AX, x86.Selector(Demo.GDT.Data, .GDT, .RPL0)
                 MOV             DS, AX
                 ADD             [WORD Data.Ticks], DWORD Demo.Timer.Delta
                 ADC             [WORD Data.Secs],  DWORD 0

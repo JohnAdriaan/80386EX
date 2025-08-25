@@ -41,11 +41,11 @@ Ints.IRQ7:
                 IN              AL, Dev.PIC.A.Cmd
                 TEST            AL, Dev.PIC.Spurious
                 JNZ             .NotSpurious
-;               PUSH            DS
-;               MOV             AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
-;               MOV             DS, AX
-;               INC   BYTE      [(Boot.PIC.A.Base + 7) * 2] ; Dingle(tm)
-;               POP             DS
+                PUSH            DS
+                MOV             AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+                MOV             DS, AX
+                INC   BYTE      [WORD (Boot.PIC.A.Base + 7) * 2] ; Dingle(tm)
+                POP             DS
                 POP             EAX
                 IRETD
 .NotSpurious:
@@ -99,6 +99,11 @@ Ints.IRQ15:
                 JNZ             .NotSpurious
                 MOV             AL, Dev.PIC.Cmd.EOI  ; Still need to Ack Master
                 OUT             Dev.PIC.A.Cmd, AL
+                PUSH            DS
+                MOV             AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+                MOV             DS, AX
+                INC   BYTE      [WORD (Boot.PIC.B.Base + 7) * 2] ; Dingle(tm)
+                POP             DS
                 POP             EAX
                 IRETD
 .NotSpurious:
