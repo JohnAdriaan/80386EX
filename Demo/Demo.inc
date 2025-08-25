@@ -3,6 +3,8 @@
 ;
 
 ;%define USE_SRAM
+%define USE_DOUBLEBUFFER
+;%define USE_DOUBLEBUFFER_DRAM  ; Otherwise use SRAM
 
                 SEGMENT         Demo
 
@@ -14,7 +16,7 @@ Demo.Exec.Stack.Base EQU        Demo.Exec.LDT.Base + Demo.Exec.LDT.Size
 Demo.Exec.Stack.Top  EQU        Demo.Exec.Stack.Base + Demo.Exec.Stack.Size
 Demo.First      EQU             Demo.Exec.Stack.Top ; First unallocated RAM
 
-Screen.Base     EQU             03F0_0000h
+Screen.Base     EQU             Dev.SBC386EX.VGA3.Mem.Start
 Screen.Cols     EQU             Screen.Width
 Screen.Rows     EQU             Screen.Height
 

@@ -4,7 +4,7 @@
 
 ; This module installs a Video interrupt handler.
 ; The video controller doesn't have dual-port RAM, so the screen refresh and the
-; CPU writes interfere with each other. (Boy do they!)
+; CPU writes interfere with each other and corrupt the writes. (Boy do they!)
 ; So writes can only happen during the blanking interval, when the refresh
 ; isn't accessing the RAM. Luckily it raises an interrupt during this period,
 ; so we can simply copy the values from a buffer to the screen.
@@ -30,15 +30,15 @@ Exec.Video:
                 MOV             DX, Vid.IO.Start + Dev.SBC386EX.VGA3.IO.CRTC.Addr
 
                 ; Turn off cursor
-                MOV             AX, Dev.SBC386EX.VGA3.CRTC.Value(          \
-                                    .Ncs1,                                 \
-                                    Dev.SBC386EX.VGA3.CRTC.Cursor.Off)
+                MOV             AX, Dev.SBC386EX.VGA3.CRTC.Value(              \
+                                        .Ncs1,                                 \
+                                        Dev.SBC386EX.VGA3.CRTC.Cursor.Off)
                 OUT             DX, AX
                 ; Enable Vertical Retrace interrupt
-                MOV             AX, Dev.SBC386EX.VGA3.CRTC.Value(          \
-                                    .Control.1,                            \
-                                    Dev.SBC386EX.VGA3.CRTC.Control.1.IB |  \
-                                    Dev.SBC386EX.VGA3.CRTC.Control.1.Sy)
+                MOV             AX, Dev.SBC386EX.VGA3.CRTC.Value(              \
+                                        .Control.1,                            \
+                                        Dev.SBC386EX.VGA3.CRTC.Control.1.IB |  \
+                                        Dev.SBC386EX.VGA3.CRTC.Control.1.Sy)
                 OUT             DX, AX
 
 ; Finally, enable the Video interrupt in the PIC

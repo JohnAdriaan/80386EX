@@ -8,7 +8,9 @@ Dev.SBC386EX.VGA3:
 
 Dev.SBC386EX.VGA3.Font.Max    EQU             16
 
+Dev.SBC386EX.VGA3.Mem.Start   EQU             ECB.Mem.Start
 Dev.SBC386EX.VGA3.Mem.Size    EQU             8000h
+Dev.SBC386EX.VGA3.IO.Start    EQU             ECB.IO.Start
 Dev.SBC386EX.VGA3.IO.Size     EQU             Dev.SBC386EX.VGA3.IO_size
 
                 STRUC           Dev.SBC386EX.VGA3.IO

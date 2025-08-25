@@ -6,7 +6,7 @@
 
 ;...............................................................................
 Ints.Debug.Init:
-                MOV             AX, x86.Selector(Demo.GDT.Screen, .GDT, .RPL0) ; ***
+                MOV             AX, x86.Selector(Demo.GDT.Screen, .GDT, .RPL0) ; No double-buffering
                 MOV             ES, AX           ; Point to Screen, for STOSW
                 MOV             AX, x86.Selector(Demo.GDT.Data, .GDT, .RPL0)
                 MOV             FS, AX           ; Point to global (Key) Data

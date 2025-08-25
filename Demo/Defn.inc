@@ -17,8 +17,8 @@
 Demo.Timer.Tick      EQU        1000    ; Number of Timer Interrupts a second
 Demo.Timer.Div       EQU        Dev.Timer.ClockFreq / Demo.Timer.Tick
 Demo.Timer.Delta     EQU        1_0000_0000h / (Dev.Timer.ClockFreq / Demo.Timer.Div)
-Demo.Window.Width    EQU        6       ; Width of each Task's Window
-Demo.Window.Height   EQU        5       ; Height of each Task's Window
+Demo.Window.Width    EQU        9       ; Width of each Task's Window
+Demo.Window.Height   EQU        7       ; Height of each Task's Window
 
 Demo.User.Ball         EQU      1       ; Try 3: it is an OEM 'Heart' symbol
 Demo.User.Ball.Colour  EQU      Dev.VGA.BlueBack  | Dev.VGA.Gray

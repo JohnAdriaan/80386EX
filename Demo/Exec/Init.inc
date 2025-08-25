@@ -34,7 +34,9 @@ Exec.Init:
                 ; Initialise RAM variables
                 MOV    DWORD    [WORD Data.RAM], Demo.First
                 INC             EBP                     ; Convert Limit to Size
-;               SUB             EBP, ((Screen.Size + x86.PAGE.Size - 1) & ~x86.PAGE.Mask) - 1
+%ifdef USE_DOUBLEBUFFER_DRAM
+                SUB             EBP, ((Screen.Size + x86.PAGE.Size - 1) & ~x86.PAGE.Mask) - 1
+%endif
                 MOV             [WORD Data.RAMTop], EBP ; Save away new top of RAM
 
                 XOR             EAX, EAX
@@ -44,14 +46,19 @@ Exec.Init:
                 ; Initialise Keyboard variables
                 MOV     BYTE    [WORD Data.Key.Shifts], 0
 
+%ifdef USE_DOUBLEBUFFER
                 ; First, allocate Video double-buffer
+%ifdef USE_DOUBLEBUFFER_DRAM
+                MOV             EAX, EBP          ; Use (last) part of SRAM: it's faster than DRAM
+%else
                 MOV             EAX, (SRAM.Start + SRAM.Size - Screen.Size) & ~x86.PAGE.Mask
-;               MOV             EAX, EBP
+%endif
                 MOV             ECX, Screen.Size
                 MOV             DL, x86.Type.Mem(.Data, .DPL3, .RW) ; Allow anyone to access it
                 MOV             DH, x86.Gran.Mem(.Byte, .Small)
                 CALL            Exec.Alloc.GDT.Mem
 ;               CMP             AX, Demo.GDT.Video ; Assume this will work!
+%endif ; USE_DOUBLEBUFFER
 
                 ; Now allocate Exec's TSS. Use Exec's LDT!
                 MOV             AX, x86.Selector(Demo.GDT.Exec.LDT, .GDT, .RPL0)

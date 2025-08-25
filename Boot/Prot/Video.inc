@@ -8,7 +8,7 @@
 
 Boot.Prot.Video:
                 MOV             AX, Dev.VGA.CharAttr(' ', Boot.Text.Colour)
-                MOV             ECX, Vid.Font.Addr / x86.WORD.Size
+                MOV             ECX, Vid.Font.Addr / x86.WORD.Size ; Blank up to Font page
                 MOV             DX, Vid.IO.Start + Dev.SBC386EX.VGA3.IO.CFG
                 MOV             EDI, Vid.Mem.Start
 .Blank:
@@ -36,5 +36,5 @@ Boot.Prot.Video:
                 OR              AL, Vid.Font.CFG | \
                                     Dev.SBC386EX.VGA3.IO.CFG.Font.256 | \
                                     Dev.SBC386EX.VGA3.IO.CFG.Enable   | \
-                                    Dev.SBC386EX.VGA3.IO.CFG.Width.9
+                                    Dev.SBC386EX.VGA3.IO.CFG.Width.%[Font.Width]
                 OUT             DX, AL

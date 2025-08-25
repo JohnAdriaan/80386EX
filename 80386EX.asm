@@ -39,11 +39,12 @@
 %define         Boot.SIO.BaudRate 115_200
 %define         Boot.SIO.Protocol Dev.UART.Word8 | Dev.UART.ParityNone | Dev.UART.Stop1
 
-Screen.Width    EQU               80
-Screen.Height   EQU               25
+Screen.Width    EQU               90
+Screen.Height   EQU               30
 Screen.Size     EQU               Screen.Width * Screen.Height * 2
 
-Font.Height     EQU               16
+%define         Font.Height       16
+%define         Font.Width        9
 
 ; These are some version identifiers
 %define         Name              "80386EX"
