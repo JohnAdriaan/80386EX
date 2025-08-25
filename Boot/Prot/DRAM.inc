@@ -49,8 +49,12 @@ Boot.Prot.DRAM:
                 AND             EAX, EDX                  ; AND the two together
 
                 MOV             [SRAM.Start + DRAM.Limit], EAX ; Save away RAM limit
+                LEA             ESI, [EAX+1]              ; Add one for RAM size
 
                 SHR             EAX, 16                   ; Only interested in top half
                 AND             AX, x86.EX.CSU.MSKH.Mask  ; Isolate MSKH
                 MOV             DX, x86.EX.CSU.%[DRAM.CS] + x86.EX.CS.MSKH
-                OUT             DX, AX                    ; Set CS to only DRAM
+                OUT             DX, AX                    ; Set CSU to only DRAM size
+
+                MOV             EBX, `D:\r\n`
+                CALL            Hex
