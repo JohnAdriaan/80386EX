@@ -2,7 +2,7 @@
 ; Demo.inc
 ;
 
-;%define USE_SRAM
+%define USE_SRAM
 %define USE_DOUBLEBUFFER
 ;%define USE_DOUBLEBUFFER_DRAM  ; Otherwise use SRAM
 
