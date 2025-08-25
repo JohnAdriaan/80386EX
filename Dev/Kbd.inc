@@ -34,7 +34,8 @@ Dev.Kbd.Ctrl.System        EQU   0000_0100b
 Dev.Kbd.Ctrl.Mouse.Int     EQU   0000_0010b
 Dev.Kbd.Ctrl.Key.Int       EQU   0000_0001b
 
-Dev.Kbd.Cmd.Ctrl.Test     EQU   0AAh ; Should return 055h
+Dev.Kbd.Cmd.Ctrl.Test     EQU   0AAh ; Should return .OK
+Dev.Kbd.Cmd.Ctrl.Test.OK  EQU   055h
 Dev.Kbd.Cmd.Ctrl.Read     EQU   020h
 Dev.Kbd.Cmd.Ctrl.Write    EQU   060h
 Dev.Kbd.Cmd.Ctrl.Ver      EQU   0A1h
@@ -47,6 +48,6 @@ Dev.Kbd.Cmd.Mouse.Test    EQU   0A9h ; Should return 000h
 Dev.Kbd.Cmd.Mouse.Disable EQU   0A7h
 Dev.Kbd.Cmd.Mouse.Enable  EQU   0A8h
 Dev.Kbd.Cmd.Mouse.Buffer  EQU   0D3h ; Pretend came from Mouse
+Dev.Kbd.Cmd.Mouse.Data    EQU   0D4h ; Send next .Data write to Mouse
 Dev.Kbd.Cmd.Version       EQU   0AFh
 Dev.Kbd.Cmd.Mode.Read     EQU   0CAh ; XXXX_XXX1b = PS/2
-

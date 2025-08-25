@@ -91,7 +91,11 @@ EPROM.Pad       EQU             ROM.Size - Image.Size
 
 Boot.Data.Size  EQU             $ - $$
 
-%assign         Boot.Data.Pad   SRAM.Size - Boot.Data.Size
+%ifdef USE_SRAM
+%assign         Boot.Data.Pad   (Demo.Ints.Base - SRAM.Start) - Boot.Data.Size
+%elifdef USE_DOUBLEBUFFER
+%assign         Boot.Data.Pad   (SRAM.Size - Screen.Size) & ~x86.PAGE.Mask - Boot.Data.Size
+%endif
 
                 RESB            Boot.Data.Pad
 

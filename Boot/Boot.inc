@@ -18,6 +18,8 @@
 ;
 
 ;===============================================================================
+                SEGMENT         Boot.Data    NOBITS
+;-------------------------------------------------------------------------------
 %include        "Boot/Label.inc"        ; Add human-readable identifiers to ROM code
 ;-------------------------------------------------------------------------------
 %include        "Boot/Defn.inc"         ; Definitions for use by ROM routines

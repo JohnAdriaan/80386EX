@@ -19,9 +19,9 @@ Dev.SBC386EX.VGA3.IO.Size     EQU             Dev.SBC386EX.VGA3.IO_size
 .Kbd            EQU             .Kbd.Data
 .Kbd.Cmd        EQU             .Kbd.Stat
 
-%define         Kbd.Data        Dev.SBC386EX.VGA3.IO.Kbd.Data
-%define         Kbd.Stat        Dev.SBC386EX.VGA3.IO.Kbd.Stat
-%define         Kbd.Cmd         Dev.SBC386EX.VGA3.IO.Kbd.Cmd
+%define         Kbd.Data        Dev.SBC386EX.VGA3.IO.Start + Dev.SBC386EX.VGA3.IO.Kbd.Data
+%define         Kbd.Stat        Dev.SBC386EX.VGA3.IO.Start + Dev.SBC386EX.VGA3.IO.Kbd.Stat
+%define         Kbd.Cmd         Dev.SBC386EX.VGA3.IO.Start + Dev.SBC386EX.VGA3.IO.Kbd.Cmd
 
 .CRTC.Addr      RESB            1       ; CRT Controller
 .CRTC.Data      RESB            1       ; CRT Controller
