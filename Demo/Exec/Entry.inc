@@ -46,11 +46,14 @@ Demo.Exec.Entry:
                 MOV             ES, AX
 
                 ENTER           Clock.String, 0                 ; Make room on stack
+%ifdef DATE_TEST
                 MOV             [EBP], DWORD `\r\n`             ; Overwrite saved EBP with CRLF
 
-                MOV             EAX, (12 * 60 + 34) * 60 + 56
+                MOV             EAX, (12 * 60 + 34) * 60 + 56  ; Mon, 1 Jan 2001, 12:34:56
+%endif
 Demo.Exec.Idle:
-                LEA             EDX, [EAX + 24 * 60 * 60 + 61]
+%ifdef DATE_TEST
+                LEA             EDX, [EAX + 24 * 60 * 60 + 61] ; Add a day and a second
                 PUSH            EDX
                 CALL            Exec.Clock
 
@@ -67,6 +70,7 @@ Demo.Exec.Idle:
                 MOV             DX, Dev.UART.COM1 + Dev.UART.Data
                 OUT             DX, AL
                 LOOP            .Send
+%endif
 
                 CALL            Exec.Clock.Get     ; EDX:EAX gets Secs:Ticks
                 MOV             EAX, EDX           ; EAX is Secs
@@ -79,9 +83,12 @@ Demo.Exec.Idle:
              SS LODSB
                 STOSW
                 LOOP            .Show
+
                 User.Yield
 
-                POP             EAX
+%ifdef DATE_TEST
+                POP             EAX                ; Restore for next increament
+%endif
                 JMP             Demo.Exec.Idle
 
 %if 0
