@@ -25,8 +25,7 @@ INC BYTE [WORD (Boot.PIC.A.Base + 0) * x86.WORD.Size]
                 ADC             [WORD Data.Secs],  DWORD 0
                 POP             DS              ; Not anymore
 
-                MOV             AL, Dev.PIC.Cmd.EOI ; Acknowledge interrupt in PIC
-                OUT             Dev.PIC.A.Cmd, AL   ; (Note interrupts still off)
+                Dev.PIC.A.EOI   ; Acknowledge interrupt in PIC (Note interrupts still off)
 
                 TEST     WORD   [.CS], x86.Seg.LDT | x86.Seg.CPL
                 JZ              .Exit           ; Don't switch from GDT CPL0 code!

@@ -29,24 +29,24 @@ Boot.PIC:
                 MOV             AL, x86.EX.INT.CFG.IR1   ; Enable video interrupt
                 OUT             DX, AL
 
-                MOV             AL, Dev.PIC.Cmd.Init     ; Initialise PICs
-                OUT             Dev.PIC.A.Cmd, AL
-                OUT             Dev.PIC.B.Cmd, AL
+                MOV             AL, Dev.PIC.Cmd.ICW1     ; Initialise PICs
+                OUT             Dev.PIC.A.Cmd, AL        ; ICW1
+                OUT             Dev.PIC.B.Cmd, AL        ; ICW1
 
                 MOV             AL, Boot.PIC.A.Base      ; Set PIC.A's Base
-                OUT             Dev.PIC.A.Mask, AL
+                OUT             Dev.PIC.A.Ctrl, AL       ; ICW2
                 MOV             AL, Boot.PIC.B.Base      ; Set PIC.B's Base
-                OUT             Dev.PIC.B.Mask, AL
+                OUT             Dev.PIC.B.Ctrl, AL       ; ICW2
 
                 MOV             AL, Dev.PIC.A.Cascade    ; Tell PIC.A where Slave is
-                OUT             Dev.PIC.A.Mask, AL
+                OUT             Dev.PIC.A.Ctrl, AL       ; ICW3
 
                 MOV             AL, Dev.PIC.B.Cascade    ; Tell PIC.B where it is Slave
-                OUT             Dev.PIC.B.Mask, AL
+                OUT             Dev.PIC.B.Ctrl, AL       ; ICW3
 
-                MOV             AL, Dev.PIC.Init.8086    ; 80x86 mode
-                OUT             Dev.PIC.A.Mask, AL
-                OUT             Dev.PIC.B.Mask, AL
+                MOV             AL, Dev.PIC.Init.ICW4    ; 80x86 mode
+                OUT             Dev.PIC.A.Ctrl, AL       ; ICW4
+                OUT             Dev.PIC.B.Ctrl, AL       ; ICW4
 
                 MOV             AL, ~Dev.PIC.A.Cascade   ; Allow Cascade interrupts through
                 OUT             Dev.PIC.A.Mask, AL

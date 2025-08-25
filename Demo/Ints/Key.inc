@@ -44,8 +44,7 @@ Ints.Key:
 
                 MOV             AH, AL            ; Save to show
 
-                MOV             AL, Dev.PIC.Cmd.EOI ; Can now acknowledge PIC
-                OUT             Dev.PIC.A.Cmd, AL
+                Dev.PIC.A.EOI                     ; Can now acknowledge PIC
 
                 CMP             AH, Demo.Debug.Key ; Was it the debugger key?
                 JNE             .Continue        ; Don't invoke the Debugger?

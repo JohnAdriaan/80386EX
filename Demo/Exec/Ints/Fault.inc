@@ -140,8 +140,7 @@ Exec.Ints.Fault.TestIRQs:
                 JZ              .Finish            ; Nothing to worry about!
                 CMP             AL,Dev.PIC.A.Key   ; If keypress outstanding...
                 JE              .KeyInterrupt      ; Handle it
-                MOV             AL,Dev.PIC.Cmd.EOI ; Acknowledge
-                OUT             Dev.PIC.A.Cmd,AL   ; current IRQ (should be Timer)
+                Dev.PIC.A.EOI                      ; Acknowledge current IRQ (should be Timer)
                 JMP             .Retest            ; And keep looking
 
 .KeyInterrupt:

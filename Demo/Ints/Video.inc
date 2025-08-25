@@ -18,9 +18,7 @@ Ints.Video:
                 IN              AL, DX                               ; Read it
                 MOV             AH, AL                               ; Into AH for later
 
-                MOV             AL, Dev.PIC.Cmd.EOI ; Acknowledge interrupt in PIC
-                OUT             Dev.PIC.B.Cmd, AL   ; Acknowledge slave PIC first
-                OUT             Dev.PIC.A.Cmd, AL
+                Dev.PIC.B.EOI
 
                 MOV             DX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
                 MOV             DS, DX

@@ -56,8 +56,7 @@ Ints.IRQ7:
 ; Acknowledge Master PIC
 Ints.PIC.A:
                 PUSH            EAX
-                MOV             AL, Dev.PIC.Cmd.EOI
-                OUT             Dev.PIC.A.Cmd, AL
+                Dev.PIC.A.EOI
                 POP             EAX
 ; All IRQs jump to the default Fault handler
                 JMP             Ints.Fault
@@ -114,9 +113,7 @@ Ints.IRQ15:
 ; Acknowledge Slave PIC first
 Ints.PIC.B:
                 PUSH            EAX
-                MOV             AL, Dev.PIC.Cmd.EOI
-                OUT             Dev.PIC.B.Cmd, AL
-                OUT             Dev.PIC.A.Cmd, AL
+                Dev.PIC.B.EOI
                 POP             EAX
 ; All IRQs jump to the default Fault handler
                 JMP             Ints.Fault
