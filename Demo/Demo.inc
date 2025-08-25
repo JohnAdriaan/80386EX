@@ -32,6 +32,8 @@ Screen.Rows     EQU             Screen.Height
 ; At this point we're still in Boot-time Linear addressing.
 ; Be careful with addresses!
 
+%include        "Demo/Label.inc"        ; Add human-readable information to ROM code
+;-------------------------------------------------------------------------------
 %include        "Demo/Defn.inc"         ; Definitions for various parameters
 ;-------------------------------------------------------------------------------
 %include        "Demo/Data.inc"         ; Global Data Segment
@@ -43,3 +45,5 @@ Screen.Rows     EQU             Screen.Height
 %include        "Demo/User/User.inc"    ; User Mode program
 ;-------------------------------------------------------------------------------
 %include        "Demo/Exec/Exec.inc"    ; Supervisor Mode executive
+;-------------------------------------------------------------------------------
+%include        "Demo/GDT.inc"          ; Global Descriptor Table (GDT)

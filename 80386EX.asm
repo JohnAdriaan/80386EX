@@ -89,6 +89,8 @@ Font.Height     EQU               16
 ;===============================================================================
 %include        "Dev/SBC-386EX/SBC-386EX.inc" ; Definitions for this board
 ;===============================================================================
+                SEGMENT         Demo
+
                 USE32
 %include        "Demo/Demo.inc" ; Demo to show Protected Mode features
 
@@ -97,14 +99,24 @@ Font.Height     EQU               16
                 SEGMENT         EPROM
 %include        "EPROM.inc"     ; Padding for unused EPROM
 ;===============================================================================
+                SEGMENT         Boot
+
                 USE16           ; Boot in 16-bit Real Mode
 
 %include        "Boot/Boot.inc" ; Real Mode bootstrap
 
+;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Reset
+
+                USE16
+
+; This is the CPU Reset entry point. JMP to the Boot code
+Boot.Reset:
+                JMP            Boot.Real.Entry
 
                 ALIGN           8, DB 0FFh
 
                 DB              Name.Stamp, Version.Stamp
 
+;===============================================================================
 %include        "Sizes.inc"     ; Clean up all Segment sizes

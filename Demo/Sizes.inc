@@ -2,6 +2,17 @@
 ; Demo.Sizes.inc
 ;
 
+; Calculate final Demo.Label Segment size
+                SEGMENT         Demo  ALIGN=Align.Para
+
+                ALIGN           Align.Para, DB 0xFF
+
+Demo.Label.Size EQU             $ - $$
+
+%assign         Demo.Size       Demo.Size + Demo.Label.Size
+
+%assign         Image.Size      Image.Size + Demo.Label.Size
+;-------------------------------------------------------------------------------
 ; Calculate final Demo.Boot Segment size
                 SEGMENT         Demo.Boot  ALIGN=Align.Para
 

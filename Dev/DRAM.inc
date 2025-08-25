@@ -24,5 +24,5 @@ DRAM.Waits      EQU             DRAM.%[DRAM.Chip].Waits
 DRAM.Start      EQU             0000_0000h
 
 ;-------------------------------------------------------------------------------
-                SEGMENT         RAM   START=DRAM.Start  NOBITS
+                SEGMENT         DRAM   START=DRAM.Start  NOBITS
 

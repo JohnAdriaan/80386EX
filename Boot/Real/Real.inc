@@ -2,11 +2,8 @@
 ; Boot/Real/Real.inc
 ;
 
-; Real-mode definition and code files
-%include        "Boot/Real/Defn.inc"         ; Real-mode definitions
+; Real-mode definitions and code files
 ;-------------------------------------------------------------------------------
-Boot.Real.Entry:                         ; Reset JMP point
-
 %include        "Boot/Real/CPU.inc"          ; Init CPU
 ;-------------------------------------------------------------------------------
 %include        "Boot/Real/386EX.inc"        ; Init 386EX peripherals

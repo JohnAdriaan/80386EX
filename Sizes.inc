@@ -3,6 +3,19 @@
 ;
 
 ;===============================================================================
+; Calculate final Boot Segment size
+; Note this segment falls through to Boot.Real
+                SEGMENT         Boot   ALIGN=Align.Para
+
+                ALIGN           Align.Para, DB 0FFh
+
+Boot.Label.Size EQU             $ - $$
+
+%assign         Image.Size      Image.Size + Boot.Label.Size
+
+%assign         Boot.Size       Boot.Size + Boot.Label.Size
+
+;-------------------------------------------------------------------------------
 ; Calculate final Boot.Real Segment size
 ; Note this segment falls through to Boot.GDT
                 SEGMENT         Boot.Real   ALIGN=Align.Para

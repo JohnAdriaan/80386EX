@@ -1,5 +1,5 @@
 ;
-; Defn.inc
+; Demo/Defn.inc
 ;
 
 ; These are definitions for the rest of the program. You can experiment by
@@ -7,19 +7,6 @@
 ; will have far-reaching impacts.
 
                 SEGMENT         Demo.Boot
-
-                DB              Version.Author, "'s"
-                ALIGN           Align.Para, DB ' '
-                DB              Version.Demo
-                ALIGN           Align.Para, DB ' '
-
-                DB              'v', Version.String
-                DB              ' ', Version.Copyright
-                ALIGN           Align.Para, DB ' '
-
-%substr         Demo.Date       __?DATE?__ 3,-1
-                DB              Demo.Date
-                DB              __?TIME?__
 
 ; Change these to (almost) whatever you'd like. If you're too extreme, you'll
 ; get assemble-time errors. Others you won't know until you try...

@@ -1,9 +1,10 @@
 ;
-; Boot/Real/Defn.inc
+; Boot/Label.inc
 ;
 
-;-------------------------------------------------------------------------------
-                SEGMENT         Boot.Real
+; This puts human-readable strings into the EPROM for versioning
+
+                SEGMENT         Boot
 
                 DB              Version.Author, "'s"
                 ALIGN           Align.Para, DB ' '

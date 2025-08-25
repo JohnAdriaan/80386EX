@@ -18,11 +18,15 @@
 ;
 
 ;===============================================================================
+%include        "Boot/Label.inc"        ; Add human-readable identifiers to ROM code
+;-------------------------------------------------------------------------------
 %include        "Boot/Defn.inc"         ; Definitions for use by ROM routines
 ;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Real
 
                 USE16
+
+Boot.Real.Entry:                             ; Reset JMP point
 
 %include        "Boot/Real/Real.inc"
 ;-------------------------------------------------------------------------------

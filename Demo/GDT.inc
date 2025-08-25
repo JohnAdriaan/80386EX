@@ -1,5 +1,5 @@
 ;
-; Exec/GDT.inc
+; Demo/GDT.inc
 ;
 
 ; The GDT is the only Descriptor Table that can store certain system tables,
@@ -44,7 +44,11 @@ Demo.GDT.SRAM.Gran   EQU        x86.Gran.Mem(.Byte, .Small)
 
 Demo.GDT.Screen.Base  EQU       Screen.Base
 Demo.GDT.Screen.Limit EQU       Screen.Rows * Screen.Cols * 2 - 1
+%ifdef USE_SCREENBUFFER
 Demo.GDT.Screen.Type  EQU       x86.Type.Mem(.Data, .DPL0, .RW)
+%else
+Demo.GDT.Screen.Type  EQU       x86.Type.Mem(.Data, .DPL3, .RW) ; Let anyone access it
+%endif
 Demo.GDT.Screen.Gran  EQU       x86.Gran.Mem(.Byte, .Small)
 
 Demo.GDT.Ints.Base   EQU        Demo.Ints.Base
@@ -65,7 +69,12 @@ Demo.GDT.SRAM     x86.Desc.Mem  Demo.GDT.SRAM.Base,     Demo.GDT.SRAM.Limit,    
 Demo.GDT.Screen   x86.Desc.Mem  Demo.GDT.Screen.Base,   Demo.GDT.Screen.Limit,   Demo.GDT.Screen.Type,   Demo.GDT.Screen.Gran
 Demo.GDT.Ints     x86.Desc.Mem  Demo.GDT.Ints.Base,     Demo.GDT.Ints.Limit,     Demo.GDT.Ints.Type,     Demo.GDT.Ints.Gran
 Demo.GDT.Exec.LDT x86.Desc.Mem  Demo.GDT.Exec.LDT.Base, Demo.GDT.Exec.LDT.Limit, Demo.GDT.Exec.LDT.Type, Demo.GDT.Exec.LDT.Gran
+
+%ifdef USE_DOUBLEBUFFER
 Demo.GDT.Video    EQU           $
+%else
+Demo.GDT.Video    EQU           Demo.GDT.Screen
+%endif
 
 %if (Demo.GDT.Alias-Demo.GDT) != Demo.DT.Alias
 %error "Invalid GDT alias"

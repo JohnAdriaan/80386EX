@@ -36,5 +36,3 @@ Demo.Exec.Stack.Size  EQU       x86.PAGE.Size    ; Don't need much
 %include        "Demo/Exec/Clock.inc"        ; The Executive's Clock display
 ;-------------------------------------------------------------------------------
 %include        "Demo/Exec/LDT.inc"          ; The Executive's LDT
-;-------------------------------------------------------------------------------
-%include        "Demo/Exec/GDT.inc"          ; The System's GDT
