@@ -10,6 +10,9 @@
 %error I/O bit is not LSb! Change the algorithm
 %endif
 
+;%define        RTC_SET         ; Enable to write the values in `.Time` to the RTC - then TURN OFF again!
+;%define        RTC_ZERO        ; Enable to zero RTC Data - then TURN OFF again!
+
 ;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Data
 
@@ -33,54 +36,63 @@ Boot.RTC:
 
                 XOR             ESI, ESI        ; Single-byte writes
 
-                MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Trickle | Dev.RTC.DS1302.Cmd.Write
-                MOV             BL, Dev.RTC.DS1302.Trickle.TCS | Dev.RTC.DS1302.Trickle.Diode.1 | Dev.RTC.DS1302.Trickle.Resistor.2
-                MOV             CH, 1
-                CALL            Boot.RTC.Write
-
-%ifdef SET_TIME
+; Turn OFF Write Protect, to enable Trickle Charger
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.WP | Dev.RTC.DS1302.Cmd.Write
                 MOV             BL, Dev.RTC.DS1302.WP.Allow
                 MOV             CH, 1
                 CALL            Boot.RTC.Write
 
-; Send .Time
+; Enable Trickle Charger
+                MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Trickle | Dev.RTC.DS1302.Cmd.Write
+                MOV             BL, Dev.RTC.DS1302.Trickle.TCS | Dev.RTC.DS1302.Trickle.Diode.1 | Dev.RTC.DS1302.Trickle.Resistor.2
+                MOV             CH, 1
+                CALL            Boot.RTC.Write
+
+%ifdef RTC_SET
+ ; While WP is OFF...
+ ; Send .Time
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Write
                 MOV             CH, Dev.RTC.DS1302.Clock.Len
                 MOV             SI, .Time                  ; Write out CS:.Time
                 CALL            Boot.RTC.Write
+%endif ; RTC_SET
 
                 XOR             ESI, ESI                   ; Single-byte writes again
 
+%ifdef RTC_ZERO
 ; Zero RTC Data
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Data | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Write
                 MOV             BL, 0
                 MOV             CH, Dev.RTC.DS1302.Data.Len
                 CALL            Boot.RTC.Write
-%endif
+%endif ; RTC_ZERO
 
+; Turn Write Protect back ON
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.WP | Dev.RTC.DS1302.Cmd.Write
                 MOV             BL, Dev.RTC.DS1302.WP.Deny
                 MOV             CH, 1
                 CALL            Boot.RTC.Write
 
+; Get current RTC values
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Read
                 MOV             CH, Dev.RTC.DS1302.Clock.Len
                 MOV             EDI, SRAM.Start + Boot.RTC.Clock
                 CALL            Boot.RTC.Read
 
+; Get current Trickle value
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Trickle | Dev.RTC.DS1302.Cmd.Read
                 MOV             CH, 1
                 MOV             EDI, SRAM.Start + Boot.RTC.Trickle
                 CALL            Boot.RTC.Read
 
+; Get current Data values
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Data | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Read
                 MOV             CH, Dev.RTC.DS1302.Data.Len
                 MOV             EDI, SRAM.Start + Boot.RTC.Data
                 CALL            Boot.RTC.Read
                 JMP             Boot.RTC.Exit
 ;...............................................................................
-%ifdef SET_TIME
+%ifdef RTC_SET
 .Time:                                     ; All values are BCD
                 DB              00h        ; Secs
                 DB              20h        ; Mins
@@ -89,7 +101,7 @@ Boot.RTC:
                 DB              08h        ; Month
                 DB              26h        ; Day (1=Monday)
                 DB              25h        ; Year
-%endif
+%endif ; RTC_SET
 ;...............................................................................
 Boot.RTC.Read:
                 OR              AL, Dev.SBC386EX.RTC.CE     ; Chip Enable
