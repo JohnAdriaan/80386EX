@@ -33,34 +33,36 @@ Boot.RTC:
 
                 XOR             ESI, ESI        ; Single-byte writes
 
-                MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.WP | Dev.RTC.DS1302.Cmd.Write
-                MOV             BL, Dev.RTC.DS1302.WP.Allow
-                MOV             CH, 1
-                CALL            Boot.RTC.Write
-
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Trickle | Dev.RTC.DS1302.Cmd.Write
                 MOV             BL, Dev.RTC.DS1302.Trickle.TCS | Dev.RTC.DS1302.Trickle.Diode.1 | Dev.RTC.DS1302.Trickle.Resistor.2
                 MOV             CH, 1
                 CALL            Boot.RTC.Write
 
+%ifdef SET_TIME
+                MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.WP | Dev.RTC.DS1302.Cmd.Write
+                MOV             BL, Dev.RTC.DS1302.WP.Allow
+                MOV             CH, 1
+                CALL            Boot.RTC.Write
+
 ; Send .Time
-;                MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Write
-;                MOV             CH, Dev.RTC.DS1302.Clock.Len
-;                MOV             SI, .Time                  ; Write out CS:.Time
-;                CALL            Boot.RTC.Write
+                MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Write
+                MOV             CH, Dev.RTC.DS1302.Clock.Len
+                MOV             SI, .Time                  ; Write out CS:.Time
+                CALL            Boot.RTC.Write
 
                 XOR             ESI, ESI                   ; Single-byte writes again
+
+; Zero RTC Data
+                MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Data | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Write
+                MOV             BL, 0
+                MOV             CH, Dev.RTC.DS1302.Data.Len
+                CALL            Boot.RTC.Write
+%endif
 
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.WP | Dev.RTC.DS1302.Cmd.Write
                 MOV             BL, Dev.RTC.DS1302.WP.Deny
                 MOV             CH, 1
                 CALL            Boot.RTC.Write
-
-; Zero RTC Data
-;                MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Data | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Write
-;                MOV             BL, 0
-;                MOV             CH, Dev.RTC.DS1302.Data.Len
-;                CALL            Boot.RTC.Write
 
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Read
                 MOV             CH, Dev.RTC.DS1302.Clock.Len
@@ -78,14 +80,16 @@ Boot.RTC:
                 CALL            Boot.RTC.Read
                 JMP             Boot.RTC.Exit
 ;...............................................................................
-;.Time:                                     ; All values are BCD
-;                DB              00h        ; Secs
-;                DB              05h        ; Mins
-;                DB              Dev.RTC.DS1302.Hour.24 | 05h ; Hours (UTC)
-;                DB              22h        ; Date
-;                DB              08h        ; Month
-;                DB              05h        ; Day (1=Monday)
-;                DB              25h        ; Year
+%ifdef SET_TIME
+.Time:                                     ; All values are BCD
+                DB              00h        ; Secs
+                DB              20h        ; Mins
+                DB              Dev.RTC.DS1302.Hour.24 | 09h ; Hours (UTC)
+                DB              19h        ; Date
+                DB              08h        ; Month
+                DB              26h        ; Day (1=Monday)
+                DB              25h        ; Year
+%endif
 ;...............................................................................
 Boot.RTC.Read:
                 OR              AL, Dev.SBC386EX.RTC.CE     ; Chip Enable
