@@ -17,7 +17,7 @@ Exec.Mouse:
                 MOV             DL,  x86.Type.Sys(.Int, .DPL0, .386)
                 CALL            Exec.Alloc.IDT
 
-; Finally, enable the Keyboard interrupt in the PIC
+; Finally, enable the Mouse interrupt in the PIC
                 Dev.PIC.B.Enable .Mouse            ; Unmask Mouse IRQ
 
                 RET

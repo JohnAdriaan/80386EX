@@ -32,6 +32,9 @@ Demo.Exec.Entry:
                 ; Human interaction (via the keyboard) would be nice...
                 CALL            Exec.Key
 
+                ; Human interaction (on even a mouse) could be nice...
+                CALL            Exec.Mouse
+
                 ; But a human needs to be able to see things! So set up a video handler
                 CALL            Exec.Video
 

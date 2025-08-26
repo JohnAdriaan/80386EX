@@ -40,14 +40,18 @@ Dev.Kbd.Cmd.Ctrl.Read     EQU   020h
 Dev.Kbd.Cmd.Ctrl.Write    EQU   060h
 Dev.Kbd.Cmd.Ctrl.Ver      EQU   0A1h
 Dev.Kbd.Cmd.Password      EQU   0A4h ; Should return 0F1h
-Dev.Kbd.Cmd.Key.Test      EQU   0ABh ; Should return 000h
+Dev.Kbd.Cmd.Key.Test      EQU   0ABh ; Should return .OK
+Dev.Kbd.Cmd.Key.Test.OK   EQU   000h
 Dev.Kbd.Cmd.Key.Disable   EQU   0ADh
 Dev.Kbd.Cmd.Key.Enable    EQU   0AEh
 Dev.Kbd.Cmd.Key.Buffer    EQU   0D2h ; Pretend came from Keyboard
-Dev.Kbd.Cmd.Mouse.Test    EQU   0A9h ; Should return 000h
+Dev.Kbd.Cmd.Mouse.Test    EQU   0A9h ; Should return .OK
+Dev.Kbd.Cmd.Mouse.Test.OK EQU   000h
 Dev.Kbd.Cmd.Mouse.Disable EQU   0A7h
 Dev.Kbd.Cmd.Mouse.Enable  EQU   0A8h
 Dev.Kbd.Cmd.Mouse.Buffer  EQU   0D3h ; Pretend came from Mouse
 Dev.Kbd.Cmd.Mouse.Data    EQU   0D4h ; Send next .Data write to Mouse
 Dev.Kbd.Cmd.Version       EQU   0AFh
 Dev.Kbd.Cmd.Mode.Read     EQU   0CAh ; XXXX_XXX1b = PS/2
+
+Dev.Kbd.PS2.Reset         EQU   0FFh ; Actually sent to PS/2 device to Reset it
