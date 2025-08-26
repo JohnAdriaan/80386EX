@@ -70,7 +70,7 @@ Demo.Exec.Idle:
                 MOV             DX, Dev.UART.COM1 + Dev.UART.Data
                 OUT             DX, AL
                 LOOP            .Send
-%endif
+%endif ; DATE_TEST
 
                 CALL            Exec.Clock.Get     ; EDX:EAX gets Secs:Ticks
                 MOV             EAX, EDX           ; EAX is Secs
@@ -78,11 +78,26 @@ Demo.Exec.Idle:
                 MOV             AH, Dev.VGA.BlackBack | Dev.VGA.Grey
                 MOV             ECX, Clock.String
                 LEA             ESI, [EBP - Clock.String]
-                MOV             EDI, (Screen.Cols - Clock.String) * 2
+                MOV             EDI, (Screen.Cols - Clock.String) * x86.WORD.Size
 .Show:
              SS LODSB
                 STOSW
                 LOOP            .Show
+
+                IN              AL, Kbd.Stat
+                MOV             AH, Dev.VGA.RedBack + Dev.VGA.White
+                MOV             EDI, 30 * x86.WORD.Size ; Int 30/31 is close to IRQ 1...
+                CALL            .Hex
+
+                IN              AL, Dev.PIC.A.Mask
+                MOV             AH, Dev.VGA.CyanBack + Dev.VGA.White
+                MOV             EDI, 20 * x86.WORD.Size
+                CALL            .Hex
+
+                IN              AL, Dev.PIC.B.Mask
+                MOV             AH, Dev.VGA.CyanBack + Dev.VGA.White
+                MOV             EDI, 23 * x86.WORD.Size
+                CALL            .Hex
 
                 User.Yield
 
@@ -91,6 +106,20 @@ Demo.Exec.Idle:
 %endif
                 JMP             Demo.Exec.Idle
 
+.Hex:
+                MOV             DL, AL             ; Save byte to display
+                SHR             AL, 4              ; Look at top nibble
+                CALL            .Hex.Digit         ; Display it
+                MOV             AL, DL             ; Get byte back
+                AND             AL, 0Fh            ; Look at bottom nibble
+.Hex.Digit:
+                ADD             AL, '0'            ; Convert to ASCII
+                CMP             AL, '9'            ; Need to hexify?
+                JBE             .Hex.Show          ; Nope!
+                ADD             AL, 'A'-'9'-1      ; Yeah. Add in Hexify factor
+.Hex.Show:
+                STOSW                              ; Store as (both) ASCII and background colour
+                RET
 %if 0
 .Forever:
                 MOV             DX, Dev.UART.COM1 + Dev.UART.LSR
