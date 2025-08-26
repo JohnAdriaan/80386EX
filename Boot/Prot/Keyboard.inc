@@ -26,7 +26,7 @@ Boot.Prot.Keyboard:
 
 ; First, reset the Controller
                 MOV             AH, Dev.Kbd.Cmd.Ctrl.Test
-                CALL            .Cmd.Resp      ; Send Command; wait for Response
+                CALL            .Cmd.Resp  ; Send Command; wait for Response
                 EIPtoESI
                 JC              .Exit
                 CMP             AL, Dev.Kbd.Cmd.Ctrl.Test.OK
@@ -38,9 +38,9 @@ Boot.Prot.Keyboard:
                 MOV             DL, Dev.Kbd.Ctrl.Mouse.Disable | \
                                     Dev.Kbd.Ctrl.Key.Disable   | \
                                     Dev.Kbd.Ctrl.Inhib.Disable
-;                                   Dev.Kbd.Ctrl.PC.Compatible |
-;                                   Dev.Kbd.Ctrl.System        |
-;                                   Dev.Kbd.Ctrl.Mouse.Int     |
+;                                   Dev.Kbd.Ctrl.PC.Compatible | \
+;                                   Dev.Kbd.Ctrl.System        | \
+;                                   Dev.Kbd.Ctrl.Mouse.Int     | \
 ;                                   Dev.Kbd.Ctrl.Key.Int
 
                 CALL            .Cmd.Data
@@ -109,16 +109,16 @@ Boot.Prot.Keyboard:
 .IBF:
                 IN              AL, Kbd.Stat          ; Get status
                 TEST            AL, Dev.Kbd.Stat.IBF  ; Input buffer still full?
-           A16  LOOPNZ          .IBF                  ; Yep, so keep trying (a bit)
+           A16  LOOPNZ          .IBF                  ; Yep, so keep trying
                 RET
 
-; Call to wait for Output Buffer to Fill (for a LONG time)
+; Call to wait for Output Buffer to Fill
 .Wait.OBF:
                 XOR             ECX, ECX
 .OBF:
                 IN              AL, Kbd.Stat          ; Get status
                 TEST            AL, Dev.Kbd.Stat.OBF  ; Output buffer still empty?
-                LOOPZ           .OBF                  ; Yep, so keep trying (no A16!)
+           A16  LOOPZ           .OBF                  ; Yep, so keep trying
                 RET
 
 ; Call with AH set to Command. Returns with Carry set on Error
@@ -137,13 +137,19 @@ Boot.Prot.Keyboard:
 
 ; Call with AH set to Command. Returns with AL holding response, or Carry set on Error
 .Cmd.Resp:
-                IN              AL, Kbd.Data            ; Empty input buffer
+                IN              AL, Kbd.Data      ; Empty input buffer
+                MOV             DH, 10h           ; Try Cmd this many times
+.Retry:
                 CALL            .Wait.IBF
                 JNZ             .Resp.Error
                 MOV             AL, AH
                 OUT             Kbd.Cmd, AL
                 CALL            .Wait.OBF
+                JNZ             .Resp
+                DEC             DH
                 JZ              .Resp.Error
+                JMP             .Retry
+.Resp:
                 IN              AL, Kbd.Data
                 SHL             ECX, x86.DWORD.Hi
                 CLC
