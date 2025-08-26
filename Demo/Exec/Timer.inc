@@ -22,6 +22,6 @@ Exec.Timer:
                 OUT             Dev.Timer.Port, AL
 
 ; Finally, enable the Timer interrupt in the PIC
-                Dev.PIC.Enable  .A.Timer           ; Unmask Timer IRQ
+                Dev.PIC.A.Enable  .Timer           ; Unmask Timer IRQ
 
                 RET

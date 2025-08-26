@@ -18,7 +18,7 @@ Exec.Key:
                 CALL            Exec.Alloc.IDT
 
 ; Finally, enable the Keyboard interrupt in the PIC
-                Dev.PIC.Enable  .A.Key             ; Unmask Key IRQ
+                Dev.PIC.A.Enable .Key              ; Unmask Key IRQ
 
                 IN              AL, Kbd.Data       ; Acknowledge any pending interrupt
                 RET

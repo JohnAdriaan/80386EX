@@ -42,6 +42,6 @@ Exec.Video:
                 OUT             DX, AX
 
 ; Finally, enable the Video interrupt in the PIC
-                Dev.PIC.Enable  .B.Video                   ; Unmask Video IRQ
+                Dev.PIC.B.Enable  .Video                ; Unmask Video IRQ
 
                 RET

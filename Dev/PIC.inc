@@ -63,19 +63,25 @@ Dev.PIC.B.Mouse   EQU           0001_0000b
 Dev.PIC.B.IDE0    EQU           0100_0000b
 Dev.PIC.B.IDE1    EQU           1000_0000b
 
-%macro            Dev.PIC.Enable  1
-                  IN              AL,  Dev.PIC.B.Mask
-                  AND             AL, ~Dev.PIC%1
-                  OUT             Dev.PIC.B.Mask, AL
+%macro            Dev.PIC.A.Enable 1
+                  IN               AL,  Dev.PIC.A.Mask
+                  AND              AL, ~Dev.PIC.A%1
+                  OUT              Dev.PIC.A.Mask, AL
 %endmacro
 
-%macro            Dev.PIC.A.EOI   0
-                  MOV             AL, Dev.PIC.Cmd.EOI ; Acknowledge interrupt in PIC
-                  OUT             Dev.PIC.A.Cmd, AL
+%macro            Dev.PIC.B.Enable 1
+                  IN               AL,  Dev.PIC.B.Mask
+                  AND              AL, ~Dev.PIC.B%1
+                  OUT              Dev.PIC.B.Mask, AL
 %endmacro
 
-%macro            Dev.PIC.B.EOI   0
-                  MOV             AL, Dev.PIC.Cmd.EOI ; Acknowledge interrupt in PIC
-                  OUT             Dev.PIC.B.Cmd, AL   ; Acknowledge slave PIC first
-                  OUT             Dev.PIC.A.Cmd, AL
+%macro            Dev.PIC.A.EOI    0
+                  MOV              AL, Dev.PIC.Cmd.EOI ; Acknowledge interrupt in PIC
+                  OUT              Dev.PIC.A.Cmd, AL
+%endmacro
+
+%macro            Dev.PIC.B.EOI    0
+                  MOV              AL, Dev.PIC.Cmd.EOI ; Acknowledge interrupt in PIC
+                  OUT              Dev.PIC.B.Cmd, AL   ; Acknowledge slave PIC first
+                  OUT              Dev.PIC.A.Cmd, AL
 %endmacro
