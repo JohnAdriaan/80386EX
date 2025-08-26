@@ -25,6 +25,8 @@ Demo.Exec.Stack.Size  EQU       x86.PAGE.Size    ; Don't need much
 ;-------------------------------------------------------------------------------
 %include        "Demo/Exec/Key.inc"          ; Install Keyboard interrupt handler
 ;-------------------------------------------------------------------------------
+%include        "Demo/Exec/Mouse.inc"        ; Install Mouse interrupt handler
+;-------------------------------------------------------------------------------
 %include        "Demo/Exec/Video.inc"        ; Install Video interrupt handler
 ;-------------------------------------------------------------------------------
 %include        "Demo/Exec/RTC.inc"          ; Set up Real Time Clock data

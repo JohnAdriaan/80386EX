@@ -18,6 +18,8 @@ Data.Ticks      RESD            1       ; Number of Ticks since boot
 Data.Key.Code   RESB            1       ; Storage for key scan-code
 Data.Key.Shifts RESB            1       ; Storage for current Key Shift states
 
+Data.Mouse.Code RESB            1       ; Storage for mouse movements
+
                 SEGMENT         Demo.Exec
 
 %if 0

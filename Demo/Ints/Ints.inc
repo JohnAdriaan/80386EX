@@ -21,6 +21,8 @@
 ;-------------------------------------------------------------------------------
 %include        "Demo/Ints/Key.inc"          ; Example Keyboard interrupt handler
 ;-------------------------------------------------------------------------------
+%include        "Demo/Ints/Mouse.inc"        ; Example Mouse interrupt handler
+;-------------------------------------------------------------------------------
 %include        "Demo/Ints/Video.inc"        ; Example Video interrupt handler
 ;-------------------------------------------------------------------------------
 %include        "Demo/Ints/Util.inc"         ; Utility functions

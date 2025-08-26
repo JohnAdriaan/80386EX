@@ -95,6 +95,7 @@ HTServer=localhost
 			Demo\Ints\IRQs.inc
 			Demo\Ints\Timer.inc
 			Demo\Ints\Key.inc
+			Demo\Ints\Mouse.inc
 			Demo\Ints\Video.inc
 			Demo\Ints\Util.inc
 		-Demo\User
@@ -118,6 +119,7 @@ HTServer=localhost
 				Demo\Exec\Ints\Fault.inc
 			Demo\Exec\Timer.inc
 			Demo\Exec\Key.inc
+			Demo\Exec\Mouse.inc
 			Demo\Exec\Video.inc
 			Demo\Exec\RTC.inc
 			-Demo\Exec\User
@@ -134,7 +136,6 @@ HTServer=localhost
 				Demo\Exec\Alloc\TSS.inc
 			Demo\Exec\Clock.inc
 			Demo\Exec\LDT.inc
-			Demo\Exec\GDT.inc
 		Demo\GDT.inc
 		Demo\Sizes.inc
 	EPROM.inc
