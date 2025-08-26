@@ -117,11 +117,13 @@ HTServer=localhost
 				Demo\Exec\Ints\BadStack.inc
 				Demo\Exec\Ints\BadTSS.inc
 				Demo\Exec\Ints\Fault.inc
-			Demo\Exec\Timer.inc
-			Demo\Exec\Key.inc
-			Demo\Exec\Mouse.inc
-			Demo\Exec\Video.inc
-			Demo\Exec\RTC.inc
+			-Dev
+				Demo\Exec\Dev\Dev.inc
+				Demo\Exec\Dev\Timer.inc
+				Demo\Exec\Dev\Key.inc
+				Demo\Exec\Dev\Mouse.inc
+				Demo\Exec\Dev\Video.inc
+				Demo\Exec\Dev\RTC.inc
 			-Demo\Exec\User
 				Demo\Exec\User\User.inc
 				Demo\Exec\User\LDT.inc

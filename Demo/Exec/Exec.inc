@@ -21,15 +21,17 @@ Demo.Exec.Stack.Size  EQU       x86.PAGE.Size    ; Don't need much
 ;-------------------------------------------------------------------------------
 %include        "Demo/Exec/Ints/Ints.inc"    ; Install more sophisticated Fault handlers
 ;-------------------------------------------------------------------------------
-%include        "Demo/Exec/Timer.inc"        ; Install Timer interrupt handler
+%include        "Demo/Exec/Dev/Timer.inc"    ; Install Timer interrupt handler
 ;-------------------------------------------------------------------------------
-%include        "Demo/Exec/Key.inc"          ; Install Keyboard interrupt handler
+%include        "Demo/Exec/Dev/Dev.inc"      ; Install Device drivers
 ;-------------------------------------------------------------------------------
-%include        "Demo/Exec/Mouse.inc"        ; Install Mouse interrupt handler
+%include        "Demo/Exec/Dev/Key.inc"      ; Install Keyboard interrupt handler
 ;-------------------------------------------------------------------------------
-%include        "Demo/Exec/Video.inc"        ; Install Video interrupt handler
+%include        "Demo/Exec/Dev/Mouse.inc"    ; Install Mouse interrupt handler
 ;-------------------------------------------------------------------------------
-%include        "Demo/Exec/RTC.inc"          ; Set up Real Time Clock data
+%include        "Demo/Exec/Dev/Video.inc"    ; Install Video interrupt handler
+;-------------------------------------------------------------------------------
+%include        "Demo/Exec/Dev/RTC.inc"      ; Set up Real Time Clock data
 ;-------------------------------------------------------------------------------
 %include        "Demo/Exec/User/User.inc"    ; Start creating User programs
 ;-------------------------------------------------------------------------------
