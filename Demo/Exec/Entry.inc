@@ -46,8 +46,8 @@ Demo.Exec.Entry:
                 MOV             ES, AX
 
                 ENTER           Clock.String, 0                 ; Make room on stack
+                MOV             [EBP], DWORD `Z\r\n`            ; Overwrite saved EBP with Zulu+CRLF
 %ifdef DATE_TEST
-                MOV             [EBP], DWORD `\r\n`             ; Overwrite saved EBP with CRLF
 
                 MOV             EAX, (12 * 60 + 34) * 60 + 56  ; Mon, 1 Jan 2001, 12:34:56
 %endif
@@ -57,7 +57,7 @@ Demo.Exec.Idle:
                 PUSH            EDX
                 CALL            Exec.Clock
 
-                MOV             ECX, Clock.String + 2
+                MOV             ECX, Clock.String + 3
                 LEA             ESI, [EBP - Clock.String]
 .Send:
                 MOV             DX, Dev.UART.COM1 + Dev.UART.LSR
@@ -76,9 +76,9 @@ Demo.Exec.Idle:
                 MOV             EAX, EDX           ; EAX is Secs
                 CALL            Exec.Clock
                 MOV             AH, Dev.VGA.BlackBack | Dev.VGA.Grey
-                MOV             ECX, Clock.String
+                MOV             ECX, Clock.String + 1 ; Include 'Zulu'
                 LEA             ESI, [EBP - Clock.String]
-                MOV             EDI, (Screen.Cols - Clock.String) * x86.WORD.Size
+                MOV             EDI, (Screen.Cols - Clock.String - 1) * x86.WORD.Size
 .Show:
              SS LODSB
                 STOSW
