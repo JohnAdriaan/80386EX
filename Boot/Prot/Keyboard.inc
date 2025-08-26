@@ -126,6 +126,13 @@ Boot.Prot.Keyboard:
                 EIPtoESI
                 JC              .Exit
 
+; Get current Controller Configuration
+                MOV             AH, Dev.Kbd.Cmd.Ctrl.Read
+                CALL            .Cmd.Resp ; Also flushes any old data
+                EIPtoESI
+                JC              .Exit
+                MOVZX            EDI, AL
+
                 CALL            .Wait.IBF                  ; Input buffer still full?
                 EIPtoESI
                 JNZ             .Exit
@@ -133,6 +140,7 @@ Boot.Prot.Keyboard:
                 OUT             Kbd.Data, AL
 
                 EIPtoESI
+                MOV             ECX, EDI
                 JMP             .Exit
 
 ; Call to wait for Input Buffer to Empty
