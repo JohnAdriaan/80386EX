@@ -173,7 +173,7 @@ Exec.Ints.Fault.TSS:
                 CALL            Exec.Ints.Fault.Copy
 
                 LEA             EAX, [EBX + x86.Seg.LDT] ; Selector for alias in LDT
-                MOV             FS,AX
+                MOV             FS, AX
                 RET
 
 ; This function copies a Descriptor to the LDT and turns it into an alias.

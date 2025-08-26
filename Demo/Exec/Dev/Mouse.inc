@@ -10,6 +10,9 @@
 ; the reader - until I get impatient and do it myself...
 
 Exec.Mouse:
+                TEST     BYTE   [WORD FS:Boot.Kbd], Boot.Kbd.Mouse
+                JZ              .Exit
+
 ; First, install a Mouse interrupt handler
                 MOV             EAX, Ints.Mouse      ; Handler
                 MOV             BX,  Demo.IDT.Mouse  ; Interrupt
@@ -20,4 +23,6 @@ Exec.Mouse:
 ; Finally, enable the Mouse interrupt in the PIC
                 Dev.PIC.B.Enable .Mouse            ; Unmask Mouse IRQ
 
+                IN              AL, Kbd.Data       ; Acknowledge any pending interrupt
+.Exit:
                 RET

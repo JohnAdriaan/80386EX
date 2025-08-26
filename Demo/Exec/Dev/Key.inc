@@ -10,6 +10,9 @@
 ; the reader - until I get impatient and do it myself...
 
 Exec.Key:
+                TEST     BYTE   [WORD FS:Boot.Kbd], Boot.Kbd.Kbd
+                JZ              .Exit
+
 ; First, install a Keyboard interrupt handler
                 MOV             EAX, Ints.Key      ; Handler
                 MOV             BX,  Demo.IDT.Key  ; Interrupt
@@ -21,4 +24,5 @@ Exec.Key:
                 Dev.PIC.A.Enable .Key              ; Unmask Key IRQ
 
                 IN              AL, Kbd.Data       ; Acknowledge any pending interrupt
+.Exit:
                 RET

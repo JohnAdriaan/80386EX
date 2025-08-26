@@ -102,6 +102,11 @@ Demo.Exec.Idle:
                 MOV             EDI, 23 * x86.WORD.Size
                 CALL            .Hex
 
+                MOV             AL, [FS:Boot.Kbd]
+                MOV             AH, Dev.VGA.YellowBack + Dev.VGA.Black
+                MOV             EDI, 26 * x86.WORD.Size
+                CALL            .Hex
+
                 User.Yield
 
 %ifdef DATE_TEST
