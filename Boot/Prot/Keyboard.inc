@@ -123,16 +123,17 @@ Boot.Prot.Keyboard:
 
 ; Call with AH set to Command. Returns with Carry set on Error
 .Cmd:
-                CALL            .Wait.IBF
-                JNZ             .Cmd.Error
-                MOV             AL, AH
-                OUT             Kbd.Cmd, AL
-                JMP             .Cmd.Exit
+                CALL            .Wait.IBF         ; Wait for free Cmd
+                JNZ             .Cmd.Error        ; Didn't happen!
+                MOV             AL, AH            ; Cmd to send
+                OUT             Kbd.Cmd, AL       ; Send it
+                SHL             ECX, x86.DWORD.Hi ; It took _this_ long
+                CLC                               ; But it worked!
+                JMP             .Cmd.Exit         ; And leave
 .Cmd.Error:
-                SHL             ECX, x86.DWORD.Hi
-                MOV             CH, AH
-                STC
+                STC                               ; Indicate error
 .Cmd.Exit:
+                MOV             CH, AH            ; Record Cmd attempted
                 RET
 
 ; Call with AH set to Command. Returns with AL holding response, or Carry set on Error
@@ -140,44 +141,44 @@ Boot.Prot.Keyboard:
                 IN              AL, Kbd.Data      ; Empty input buffer
                 MOV             DH, 10h           ; Try Cmd this many times
 .Retry:
-                CALL            .Wait.IBF
-                JNZ             .Resp.Error
-                MOV             AL, AH
-                OUT             Kbd.Cmd, AL
-                CALL            .Wait.OBF
-                JNZ             .Resp
-                DEC             DH
-                JZ              .Resp.Error
-                JMP             .Retry
+                CALL            .Wait.IBF         ; Wait for free Cmd
+                JNZ             .Resp.Error       ; Didn't happen!
+                MOV             AL, AH            ; Cmd to send
+                OUT             Kbd.Cmd, AL       ; Send it
+                CALL            .Wait.OBF         ; Wait for response
+                JNZ             .Resp             ; Got one!
+                DEC             DH                ; Try Cmd again?
+                JZ              .Resp.Error       ; Nope: tried too often. Error
+                JMP             .Retry            ; Oh, all right!
 .Resp:
-                IN              AL, Kbd.Data
-                SHL             ECX, x86.DWORD.Hi
-                CLC
-                JMP             .Resp.Exit
+                IN              AL, Kbd.Data      ; Grab response
+                SHL             ECX, x86.DWORD.Hi ; It took _this_ long
+                CLC                               ; But it worked!
+                JMP             .Resp.Exit        ; So leave
 .Resp.Error:
-                SHL             ECX, x86.DWORD.Hi
-                STC
+                STC                               ; Indicate error (nothing to show!)
 .Resp.Exit:
-                MOV             CX, AX
+                MOV             CX, AX            ; Record Cmd and (maybe) response
                 RET
 
 ; Call with AH set to Command, and DL set to Data. Returns with Carry set on Error
 .Cmd.Data:
-                CALL            .Wait.IBF
-                JNZ             .Data.Error
-                MOV             AL, AH
-                OUT             Kbd.Cmd, AL
-                CALL            .Wait.IBF
-                JNZ             .Data.Error
-                MOV             AL, DL
-                OUT             Kbd.Data, AL
-                JMP             .Data.Exit
+                CALL            .Wait.IBF         ; Wait for free Cmd
+                JNZ             .Data.Error       ; Didn't happen!
+                MOV             AL, AH            ; Cmd to send
+                OUT             Kbd.Cmd, AL       ; Send it
+                CALL            .Wait.IBF         ; Wait for Cmd to go
+                JNZ             .Data.Error       ; Didn't happen!
+                MOV             AL, DL            ; Data to send
+                OUT             Kbd.Data, AL      ; Send it
+                SHL             ECX, x86.DWORD.Hi ; It took _this_ long
+                CLC                               ; But it worked!
+                JMP             .Data.Exit        ; So leave
 .Data.Error:
-                SHL             ECX, x86.DWORD.Hi
-                MOV             CH, AH
-                MOV             CL, DL
-                STC
+                STC                               ; Indicate error
 .Data.Exit:
+                MOV             CH, AH            ; Record Cmd...
+                MOV             CL, DL            ; ...and Data attempted
                 RET
 
 .Exit:
