@@ -7,11 +7,14 @@
 Ints.Debug.Key:
 ;               HLT                             ; Wait for interrupt
 
-                MOV             AL,0            ; Consume any keypress
-                XCHG            [FS:WORD Data.Key.Code],AL ; Avoid repeats
+                PUSH            DS
+                MOV             AX, x86.Selector(Demo.GDT.Data, .GDT, .RPL0)
+                MOV             DS, AX
+                MOV             ESI, Data.Key.Buffer
+                CALL            Ints.Buffer.Pop
+                POP             DS
+                JZ              .End            ; No keys, so leave
 
-                CMP             AL,0            ; Anything there?
-                JE              .End            ; No, so leave
                 CMP             AL,Debug.Key.Quit
                 JE              .End            ; Quit?
                 CMP             AL,Debug.Key.Format

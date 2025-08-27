@@ -70,7 +70,7 @@ Ints.Fault.Frame.Destroy:
 
                 JMP             EDX             ; Return
 ;...............................................................................
-; This function is called externally (FAR), so that it can perform the NEAR call
+; This function is called externally (FAR), so that it can NEAR call to match the RET
 
 Ints.Fault.External:
                 CALL            Ints.Fault.ShowRegs

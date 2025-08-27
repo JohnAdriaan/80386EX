@@ -32,16 +32,17 @@ Ints.Single:
                 MOV             AX, x86.Selector(Demo.GDT.Video,  .GDT, .RPL0) ; Point to Screen
                 MOV             ES, AX
 .Loop:
-                INC     BYTE    [ES:WORD 0001h*2] ; Dingle(tm) screen location
+                INC     BYTE    [ES:WORD 0001h * x86.WORD.Size] ; Dingle(tm) screen location
 
 ;               HLT                               ; Wait for interrupt
 
-                MOV             AL, 0             ; Consume any keypress
-                XCHG            [Data.Key.Code], AL
+                MOV             ESI, Data.Key.Buffer  ; Look at keyboard buffer
+                CALL            Ints.Buffer.Pop       ; Any keyboard codes?
+                JZ              .Loop                 ; Nope!
                 CMP             AL, .Key.Continue ; Continue?
-                JE              .Finish          ; Yes, so leave
+                JE              .Finish           ; Yes, so leave
                 CMP             AL, .Key.Stop     ; Stop?
-                JNE             .Loop            ; No, so keep waiting
+                JNE             .Loop             ; No, so keep waiting
 
                 AND     WORD    [ESP+14h], ~x86.EFlags.TF; Yes, so stop tracing
 .Finish:

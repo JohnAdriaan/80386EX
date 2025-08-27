@@ -89,21 +89,21 @@ Demo.Exec.Idle:
                 MOV             EDI, 30 * x86.WORD.Size ; Int 30/31 is close to IRQ 1...
                 CALL            .Hex
 
-                IN              AL, Dev.PIC.A.Mask
                 MOV             AH, Dev.VGA.CyanBack + Dev.VGA.White
-                MOV             EDI, 20 * x86.WORD.Size
-                CALL            .Hex
+.Test.Key:
+                MOV             ESI, Data.Key.Buffer
+                CALL            Demo.GDT.Ints : Ints.Buffer.Pop.External
 
-                IN              AL, Dev.PIC.B.Mask
-                MOV             AH, Dev.VGA.CyanBack + Dev.VGA.White
-                MOV             EDI, 23 * x86.WORD.Size
+                JZ              .Test.Mouse
+                MOV             EDI, (Boot.PIC.A.Base + 1) * x86.WORD.Size
                 CALL            .Hex
-
-                MOV             AL, [FS:Boot.Kbd]
-                MOV             AH, Dev.VGA.YellowBack + Dev.VGA.Black
-                MOV             EDI, 26 * x86.WORD.Size
+.Test.Mouse:
+                MOV             ESI, Data.Mouse.Buffer
+                CALL            Demo.GDT.Ints : Ints.Buffer.Pop.External
+                JZ              .Finish
+                MOV             EDI, (Boot.PIC.B.Base + 4) * x86.WORD.Size
                 CALL            .Hex
-
+.Finish:
                 User.Yield
 
 %ifdef DATE_TEST

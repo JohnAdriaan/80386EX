@@ -6,10 +6,8 @@
 
 ;...............................................................................
 Ints.Debug.Init:
-                MOV             AX, x86.Selector(Demo.GDT.Screen, .GDT, .RPL0) ; No double-buffering
-                MOV             ES, AX           ; Point to Screen, for STOSW
-                MOV             AX, x86.Selector(Demo.GDT.Data, .GDT, .RPL0)
-                MOV             FS, AX           ; Point to global (Key) Data
+                MOV             AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+                MOV             ES, AX           ; Point to Video, for STOSW
 
                 ; Default Show.Row format
                 CALL            Ints.Debug.Key.Format.Bytes
