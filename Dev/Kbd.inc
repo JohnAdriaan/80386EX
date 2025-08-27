@@ -18,8 +18,8 @@ Dev.Kbd.Cmd     EQU             .Stat
 %define         Kbd.Cmd         Dev.Kbd.Cmd
 
 Dev.Kbd.Stat.Parity    EQU   1000_0000b
-Dev.Kbd.Stat.RXTimeOut EQU   0100_0000b
-Dev.Kbd.Stat.TXTimeOut EQU   0010_0000b
+Dev.Kbd.Stat.TimeOut   EQU   0100_0000b
+Dev.Kbd.Stat.Mouse.OBF EQU   0010_0000b
 Dev.Kbd.Stat.KeyLocked EQU   0001_0000b
 Dev.Kbd.Stat.Commanded EQU   0000_1000b
 Dev.Kbd.Stat.System    EQU   0000_0100b ; Starts zero; Follows Ctrl

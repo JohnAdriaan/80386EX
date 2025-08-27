@@ -1,5 +1,5 @@
 ;
-; Exec/Key.inc
+; Exec/Dev/Key.inc
 ;
 
 ; This module installs a Keyboard interrupt handler. There's not much to do:
@@ -9,12 +9,9 @@
 ; general consumption by other programs. This has been left as an exercise for
 ; the reader - until I get impatient and do it myself...
 
-Exec.Key:
-                TEST     BYTE   [WORD FS:Boot.Kbd], Boot.Kbd.Kbd
-                JZ              .Exit
-
+Exec.KeyMouse:
 ; First, install a Keyboard interrupt handler
-                MOV             EAX, Ints.Key      ; Handler
+                MOV             EAX, Ints.KeyMouse ; Handler
                 MOV             BX,  Demo.IDT.Key  ; Interrupt
                 MOV             CX,  x86.Selector(Demo.GDT.Ints, .GDT, .RPL0)
                 MOV             DL,  x86.Type.Sys(.Int, .DPL0, .386)
@@ -23,6 +20,5 @@ Exec.Key:
 ; Finally, enable the Keyboard interrupt in the PIC
                 Dev.PIC.A.Enable .Key              ; Unmask Key IRQ
 
-                IN              AL, Kbd.Data       ; Acknowledge any pending interrupt
 .Exit:
                 RET

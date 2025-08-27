@@ -29,11 +29,8 @@ Demo.Exec.Entry:
                 ; Set up the Timer interrupt handler, and enable it
                 CALL            Exec.Timer
 
-                ; Human interaction (via the keyboard) would be nice...
-                CALL            Exec.Key
-
-                ; Human interaction (on even a mouse) could be nice...
-                CALL            Exec.Mouse
+                ; Human interaction (via the keyboard and mouse) would be nice...
+                CALL            Exec.KeyMouse
 
                 ; But a human needs to be able to see things! So set up a video handler
                 CALL            Exec.Video

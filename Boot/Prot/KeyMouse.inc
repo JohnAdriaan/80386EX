@@ -1,5 +1,5 @@
 ;
-; Boot/Prot/Keyboard.inc
+; Boot/Prot/KeyMouse.inc
 ;
 
 ;-------------------------------------------------------------------------------
@@ -101,6 +101,7 @@ Boot.Prot.Keyboard:
 
 ; Mouse present!
                 OR       BYTE   [SRAM.Start + Boot.Kbd], Boot.Kbd.Mouse
+                EIPtoESI                              ; Success!
                 JMP             .Exit
 
 ; Call to wait if Input Buffer is Full
@@ -152,6 +153,7 @@ Boot.Prot.Keyboard:
                 JMP             .Retry            ; Oh, all right!
 .Resp:
                 IN              AL, Kbd.Data      ; Grab response
+                MOV             CH, DH            ; Assume a working CH would be 0FF
                 SHL             ECX, x86.DWORD.Hi ; It took _this_ long
                 CLC                               ; But it worked!
                 JMP             .Resp.Exit        ; So leave
@@ -183,7 +185,7 @@ Boot.Prot.Keyboard:
 
 .Exit:
                 MOV             EBX, `K:= `
-                SUB             ESI, DWORD Boot.Prot.Entry
+                SUB             ESI, Boot.Prot.Entry
                 CALL            Hex
 
                 MOV             DL, [SRAM.Start + Boot.Kbd]
@@ -191,12 +193,14 @@ Boot.Prot.Keyboard:
                 JE              .End
 
                 MOV             AH, Dev.Kbd.Cmd.Ctrl.Write
-                OR              DL, Dev.Kbd.Ctrl.Inhib.Disable | Dev.Kbd.Ctrl.System
+                OR              DL, Dev.Kbd.Ctrl.PC.Compatible | \
+                                    Dev.Kbd.Ctrl.Inhib.Disable | \
+                                    Dev.Kbd.Ctrl.System
                 CALL            .Cmd.Data
                 JC              .End
-                SHL             ECX, x86.DWORD.Hi
-                MOV             CH, AH
-                MOV             CL, DL
+
+                MOV             AH, Dev.Kbd.Cmd.Ctrl.Read
+                CALL            .Cmd.Resp
 .End:
                 MOV             EBX, `0x\r\n`
                 MOV             ESI, ECX

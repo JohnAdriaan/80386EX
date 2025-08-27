@@ -13,7 +13,7 @@
 ;-------------------------------------------------------------------------------
 %include        "Boot/Prot/Video.inc"        ; Init Video
 ;-------------------------------------------------------------------------------
-%include        "Boot/Prot/Keyboard.inc"     ; Init Keyboard
+%include        "Boot/Prot/KeyMouse.inc"     ; Init Keyboard/Mouse controller
 ;-------------------------------------------------------------------------------
 %include        "Boot/Prot/RTC.inc"          ; Init Real-Time Clock
 ;-------------------------------------------------------------------------------

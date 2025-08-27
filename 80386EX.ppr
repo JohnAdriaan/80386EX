@@ -94,8 +94,7 @@ HTServer=localhost
 			Demo\Ints\User.inc
 			Demo\Ints\IRQs.inc
 			Demo\Ints\Timer.inc
-			Demo\Ints\Key.inc
-			Demo\Ints\Mouse.inc
+			Demo\Ints\KeyMouse.inc
 			Demo\Ints\Video.inc
 			Demo\Ints\Util.inc
 		-Demo\User
@@ -120,8 +119,7 @@ HTServer=localhost
 			-Dev
 				Demo\Exec\Dev\Dev.inc
 				Demo\Exec\Dev\Timer.inc
-				Demo\Exec\Dev\Key.inc
-				Demo\Exec\Dev\Mouse.inc
+				Demo\Exec\Dev\KeyMouse.inc
 				Demo\Exec\Dev\Video.inc
 				Demo\Exec\Dev\RTC.inc
 			-Demo\Exec\User
@@ -170,7 +168,7 @@ HTServer=localhost
 			Boot\Prot\SRAM.inc
 			Boot\Prot\DRAM.inc
 			Boot\Prot\Video.inc
-			Boot\Prot\Keyboard.inc
+			Boot\Prot\KeyMouse.inc
 			Boot\Prot\RTC.inc
 			Boot\Prot\Hex.inc
 			Boot\Prot\Fatal.inc
