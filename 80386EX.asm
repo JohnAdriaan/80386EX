@@ -65,7 +65,7 @@ Screen.Size     EQU               Screen.Width * Screen.Height * 2
 
 %define         Version.Major     0
 %define         Version.Minor     2
-%define         Version.Build     0
+%define         Version.Build     1
 
 %defstr         Version.String    %[Version.Major].%[Version.Minor].%[Version.Build]
 %defstr         Version.Stamp     v%[Version.Major]%[Version.Minor]
