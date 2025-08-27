@@ -52,6 +52,13 @@ Mask.Word       EQU        x86.WORD.Mask
 Mask.DWord      EQU        x86.DWORD.Mask
 Mask.Para       EQU        x86.PARA.Mask
 
+; Confirm passed-in value is a power of 2
+%macro      TestPow2   1
+%if (%1 & (%1-1)) != 0
+%error %1 must be a power of 2
+%endif
+%endmacro
+
 ; Sometimes, you want to LOOP 64K times.
 ; So you want to zero CX. Best way is to XOR CX, CX.
 ; But XOR ECX, ECX is often possible, and more efficient!
