@@ -1,5 +1,5 @@
 ;
-; Exec/RTC.inc
+; Exec/Dev/RTC.inc
 ;
 
 %push           Exec.RTC    ; Don't leave these %defines lying around

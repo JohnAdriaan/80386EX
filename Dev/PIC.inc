@@ -31,8 +31,14 @@ Dev.PIC.Cmd.ICW1.Cascade EQU    0000_0000b      ; SNGL: Cascaded PICs
 Dev.PIC.Cmd.ICW1.Single  EQU    0000_0010b      ; SNGL: Single PIC
 Dev.PIC.Cmd.ICW1.ICW4    EQU    0000_0001b      ; IC4: Need ICW4
 
+%ifdef PIC_LEVEL
+%define       Dev.PIC.ICW1.Trigger Dev.PIC.Cmd.ICW1.Level
+%else
+%define       Dev.PIC.ICW1.Trigger Dev.PIC.Cmd.ICW1.Edge
+%endif
+
 %define       Dev.PIC.Cmd.ICW1  Dev.PIC.Cmd.ICW1.ICW1 |    \
-                                Dev.PIC.Cmd.ICW1.Edge |    \
+                                Dev.PIC.ICW1.Trigger  |    \
                                 Dev.PIC.Cmd.ICW1.Cascade | \
                                 Dev.PIC.Cmd.ICW1.ICW4
 

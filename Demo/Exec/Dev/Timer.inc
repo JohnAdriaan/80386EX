@@ -1,5 +1,5 @@
 ;
-; Exec/Timer.inc
+; Exec/Dev/Timer.inc
 ;
 
 ; This module installs a Timer interrupt handler, then sets the Programmable
