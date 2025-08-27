@@ -91,3 +91,14 @@ Demo.DT.Alias        EQU        x86.Desc_size
 .Free           RESW            1       ; Index to first Free Descriptor, or 0
 .Limit          RESW            1       ; Last allocated Descriptor
                 ENDSTRUC
+
+; Both the Keyboard and Mouse generate bursts of bytes that need to be stored
+; quickly in an interrupt routine, before being processed by applications.
+; A simple Buffer implementation can do this, using the following structure.
+                STRUC           Demo.Buffer
+.Size           EQU             10h
+                TestPow2        .Size    ; Ring buffers are easy if this holds
+.Buffer         RESB            .Size
+.Head           RESB            1        ; Data comes in at the Head
+.Tail           RESB            1        ; Data leave from the Tail
+                ENDSTRUC

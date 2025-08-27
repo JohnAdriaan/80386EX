@@ -2,7 +2,46 @@
 ; Ints/Util.inc
 ;
 
-; This module holds Utility functions for various Fault handlers to use
+; This module holds Utility functions for various Interrupts to use
+
+;...............................................................................
+; This function pushes a byte onto a Demo.Buffer
+; Call with AL = byte to Push; ESI pointing to Demo.Buffer structure.
+; EBX is destroyed.
+; Note if Buffer is already full, the data is _*dropped*_.
+Ints.Buffer.Push:
+                MOVZX           EBX, BYTE [ESI + Demo.Buffer.Head]
+                INC             BL
+                AND             BL, Demo.Buffer.Size-1    ; This is why .Size should be Pow2
+                CMP             BL, [ESI + Demo.Buffer.Tail]
+                JE              .Exit
+                MOV             [ESI + Demo.Buffer.Buffer + EBX], AL ; Save byte away
+                MOV             [ESI + Demo.Buffer.Head], BL  ; Save new location
+.Exit:
+                RET
+
+;...............................................................................
+; This function pups a byte from a Demo.Buffer
+; Call with ESI pointing to Demo.Buffer structure.
+; EBX is destroyed.
+; Note if Buffer is empty, Z is returned
+Ints.Buffer.Pop:
+                MOVZX           EBX, BYTE [ESI + Demo.Buffer.Tail]
+                CMP             BL, [ESI + Demo.Buffer.Head]
+                JZ              .Exit                     ; Nothing to Pop
+                INC             BL
+                AND             BL, Demo.Buffer.Size - 1
+                MOV             AL, [ESI + Demo.Buffer.Buffer + EBX]
+                MOV             [ESI + Demo.Buffer.Tail], BL
+.Exit:
+                RET
+
+;...............................................................................
+; This function is called externally (FAR), so that it can NEAR call to match the RET
+
+Ints.Buffer.Pop.External:
+                CALL            Ints.Buffer.Pop
+                RETF
 
 ;...............................................................................
 ; This function switches to the next available Task. Note that it assumes that
@@ -17,11 +56,10 @@
 ;
 ; Also note that if the TSS that is currently running is a System TSS, I won't
 ; switch away from it either!
-
 Ints.Switch:
 
 .Type.Mask      EQU             x86.Desc.Type.Present | x86.Desc.Type.Sys | x86.Desc.Type.Type
-.TSS.Idle        EQU             x86.Type.Sys(.TSS, .DPL0, .386) ; Target!
+.TSS.Idle       EQU             x86.Type.Sys(.TSS, .DPL0, .386) ; Target!
 
                 STR             EAX             ; Get current TSS
                 TEST            EAX, EAX        ; Switching Tasks yet?

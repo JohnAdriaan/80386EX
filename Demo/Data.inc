@@ -15,10 +15,10 @@ Data.RAMTop     RESD            1       ; Top of RAM
 Data.Secs       RESD            1       ; Number of Seconds since Epoch
 Data.Ticks      RESD            1       ; Number of Ticks since boot
 
-Data.Key.Code   RESB            1       ; Storage for key scan-code
+Data.Key.Buffer RESB            Demo.Buffer_size
 Data.Key.Shifts RESB            1       ; Storage for current Key Shift states
 
-Data.Mouse.Code RESB            1       ; Storage for mouse movements
+Data.Mouse.Buffer RESB          Demo.Buffer_size
 
                 SEGMENT         Demo.Exec
 
