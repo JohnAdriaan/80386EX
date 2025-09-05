@@ -83,7 +83,8 @@ Ints.Debug:
 ;                XOR             AX,AX           ; Starting Descriptor
 ;                MOV             DS,AX
 ;                CALL            .Desc.Next      ; Get first (real) Descriptor to Show
-MOV AX, [ESP + 28] ; ES
+MOV AX, [ESP + 28]   ; ES
+AND EAX, ~x86.Seg.RPL ; But at RPL0
 CALL .Desc.Next.EAX
 .Refresh:
                 INC     BYTE    [ES:WORD (Screen.Cols-1)*2] ; Display Dingle(tm)
