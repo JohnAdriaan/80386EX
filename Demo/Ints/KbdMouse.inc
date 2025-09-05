@@ -1,5 +1,5 @@
 ;
-; Ints/KeyMouse.inc
+; Ints/KbdMouse.inc
 ;
 
 ; This module implements the Keyboard and Mouse interrupt handler. It takes the
@@ -34,7 +34,7 @@
 ; Note that the Interrupt routine merely stores the received codes: it does not
 ; try to decode them. That's left to outside the Interrupt routine.
 
-Ints.KeyMouse:
+Ints.KbdMouse:
                 PUSH            EAX             ; Need these registers
                 PUSH            EBX
                 PUSH            ESI

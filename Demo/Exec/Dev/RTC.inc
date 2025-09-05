@@ -11,7 +11,7 @@
                 AAD                                 ; AH:AL BCD to AL binary
 %endmacro
 
-Exec.RTC:
+Exec.Dev.RTC:
                 XOR             EAX, EAX            ; Zero all of EAX for BCD
                 XOR             EDI, EDI            ; Accumulate into EDI
                 PUSH            DS

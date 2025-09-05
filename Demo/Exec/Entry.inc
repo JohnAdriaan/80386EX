@@ -27,16 +27,16 @@ Demo.Exec.Entry:
                 STI                      ; Enable interrupts
 
                 ; Set up the Timer interrupt handler, and enable it
-                CALL            Exec.Timer
+                CALL            Exec.Dev.Timer
 
                 ; Human interaction (via the keyboard and mouse) would be nice...
-                CALL            Exec.KeyMouse
+                CALL            Exec.Dev.KbdMouse
 
                 ; But a human needs to be able to see things! So set up a video handler
-                CALL            Exec.Video
+                CALL            Exec.Dev.Video
 
                 ; Let's set the time
-                CALL            Exec.RTC
+                CALL            Exec.Dev.RTC
 
                 ; Everything's ready! We can start to create User-mode Programs
                 CALL            Exec.User

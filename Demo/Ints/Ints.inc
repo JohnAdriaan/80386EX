@@ -19,7 +19,7 @@
 ;-------------------------------------------------------------------------------
 %include        "Demo/Ints/Timer.inc"        ; Example Timer interrupt handler
 ;-------------------------------------------------------------------------------
-%include        "Demo/Ints/KeyMouse.inc"     ; Example Key/Mouse interrupt handler
+%include        "Demo/Ints/KbdMouse.inc"     ; Example Keyboard/Mouse interrupt handler
 ;-------------------------------------------------------------------------------
 %include        "Demo/Ints/Video.inc"        ; Example Video interrupt handler
 ;-------------------------------------------------------------------------------

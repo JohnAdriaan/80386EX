@@ -1,5 +1,5 @@
 ;
-; Exec/Dev/Key.inc
+; Exec/Dev/KbdMouse.inc
 ;
 
 ; This module installs a Keyboard interrupt handler. There's not much to do:
@@ -9,9 +9,9 @@
 ; general consumption by other programs. This has been left as an exercise for
 ; the reader - until I get impatient and do it myself...
 
-Exec.KeyMouse:
+Exec.Dev.KbdMouse:
 ; First, install a Keyboard interrupt handler
-                MOV             EAX, Ints.KeyMouse ; Handler
+                MOV             EAX, Ints.KbdMouse ; Handler
                 MOV             BX,  Demo.IDT.Key  ; Interrupt
                 MOV             CX,  x86.Selector(Demo.GDT.Ints, .GDT, .RPL0)
                 MOV             DL,  x86.Type.Sys(.Int, .DPL0, .386)

@@ -6,7 +6,7 @@
 ; Interval Timer (PIT) to interrupt often. The Interrupt handler will cycle
 ; through the active Tasks, emulating simultaneity.
 
-Exec.Timer:
+Exec.Dev.Timer:
 ; First, install a Timer interrupt handler
                 MOV             EAX, Ints.Timer      ; Offset
                 MOV             BX,  Demo.IDT.Timer  ; Interrupt

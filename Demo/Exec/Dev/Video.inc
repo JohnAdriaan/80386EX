@@ -9,7 +9,7 @@
 ; isn't accessing the RAM. Luckily it raises an interrupt during this period,
 ; so we can simply copy the values from a buffer to the screen.
 
-Exec.Video:
+Exec.Dev.Video:
                 ; First, install a Video interrupt handler
                 MOV             EAX, Ints.Video     ; Handler
                 MOV             BX,  Demo.IDT.Video ; Interrupt

@@ -1,5 +1,5 @@
 ;
-; Boot/Prot/KeyMouse.inc
+; Boot/Prot/KbdMouse.inc
 ;
 
 ;-------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ Boot.Kbd.Kbd    EQU             Dev.Kbd.Ctrl.Key.Int
                 POP             ESI
 %endmacro
 
-Boot.Prot.Keyboard:
+Boot.Prot.KbdMouse:
                 MOV      BYTE   [SRAM.Start + Boot.Kbd], 0
 
 ; First, reset the Controller
