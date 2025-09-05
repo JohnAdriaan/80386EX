@@ -7,12 +7,16 @@
 Ints.Debug.Key:
 ;               HLT                             ; Wait for interrupt
 
+                PUSH            EBX
+                PUSH            ESI
                 PUSH            DS
                 MOV             AX, x86.Selector(Demo.GDT.Data, .GDT, .RPL0)
                 MOV             DS, AX
                 MOV             ESI, Data.Key.Buffer
                 CALL            Ints.Buffer.Pop
                 POP             DS
+                POP             ESI
+                POP             EBX
                 JZ              .End            ; No keys, so leave
 
                 CMP             AL,Debug.Key.Quit
