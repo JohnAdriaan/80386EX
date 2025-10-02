@@ -5,8 +5,8 @@
 ; This is the Euro Card Bus initialisation
 
 ; Set the Chip Select Unit for the ECB
-; Chip Select XIO  (CS0):  00E0h-00FFh
-; Chip Select XMEM (CS3):  03FY_XXXXh (where Y=0-7, X=0-F)
+; Chip Select XIO  (CS0):  ECB.IO.Start
+; Chip Select XMEM (CS3):  ECB.Mem.Start
 
                 SEGMENT         Boot.Real
 

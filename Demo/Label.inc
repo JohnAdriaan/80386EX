@@ -4,7 +4,7 @@
 
 ; This puts human-readable strings into the EPROM for versioning
 
-                SEGMENT         Demo
+                SEGMENT         Demo.Label
 
                 DB              Version.Author, "'s"
                 ALIGN           Align.Para, DB ' '

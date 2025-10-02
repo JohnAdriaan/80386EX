@@ -2,7 +2,7 @@
 ; Boot/Real/SIO.inc
 ;
 
-; Initialise the Serial I/O device. As a debugoutput device, it's invaluable!
+; Initialise the Serial I/O device. As a debug output device, it's invaluable!
 ; Not as much as the VGA monitor - but that takes a LOT to get set up. Meanwhile...
 
 ;-------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ Boot.SIO:
                 MOV             AL, Dev.UART.MCR.DTR | Dev.UART.MCR.RTS
                 OUT             DX, AL
 
-%define HEADER
+;%define HEADER
 %ifdef HEADER
                 CLD
                 MOV             CX,.Mess.Len

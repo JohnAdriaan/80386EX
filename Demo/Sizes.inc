@@ -2,8 +2,16 @@
 ; Demo.Sizes.inc
 ;
 
+Demo.Base       EQU             ROM.Start ; ***!!!*** Change when COPY_ROM implemented
+
+; Calculate final Demo.Data Segment size
+                SEGMENT         Demo.Data  START=0  ALIGN=Align.Para  NOBITS
+
+Demo.Data.Limit EQU             $ - $$ - 1
+
+;-------------------------------------------------------------------------------
 ; Calculate final Demo.Label Segment size
-                SEGMENT         Demo  ALIGN=Align.Para
+                SEGMENT         Demo.Label  ALIGN=Align.Para
 
                 ALIGN           Align.Para, DB 0xFF
 
@@ -13,18 +21,7 @@ Demo.Label.Size EQU             $ - $$
 
 %assign         Image.Size      Image.Size + Demo.Label.Size
 ;-------------------------------------------------------------------------------
-; Calculate final Demo.Boot Segment size
-                SEGMENT         Demo.Boot  ALIGN=Align.Para
-
-                ALIGN           Align.Para, DB 0
-
-Demo.Boot.Size  EQU             $ - $$
-
-%assign         Demo.Size       Demo.Size + Demo.Boot.Size
-
-%assign         Image.Size      Image.Size + Demo.Boot.Size
-;-------------------------------------------------------------------------------
-; Calculate final IDT Segment size
+; Calculate final Demo.IDT Segment size
                 SEGMENT         Demo.IDT  VSTART=0  ALIGN=Align.Para
 
 Demo.IDT.Num    EQU             ($ - $$) / x86.Desc.Size
@@ -37,30 +34,30 @@ Demo.IDT.Size   EQU             $ - $$
 
 %assign         Image.Size      Image.Size + Demo.IDT.Size
 ;-------------------------------------------------------------------------------
-; Calculate final Data Segment size
-                SEGMENT         Demo.Data  START=0  ALIGN=Align.Para  NOBITS
+; Calculate final Demo.Boot Segment size
+                SEGMENT         Demo.Boot  ALIGN=Align.Para
 
-Demo.Data.Limit EQU             $ - $$ - 1
+                ALIGN           Align.Para      ; Pad with NOPs
 
+Demo.Boot.Size  EQU             $ - $$
+
+%assign         Demo.Size       Demo.Size + Demo.Boot.Size
+
+%assign         Image.Size      Image.Size + Demo.Boot.Size
 ;-------------------------------------------------------------------------------
-; Calculate final Ints Segment size
+; Calculate final Demo.Ints Segment size
                 SEGMENT         Demo.Ints  VSTART=0  ALIGN=Align.Para
 
+Demo.Ints.Base  EQU             Demo.Base + Demo.Size
 Demo.Ints.Limit EQU             $ - $$ - 1
 
-                ALIGN           Align.Para
+                ALIGN           Align.Para      ; Pad with NOPs
 
 Demo.Ints.Size  EQU             $ - $$
 
-%ifdef USE_SRAM
-Demo.Ints.Base  EQU             SRAM.Start + Demo.Size
-
+%ifdef COPY_ROM
 Copy.Source     EQU             section.Demo.Ints.start
-
-Copy.Dest       EQU             Demo.Ints.Base
-%else
-Demo.Ints.Base  EQU             ROM.Start + Demo.Size
-%endif
+%endif ; COPY_ROM
 
 %assign         Demo.Size       Demo.Size + Demo.Ints.Size
 
@@ -69,15 +66,10 @@ Demo.Ints.Base  EQU             ROM.Start + Demo.Size
 ; Calculate final User.Code Segment size
                 SEGMENT         Demo.User  VSTART=0  ALIGN=Align.Para
 
+Demo.User.Base  EQU             Demo.Base + Demo.Size
 Demo.User.Limit EQU             $ - $$ - 1
 
                 ALIGN           Align.Para
-
-%ifdef USE_SRAM
-Demo.User.Base  EQU             SRAM.Start + Demo.Size
-%else
-Demo.User.Base  EQU             ROM.Start + Demo.Size
-%endif
 
 Demo.User.Size  EQU             $ - $$
 
@@ -103,18 +95,13 @@ Demo.User.Data.Limit EQU        $ - $$ - 1
 
 Demo.User.Data.Size  EQU        $ - $$
 ;-------------------------------------------------------------------------------
-; Calculate final Exec Segment size
+; Calculate final Demo.Exec Segment size
                 SEGMENT         Demo.Exec  VSTART=0  ALIGN=Align.Para
 
+Demo.Exec.Base  EQU             Demo.Base + Demo.Size
 Demo.Exec.Limit EQU             $ - $$ - 1
 
                 ALIGN           Align.Para
-
-%ifdef USE_SRAM
-Demo.Exec.Base  EQU             SRAM.Start + Demo.Size
-%else
-Demo.Exec.Base  EQU             ROM.Start + Demo.Size
-%endif
 
 Demo.Exec.Size  EQU             $ - $$
 
@@ -122,7 +109,7 @@ Demo.Exec.Size  EQU             $ - $$
 
 %assign         Image.Size      Image.Size + Demo.Exec.Size
 
-%ifdef USE_SRAM
+%ifdef COPY_ROM
 Copy.Size       EQU             Demo.Exec.Base + Demo.Exec.Size - Copy.Dest
 %endif
 ;-------------------------------------------------------------------------------
@@ -143,7 +130,7 @@ Demo.Exec.LDT.Size  EQU         Demo.Exec.LDT.Pos
 
 %assign         Image.Size      Image.Size + ($ - $$)
 ;-------------------------------------------------------------------------------
-; Calculate final GDT Segment size
+; Calculate final Demo.GDT Segment size
                 SEGMENT         Demo.GDT  VSTART=0  ALIGN=Align.Para
 
 Demo.GDT.Limit  EQU             $ - $$ - 1
@@ -157,4 +144,3 @@ Demo.GDT.Size   EQU             $ - $$   ; Initial size of GDT
 %assign         Demo.Size       Demo.Size + Demo.GDT.Size
 
 %assign         Image.Size      Image.Size + Demo.GDT.Size
-;===============================================================================

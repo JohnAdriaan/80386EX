@@ -19,16 +19,22 @@
 
 ;===============================================================================
                 SEGMENT         Boot.Data    NOBITS
+
+%include        "Boot/Defn.inc"         ; Definitions for use by ROM routines
 ;-------------------------------------------------------------------------------
+                SEGMENT         Boot
+
 %include        "Boot/Label.inc"        ; Add human-readable identifiers to ROM code
 ;-------------------------------------------------------------------------------
-%include        "Boot/Defn.inc"         ; Definitions for use by ROM routines
+                SEGMENT         Boot.Font
+
+%include        "Boot/Font.inc"         ; Font definitions
 ;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Real
 
                 USE16
 
-Boot.Real.Entry:                             ; Reset JMP point
+Boot.Real.Entry:                        ; Reset JMP point
 
 %include        "Boot/Real/Real.inc"
 ;-------------------------------------------------------------------------------
@@ -38,10 +44,6 @@ Boot.Real.Entry:                             ; Reset JMP point
 
 %include        "Boot/GDT.inc"          ; Init Global Descriptor Table (GDT) in Real Mode
 
-;-------------------------------------------------------------------------------
-                SEGMENT         Boot.Font
-
-%include        "Boot/Font.inc"         ; Font definitions
 ;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Prot
 
