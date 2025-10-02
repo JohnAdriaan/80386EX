@@ -35,9 +35,17 @@ x86.PARA.Size   EQU        16
 x86.PARA.Bits   EQU       (x86.PARA.Size * x86.BYTE.Bits)
 x86.PARA.Mask   EQU        x86.PARA.Size - 1
 
+x86.1K.Shift    EQU        10
+x86.1K.Size     EQU       (0001h << x86.1K.Shift)
+x86.1K.Mask     EQU        x86.1K.Size - 1
+
 x86.PAGE.Shift  EQU        12
 x86.PAGE.Size   EQU       (0001h << x86.PAGE.Shift)
 x86.PAGE.Mask   EQU        x86.PAGE.Size - 1
+
+x86.1M.Shift    EQU        20
+x86.1M.Size     EQU       (0001h << x86.1M.Shift)
+x86.1M.Mask     EQU        x86.1M.Size - 1
 
 x86.Reset       EQU        0_FFF0h
 
