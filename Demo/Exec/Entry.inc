@@ -51,7 +51,7 @@ Demo.Exec.Entry:
 
                 MOV             EAX, (12 * 60 + 34) * 60 + 56  ; Mon, 1 Jan 2001, 12:34:56
 %endif
-Demo.Exec.Idle:
+.Idle:
 %ifdef DATE_TEST
                 LEA             EDX, [EAX + 24 * 60 * 60 + 61] ; Add a day and a second
                 PUSH            EDX
@@ -107,9 +107,9 @@ Demo.Exec.Idle:
                 User.Yield
 
 %ifdef DATE_TEST
-                POP             EAX                ; Restore for next increament
+                POP             EAX                ; Restore for next increment
 %endif
-                JMP             Demo.Exec.Idle
+                JMP             .Idle
 
 .Hex:
                 MOV             DL, AL             ; Save byte to display
