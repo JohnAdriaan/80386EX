@@ -10,6 +10,9 @@ Boot.Kbd        RESB            1
 Boot.Kbd.Mouse  EQU             Dev.Kbd.Ctrl.Mouse.Int
 Boot.Kbd.Kbd    EQU             Dev.Kbd.Ctrl.Key.Int
 
+ALIGNB x86.PARA.Size
+Boot.Kbd.ECX    RESD            20h
+
 ;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Prot
 
@@ -23,6 +26,8 @@ Boot.Kbd.Kbd    EQU             Dev.Kbd.Ctrl.Key.Int
 
 Boot.Prot.KbdMouse:
                 MOV      BYTE   [SRAM.Start + Boot.Kbd], 0
+
+MOV EDI, SRAM.Start + Boot.Kbd.ECX
 
 ; First, reset the Controller
                 MOV             AH, Dev.Kbd.Cmd.Ctrl.Test
@@ -110,7 +115,10 @@ Boot.Prot.KbdMouse:
 .IBF:
                 IN              AL, Kbd.Stat          ; Get status
                 TEST            AL, Dev.Kbd.Stat.IBF  ; Input buffer still full?
-           A16  LOOPNZ          .IBF                  ; Yep, so keep trying
+            A16 LOOPNZ          .IBF                  ; Yep, so keep trying
+XCHG EAX, ECX
+STOSW
+XCHG EAX, ECX
                 RET
 
 ; Call to wait for Output Buffer to Fill
@@ -119,11 +127,15 @@ Boot.Prot.KbdMouse:
 .OBF:
                 IN              AL, Kbd.Stat          ; Get status
                 TEST            AL, Dev.Kbd.Stat.OBF  ; Output buffer still empty?
-           A16  LOOPZ           .OBF                  ; Yep, so keep trying
+            A16 LOOPZ           .OBF                  ; Yep, so keep trying
+XCHG EAX, ECX
+STOSW
+XCHG EAX, ECX
                 RET
 
 ; Call with AH set to Command. Returns with Carry set on Error
 .Cmd:
+STOSW
                 CALL            .Wait.IBF         ; Wait for free Cmd
                 JNZ             .Cmd.Error        ; Didn't happen!
                 MOV             AL, AH            ; Cmd to send
@@ -139,6 +151,7 @@ Boot.Prot.KbdMouse:
 
 ; Call with AH set to Command. Returns with AL holding response, or Carry set on Error
 .Cmd.Resp:
+STOSW
                 IN              AL, Kbd.Data      ; Empty input buffer
                 MOV             DH, 10h           ; Try Cmd this many times
 .Retry:
@@ -165,6 +178,8 @@ Boot.Prot.KbdMouse:
 
 ; Call with AH set to Command, and DL set to Data. Returns with Carry set on Error
 .Cmd.Data:
+MOV AL, DL
+STOSW
                 CALL            .Wait.IBF         ; Wait for free Cmd
                 JNZ             .Data.Error       ; Didn't happen!
                 MOV             AL, AH            ; Cmd to send

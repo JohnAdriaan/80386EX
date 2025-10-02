@@ -23,9 +23,11 @@ Exec.Init:
                 MOV             AX, x86.Selector(Demo.GDT.Alias, .GDT, .RPL0)
                 MOV             GS, AX           ; Try to keep this here
 
+%ifdef USE_SRAM
                 ; Point to SRAM
                 MOV             AX, x86.Selector(Demo.GDT.SRAM, .GDT, .RPL0)
                 MOV             FS, AX           ; Try to keep this here
+%endif
 
                 ; Point to global Data
                 MOV             AX, x86.Selector(Demo.GDT.Data, .GDT, .RPL0)
@@ -35,7 +37,7 @@ Exec.Init:
                 MOV    DWORD    [WORD Data.RAM], Demo.First
                 INC             EBP                     ; Convert Limit to Size
 %ifdef USE_DOUBLEBUFFER_DRAM
-                SUB             EBP, ((Screen.Size + x86.PAGE.Size - 1) & ~x86.PAGE.Mask) - 1
+                SUB             EBP, ((Screen.Size + x86.PAGE.Size - 1) & ~x86.PAGE.Mask)
 %endif
                 MOV             [WORD Data.RAMTop], EBP ; Save away new top of RAM
 
@@ -49,8 +51,9 @@ Exec.Init:
 %ifdef USE_DOUBLEBUFFER
                 ; First, allocate Video double-buffer
 %ifdef USE_DOUBLEBUFFER_DRAM
-                MOV             EAX, EBP          ; Use (last) part of SRAM: it's faster than DRAM
+                MOV             EAX, EBP
 %else
+                ; Use (last) part of SRAM: it's faster than DRAM
                 MOV             EAX, (SRAM.Start + SRAM.Size - Screen.Size) & ~x86.PAGE.Mask
 %endif
                 MOV             ECX, Screen.Size

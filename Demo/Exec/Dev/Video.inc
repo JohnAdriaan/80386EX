@@ -10,22 +10,6 @@
 ; so we can simply copy the values from a buffer to the screen.
 
 Exec.Dev.Video:
-                ; First, install a Video interrupt handler
-                MOV             EAX, Ints.Video     ; Handler
-                MOV             BX,  Demo.IDT.Video ; Interrupt
-                MOV             CX,  x86.Selector(Demo.GDT.Ints, .GDT, .RPL0)
-                MOV             DL,  x86.Type.Sys(.Int, .DPL0, .386)
-                CALL            Exec.Alloc.IDT
-
-                ; Clear double buffer
-                CLD
-                MOV             AX, Dev.VGA.CharAttr(' ', Demo.User.Ball.Colour)
-                MOV             ECX, Screen.Rows * Screen.Cols * 2 / x86.WORD.Size
-                MOV             DX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
-                XOR             EDI, EDI
-                MOV             ES, DX
-                REP             STOSW
-
                 ; Talk to CRTC
                 MOV             DX, Vid.IO.Start + Dev.SBC386EX.VGA3.IO.CRTC.Addr
 
@@ -34,6 +18,24 @@ Exec.Dev.Video:
                                         .Ncs1,                                 \
                                         Dev.SBC386EX.VGA3.CRTC.Cursor.Off)
                 OUT             DX, AX
+
+%ifdef USE_DOUBLEBUFFER
+                ; First, install a Video interrupt handler
+                MOV             EAX, Ints.Video     ; Handler
+                MOV             BX,  Demo.IDT.Video ; Interrupt
+                MOV             CX,  x86.Selector(Demo.GDT.Ints, .GDT, .RPL0)
+                MOV             DL,  x86.Type.Sys(.Int, .DPL0, .386)
+                CALL            Exec.Alloc.IDT
+
+                ; Clear double-buffer
+                CLD
+                MOV             AX, Dev.VGA.CharAttr(' ', Demo.User.Ball.Colour)
+                MOV             DX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
+                MOV             ECX, Screen.Rows * Screen.Cols * 2 / x86.WORD.Size
+                MOV             ES, DX
+                XOR             EDI, EDI
+                REP             STOSW
+
                 ; Enable Vertical Retrace interrupt
                 MOV             AX, Dev.SBC386EX.VGA3.CRTC.Value(              \
                                         .Control.1,                            \
@@ -43,5 +45,5 @@ Exec.Dev.Video:
 
 ; Finally, enable the Video interrupt in the PIC
                 Dev.PIC.B.Enable  .Video                ; Unmask Video IRQ
-
+%endif
                 RET

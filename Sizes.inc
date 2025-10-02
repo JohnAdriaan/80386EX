@@ -91,11 +91,13 @@ EPROM.Pad       EQU             ROM.Size - Image.Size
 
 Boot.Data.Size  EQU             $ - $$
 
-%ifdef USE_SRAM
-%assign         Boot.Data.Pad   (Demo.Ints.Base - SRAM.Start) - Boot.Data.Size
-%elifdef USE_DOUBLEBUFFER
-%assign         Boot.Data.Pad   (SRAM.Size - Screen.Size) & ~x86.PAGE.Mask - Boot.Data.Size
-%endif
+%ifndef USE_SRAM
+                ; Use minimal DRAM
+%assign         Boot.Data.Pad   (Boot.Data.Size + x86.PARA.Mask) & ~x86.PARA.Mask
+%else ; !USE_SRAM
+                ; Ensure not larger than SRAM
+%assign         Boot.Data.Pad   (SRAM.Top - Boot.Data.Size)
+%endif ; USE_SRAM
 
                 RESB            Boot.Data.Pad
 
@@ -110,6 +112,7 @@ ECB.Seg.Size    EQU             $ - $$
                 RESB            ECB.Pad
 
 ;-------------------------------------------------------------------------------
+%ifdef USE_SRAM
 ; Ensure SRAM is not too large
                 SEGMENT         SRAM  NOBITS
 
@@ -118,7 +121,7 @@ SRAM.Seg.Size   EQU             $ - $$
 %assign         SRAM.Pad        SRAM.Size - SRAM.Seg.Size
 
                 RESB            SRAM.Pad
-
+%endif
 ;-------------------------------------------------------------------------------
 ; Ensure ROM is not too large
                 SEGMENT         ROM  NOBITS

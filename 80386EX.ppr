@@ -1,6 +1,6 @@
 [Config]
 Compilator.FileName=C:\NASM\NASM.exe
-Compilator.PSPar=-@Options.txt -l%Name%.lst -o%NAME%.bin %Name%%Ext%
+Compilator.PSPar=-@Options.txt -l%Name%.lst -o%Name%.bin %Name%%Ext%
 Compilator.Log=%Name%.log
 Compilator.SaveAll=1
 Compilator.Capture=1
@@ -19,8 +19,8 @@ ProjectFilesOnly=0
 HTServer=localhost
 [Project tree]
 80386EX
-	80386EX.asm
 	Options.txt
+	80386EX.asm
 	80386EX.lst
 	80386EX.map
 	80386EX.bin
@@ -74,9 +74,9 @@ HTServer=localhost
 			Dev\SBC-386EX\VGA3-ENB-04.PLD
 	-Demo
 		Demo\Demo.inc
-		Demo\Label.inc
 		Demo\Defn.inc
 		Demo\Data.inc
+		Demo\Label.inc
 		Demo\Boot.inc
 		-Demo\Ints
 			Demo\Ints\Ints.inc
@@ -97,12 +97,6 @@ HTServer=localhost
 			Demo\Ints\KbdMouse.inc
 			Demo\Ints\Video.inc
 			Demo\Ints\Util.inc
-		-Demo\User
-			Demo\User\User.inc
-			Demo\User\LDT.inc
-			Demo\User\Data.inc
-			Demo\User\Code.inc
-			Demo\User\Frame.inc
 		-Demo\Exec
 			Demo\Exec\Exec.inc
 			Demo\Exec\Entry.inc
@@ -116,7 +110,7 @@ HTServer=localhost
 				Demo\Exec\Ints\BadStack.inc
 				Demo\Exec\Ints\BadTSS.inc
 				Demo\Exec\Ints\Fault.inc
-			-Dev
+			-Demo\Exec\Dev
 				Demo\Exec\Dev\Dev.inc
 				Demo\Exec\Dev\Timer.inc
 				Demo\Exec\Dev\KbdMouse.inc
@@ -136,13 +130,20 @@ HTServer=localhost
 				Demo\Exec\Alloc\TSS.inc
 			Demo\Exec\Clock.inc
 			Demo\Exec\LDT.inc
+		-Demo\User
+			Demo\User\User.inc
+			Demo\User\LDT.inc
+			Demo\User\Data.inc
+			Demo\User\Code.inc
+			Demo\User\Frame.inc
 		Demo\GDT.inc
 		Demo\Sizes.inc
 	EPROM.inc
-	-Boot
+	+Boot
 		Boot\Boot.inc
-		Boot\Label.inc
 		Boot\Defn.inc
+		Boot\Label.inc
+		Boot\Font.inc
 		-Real
 			Boot\Real\Real.inc
 			Boot\Real\CPU.inc
@@ -161,8 +162,7 @@ HTServer=localhost
 			Boot\Real\IDE.inc
 			Boot\Real\SDCard.inc
 		Boot\GDT.inc
-		Boot\Font.inc
-		-Prot
+		+Prot
 			Boot\Prot\Prot.inc
 			Boot\Prot\PM.inc
 			Boot\Prot\SRAM.inc
@@ -176,9 +176,13 @@ HTServer=localhost
 	Sizes.inc
 [Open project files]
 0=80386EX.asm
+1=Boot\Prot\DRAM.inc
 [Selected Project Files]
 Main=80386EX.asm
-Selected=80386EX.asm
+Selected=Boot\Prot\DRAM.inc
 [80386EX.asm]
 TopLine=1
 Caret=1,1
+[Boot\Prot\DRAM.inc]
+TopLine=21
+Caret=43,33

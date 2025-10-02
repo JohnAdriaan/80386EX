@@ -12,44 +12,58 @@ DRAM.Limit      RESD            1
 
                 USE32
 
+; Note there's logic to isolate SRAM and ECB accesses from DRAM, if they overlap
+%define         DRAM.Max       x86.EX.Addr.Size
+
+%ifdef USE_SRAM
+%if DRAM.Max > SRAM.Start
+%define         DRAM.Max       SRAM.Start
+%endif
+%endif ; USE_SRAM
+
+%if DRAM.Max > ECB.Mem.Start
+%define         DRAM.Max       ECB.Mem.Start
+%endif
+
 Boot.Prot.DRAM:
-; Test size of DRAM, in SRAM.Size increments. Stop when ECB reached
-                XOR             EDX, EDX          ; Too many errors counter
-                MOV             EDI, DRAM.Start
+; Test size of DRAM, in 64K increments. Stop when DRAM.Max reached
+%ifdef TEST_RAM
+                MOV             EAX, 5AA5_A55Ah   ; Alternating 0s and 1s
+%endif
+                MOV             ESI, DRAM.Start   ; Start from the very beginning...
 .Loop:
-                MOV             [EDI], EDI        ; Store address in address
-                CMP             [EDI], EDI        ; Did it work?
-                JE              .Same
-
-                INC             DL                ; Nope! Try again
-                JNZ             .Loop
-                JMP             Boot.Fatal        ; Too often. Bail!
-.Same:
-                TEST            EDX, EDX
-                JZ              .Next
-                MOV             EBX, `0x==`       ; Report number of attempts
-                MOV             ESI, EDI
-                CALL            Hex
-                MOV             EBX, `0x\r\n`
-                MOV             ESI, EDX
-                CALL            Hex
-                XOR             EDX, EDX
-.Next:
-                ADD             EDI, SRAM.Size
-;               CMP             EDI, ECB.Mem.Start
-                CMP             EDI, x86.EX.Addr.Size / 2 ; Maximum CS resolution?
+%ifdef TEST_RAM
+                MOV             [ESI], EAX        ; Store value in address
+                PAUSE                             ; ...beat...
+                CMP             [ESI], EAX        ; Did it work?
+                JNE             .Diff             ; No
+                NOT      DWORD  [ESI]             ; Swap all bits
+                PAUSE                             ; ...beat...
+                XOR             [ESI], EAX        ; Should now be FFFF_FFFFh
+                PAUSE
+                INC      DWORD  [ESI]             ; Should now be 0000_0000h
+                JNZ             .Diff             ; Nope!
+%endif
+                MOV             [ESI], ESI        ; Store Address at address
+                PAUSE                             ; ...beat...
+                CMP             [ESI], ESI        ; Still there?
+                JNE             .Diff             ; Nope!
+                ADD             ESI, 1_0000h      ; Test next block
+                CMP             ESI, DRAM.Max
                 JB              .Loop
-
-; Because of DRAM wrap-around, [DRAM.Start] (kind of) holds the inverse of the DRAM size
-                MOV             EDX, [DRAM.Start]
-                OR              EDX, x86.EX.Addr.Size / 2 ; Set maximum value
-                MOV             EAX, EDX                  ; Get copy
-                NOT             EDX                       ; NOT one
-                DEC             EAX                       ; DEC the other
-                AND             EAX, EDX                  ; AND the two together
+                MOV             EAX, [0000_0000h] ; Get lowest address back
+                TEST            EAX, EAX          ; Should be zero
+                JZ              .Diff             ; It is! Fully populated!
+                MOV             ESI, EAX          ; It isn't! Wrapped around!
+                NEG             EAX               ; So isolate lowest set bit
+                AND             ESI, EAX          ; e.g. 4M looped could produce 60M
+.Diff:
+                MOV             EAX, ESI
+                DEC             EAX               ; Turn into Limit, with Sign test
+                MOV             EBX, `D!\r\n`
+                JS              Boot.Fatal.Hex    ; No DRAM found!
 
                 MOV             [SRAM.Start + DRAM.Limit], EAX ; Save away RAM limit
-                LEA             ESI, [EAX+1]              ; Add one for RAM size
 
                 SHR             EAX, 16                   ; Only interested in top half
                 AND             AX, x86.EX.CSU.MSKH.Mask  ; Isolate MSKH

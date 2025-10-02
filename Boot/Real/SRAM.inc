@@ -7,7 +7,9 @@
 
                 USE16
 
+%ifdef USE_SRAM
 Boot.Real.SRAM:
+
 ; Configure SRAM Chip Select (CS4)
                 MOV             DX, x86.EX.CSU.%[SRAM.CS] + x86.EX.CS.ADH
                 MOV             AX, x86.EX.CSU.ADH.Value.Mem(SRAM.Start)
@@ -24,3 +26,4 @@ Boot.Real.SRAM:
                 MOV             DX, x86.EX.CSU.%[SRAM.CS] + x86.EX.CS.MSKL
                 MOV             AX, x86.EX.CSU.MSKL.Value.Mem(SRAM.Mask, NOSMM, CSEN)
                 OUT             DX,AX
+%endif

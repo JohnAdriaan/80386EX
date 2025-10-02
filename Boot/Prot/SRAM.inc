@@ -12,6 +12,7 @@ CPU.ID          RESW            1
 
                 USE32
 
+%ifdef USE_SRAM
 Boot.Prot.SRAM:
 ; Initialise SRAM with known value - then test for it
                 CLD
@@ -25,7 +26,7 @@ Boot.Prot.SRAM:
                 REPE            SCASD
                 MOV             EBX, `S!\r\n`
                 LEA             ESI, [EDI - x86.DWORD.Size]
-                JNE             Boot.Fatal
+                JNE             Boot.Fatal.Hex
 
                 MOV             EBX, `S:= `
                 MOV             ESI, SRAM.Start
@@ -36,3 +37,4 @@ Boot.Prot.SRAM:
 
                 SHRD            EAX, EBP, 16              ; Get Processor ID
                 MOV             [SRAM.Start + CPU.ID], AX ; (See Boot/Real/CPU.inc)
+%endif

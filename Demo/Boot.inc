@@ -3,6 +3,20 @@
 ;
 
 ; This routine copies ROM structures to RAM before using them.
+; The structures copied are:
+; 1) The IDT. The first 48 (or so) entries are already defined in ROM, but new
+;    ones (up to 256 total) can be created at run-time, so the table has to be
+;    in RAM. Then the IDTR is initialised.
+; 2) The full GDT. Again, the first few entries are effectively fixed, since
+;    Interrupt Handlers point to them. So the ones defined in ROM are copied,
+;    then the rest of the GDT is zeroed waiting for more entries to be created
+;    at runtime. Then the GDTR is initialised.
+; 3) The Executive's LDT. This is fairly static, but it may need to be modified
+;    (see below). Then the LDTR is initialised.
+; 4) All of the above structures are copied and initialised to DRAM.
+;    Optionally, the code itself can be copied out of ROM and into RAM - of
+;    either flavour: SRAM or DRAM. Both types of RAM are faster to access, but
+;    SRAM is even faster; but at least DRAM is expected to exist!
 
                 SEGMENT         Demo.Boot
 
@@ -49,17 +63,18 @@ Demo.Boot:
 ;               MOV             CL,  (Demo.Exec.LDT.Num.Max - Demo.Exec.LDT.Num) * x86.Desc.Size / x86.DWORD.Size
 ;               REP             STOSD           ; Gonna be overwritten immediately anyway...
 
-%ifdef USE_SRAM
-; Copy code to SRAM
+                MOV             AX, x86.Selector(Demo.GDT.Exec.LDT, .GDT, .RPL0)
+                LLDT            AX
+
+%ifdef COPY_ROM
+; Copy code to S/DRAM
                 MOV             CX,  Copy.Size / x86.DWORD.Size
                 MOV             ESI, Copy.Source
                 MOV             EDI, Copy.Dest
              CS REP             MOVSD
 %endif
 
-; Jump to Executive Entry
-                MOV             AX, x86.Selector(Demo.GDT.Exec.LDT, .GDT, .RPL0)
-                LLDT            AX
+; Jump to Executive Entry inside the LDT
                 JMP             x86.Selector(Demo.Exec.LDT.Code, .LDT, .RPL0) : DWORD Demo.Exec.Entry
 
 %if 0

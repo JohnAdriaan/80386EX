@@ -95,11 +95,11 @@ Boot.RTC:
 %ifdef RTC_SET
 .Time:                                     ; All values are BCD
                 DB              00h        ; Secs
-                DB              20h        ; Mins
-                DB              Dev.RTC.DS1302.Hour.24 | 09h ; Hours (UTC)
-                DB              19h        ; Date
-                DB              08h        ; Month
-                DB              26h        ; Day (1=Monday)
+                DB              43h        ; Mins
+                DB              Dev.RTC.DS1302.Hour.24 | 12h ; Hours (UTC)
+                DB              12h        ; Date
+                DB              09h        ; Month
+                DB              05h        ; Day (1=Monday)
                 DB              25h        ; Year
 %endif ; RTC_SET
 ;...............................................................................
