@@ -12,12 +12,12 @@ Vid.Font.Addr   EQU            (Vid.Font.Page << x86.PAGE.Shift)
 Vid.Font.CFG    EQU            (Vid.Font.Page << Dev.SBC386EX.VGA3.IO.CFG.Font.Shift)
 
 ;...............................................................................
-                SEGMENT         IO
+                SEGMENT         IO              NOBITS
 
 ECB.IO.Vid      EQU             ECB.IO.Start
 
 ;-------------------------------------------------------------------------------
-                SEGMENT         ECB
+                SEGMENT         ECB             NOBITS
 
 ECB.Mem.Vid     RESB            Dev.SBC386EX.VGA3.Mem.Size
 

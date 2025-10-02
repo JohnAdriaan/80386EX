@@ -2,7 +2,13 @@
 ; Dev/SBC-386EX/VGA3.inc
 ;
 
-; These are the definitions for the SBC-386EX VGA card
+; These are the definitions for the SBC-386EX VGA card.
+;
+; Note about the Address Decode Jumper strip on the VGA3 ECB card:
+; The 80386EX ECB card does NOT connect A20-A31 onto the ECB bus - they're NC.
+; Therefore, the light pull-ups in the 74LS682 comparators mean that only
+; the bottom four bits (A16-A19) should be configured: the rest should be OFF.
+; The 386EX's CSUs for XMEM and XIO do most of the heavy lifting here.
 
 Dev.SBC386EX.VGA3:
 
