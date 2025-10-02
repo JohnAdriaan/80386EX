@@ -78,4 +78,4 @@ Demo.IDT.IDE1        x86.Desc.Sys    Demo.GDT.Ints, Ints.IRQ15, IDT.Int     ; In
 Demo.IDT.Halt        x86.Desc.Sys    Demo.GDT.Ints, Ints.Halt, IDT.User.Trap; Int 30h
 Demo.IDT.Yield       x86.Desc.Sys    Demo.GDT.Ints, Ints.Yield, IDT.User.Int; Int 31h
 
-Demo.IDT.IRET        x86.Desc.Sys    Demo.GDT.Ints, Ints.IRET, IDT.User.Trap
+Demo.IDT.IRET        x86.Desc.Sys    Demo.GDT.Ints, Ints.IRET, IDT.User.Trap; Copied
