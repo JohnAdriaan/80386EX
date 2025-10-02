@@ -11,7 +11,7 @@
 ; development platforms - Windows, Linux and MacOS.
 ;
 ; The NASM command line to assemble this source depends on the output format:
-; Binary format: nasm.exe -@ Options.txt -l80386EX.lst 80386EX.asm
+; Binary format (assumed): nasm.exe -@ Options.txt -l80386EX.lst 80386EX.asm
 ; Intel Hex format: nasm.exe -@ Options.txt -fith -l80386EX.lst -o80386EX.hex 80386EX.asm
 ; Note that the Options.txt file contains definitions for which ICs were used
 ; in the target board
@@ -28,12 +28,12 @@
 ; 'Demo' : Let's see what we can do with Protected Mode
 ; 'Demo/Ints' : More sophisticated Fault Handlers, IRQ handlers and User INTs
 ; 'Demo/Ints/Debug' : A visual debugger to examine registers and memory
-; 'Demo/User' : The User-mode code run many times for multi-tasking
 ; 'Demo/Exec' : The Executive that sets up and runs the User code
 ; 'Demo/Exec/Ints' : The initialisation of the environment for the Fault Handlers
 ; 'Demo/Exec/Dev'  : The initialisation of the peripherals, including any IRQ(s)
 ; 'Demo/Exec/User' : The initialisation of the environment to run User code
 ; 'Demo/Exec/Alloc' : The allocation routines for within System tables
+; 'Demo/User' : The User-mode code run many times for multi-tasking
 ; 'Boot' : Boot code, to set up a minimalist environment for better code later
 ; 'Boot/Real' : Real-mode boot code, just to get ready for Protected Mode
 ; 'Boot/Prot' : Protected-mode boot code, to initialise peripherals
@@ -47,8 +47,8 @@
 %define         Boot.SIO.BaudRate 115_200
 %define         Boot.SIO.Protocol Dev.UART.Word8 | Dev.UART.ParityNone | Dev.UART.Stop1
 
-Screen.Width    EQU               90
-Screen.Height   EQU               30
+Screen.Width    EQU               90 ; Need to change VGA3 HSYNC jumper?
+Screen.Height   EQU               30 ; Need to change VGA3 VSYNC jumper?
 Screen.Size     EQU               Screen.Width * Screen.Height * 2
 
 %define         Font.Height       16
@@ -106,6 +106,7 @@ Screen.Size     EQU               Screen.Width * Screen.Height * 2
 %include        "Demo/Sizes.inc"
 ;===============================================================================
                 SEGMENT         EPROM
+
 %include        "EPROM.inc"     ; Padding for unused EPROM
 ;===============================================================================
                 SEGMENT         Boot
