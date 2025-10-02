@@ -3,26 +3,31 @@
 ;
 
 ; ROM chip definitions.
-; Elsewhere, the definition for `$ROM.Chip` will use one of these values.
+; The definition for `%[ROM.Chip]` will use one of these sets of values.
 
-ROM.29F040.Size  EQU            512 * 1024      ; In bytes
-ROM.29F040.Speed EQU            70              ; In nanoseconds
+ROM.29F040.Size  EQU            512 * x86.1K.Size ; In bytes (8_0000h)
+ROM.29F040.Speed EQU            70                ; In nanoseconds
 ROM.29F040.Waits EQU            2
 
-ROM.29F010.Size  EQU            128 * 1024      ; In bytes
-ROM.29F010.Speed EQU            70              ; In nanoseconds
+ROM.29F010.Size  EQU            128 * x86.1K.Size ; In bytes (2_0000h)
+ROM.29F010.Speed EQU            70                ; In nanoseconds
 ROM.29F010.Waits EQU            2
 
-ROM.28C256.Size  EQU            32 * 1024       ; In bytes
-ROM.28C256.Speed EQU            150             ; In nanoseconds
+ROM.28C256.Size  EQU            32 * x86.1K.Size  ; In bytes (0_8000h)
+ROM.28C256.Speed EQU            150               ; In nanoseconds
 ROM.28C256.Waits EQU            3
 
-ROM.28C128.Size  EQU            16 * 1024       ; In bytes
-ROM.28C128.Speed EQU            150             ; In nanoseconds
+ROM.28C128.Size  EQU            16 * x86.1K.Size  ; In bytes (0_4000h)
+ROM.28C128.Speed EQU            150               ; In nanoseconds
 ROM.28C128.Waits EQU            3
 
-ROM.28C64.Size   EQU            8 * 1024        ; In bytes
-ROM.28C64.Speed  EQU            150             ; In nanoseconds
+; This pseudo-29F chip is designed to be the top 16K of any (fast) 29F chip
+ROM.29F16K.Size  EQU            16 * x86.1K.Size  ; In bytes (0_4000h)
+ROM.29F16K.Speed EQU            70                ; In nanoseconds
+ROM.29F16K.Waits EQU            2
+
+ROM.28C64.Size   EQU            8 * x86.1K.Size   ; In bytes (0_2000h)
+ROM.28C64.Speed  EQU            150               ; In nanoseconds
 ROM.28C64.Waits  EQU            3
 
 ROM.Size         EQU            ROM.%[ROM.Chip].Size
