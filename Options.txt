@@ -5,6 +5,9 @@
 -w-reloc-abs-word
 -w-reloc-abs-dword
 
+-dTEST_DRAM
+-uTEST_DRAM
+
 -uUSE_SRAM
 -dUSE_SRAM
 
@@ -12,9 +15,6 @@
 -uCOPY_ROM
 -dCOPY_ROM_DRAM
 -uCOPY_ROM_DRAM
-
--dTEST_RAM
--uTEST_RAM
 
 -uUSE_DOUBLEBUFFER
 -dUSE_DOUBLEBUFFER

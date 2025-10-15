@@ -27,12 +27,12 @@ DRAM.Limit      RESD            1
 
 Boot.Prot.DRAM:
 ; Test size of DRAM, in 64K increments. Stop when DRAM.Max reached
-%ifdef TEST_RAM
+%ifdef TEST_DRAM
                 MOV             EAX, 5AA5_A55Ah   ; Alternating 0s and 1s
 %endif
                 MOV             ESI, DRAM.Start   ; Start from the very beginning...
 .Loop:
-%ifdef TEST_RAM
+%ifdef TEST_DRAM
                 MOV             [ESI], EAX        ; Store value in address
                 PAUSE                             ; ...beat...
                 CMP             [ESI], EAX        ; Did it work?
@@ -40,10 +40,10 @@ Boot.Prot.DRAM:
                 NOT      DWORD  [ESI]             ; Swap all bits
                 PAUSE                             ; ...beat...
                 XOR             [ESI], EAX        ; Should now be FFFF_FFFFh
-                PAUSE
+                PAUSE                             ; ...beat...
                 INC      DWORD  [ESI]             ; Should now be 0000_0000h
                 JNZ             .Diff             ; Nope!
-%endif
+%endif ; TEST_DRAM
                 MOV             [ESI], ESI        ; Store Address at address
                 PAUSE                             ; ...beat...
                 CMP             [ESI], ESI        ; Still there?
@@ -51,13 +51,14 @@ Boot.Prot.DRAM:
                 ADD             ESI, 1_0000h      ; Test next block
                 CMP             ESI, DRAM.Max
                 JB              .Loop
+.Diff:
                 MOV             EAX, [0000_0000h] ; Get lowest address back
                 TEST            EAX, EAX          ; Should be zero
-                JZ              .Diff             ; It is! Fully populated!
+                JZ              .Found            ; It is! Fully populated!
                 MOV             ESI, EAX          ; It isn't! Wrapped around!
                 NEG             EAX               ; So isolate lowest set bit
                 AND             ESI, EAX          ; e.g. 4M looped could produce 60M
-.Diff:
+.Found:
                 MOV             EAX, ESI
                 DEC             EAX               ; Turn into Limit, with Sign test
                 MOV             EBX, `D!\r\n`
