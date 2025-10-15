@@ -4,10 +4,10 @@
 
                 SEGMENT         Demo.Exec
 
-; Made it! We're booted in Protected Mode! (You can un-cross your fingers now...)
+; Made it! We're booted in Protected Mode! And we're inside an LDT!
+; (You can un-cross your fingers now...)
 ; Before we can do anything else though, we need to set up a Protected Mode stack
 Demo.Exec.Entry:
-
                 ; Point to Stack
                 MOV             AX,  x86.Selector(Demo.Exec.LDT.Stack, .LDT, .RPL0)
                 MOV             SS,  AX

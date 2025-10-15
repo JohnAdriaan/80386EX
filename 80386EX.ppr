@@ -24,7 +24,7 @@ HTServer=localhost
 	80386EX.lst
 	80386EX.map
 	80386EX.bin
-	-x86
+	+x86
 		x86\x86.inc
 		x86\EFlags.inc
 		x86\Seg.inc
@@ -33,7 +33,7 @@ HTServer=localhost
 		x86\TSS.inc
 		x86\IVT.inc
 		x86\FPU.inc
-		-x86\EX
+		+x86\EX
 			x86\EX\386EX.inc
 			x86\EX\Remap.inc
 			x86\EX\GPIO.inc
@@ -41,7 +41,7 @@ HTServer=localhost
 			x86\EX\RFS.inc
 			x86\EX\INT.inc
 			x86\EX\TMR.inc
-	-Dev
+	+Dev
 		Dev\Dev.inc
 		Dev\ROM.inc
 		Dev\SRAM.inc
@@ -72,7 +72,7 @@ HTServer=localhost
 			Dev\SBC-386EX\DCTL16-7.PLD
 			Dev\SBC-386EX\VGA3-SEL-02.PLD
 			Dev\SBC-386EX\VGA3-ENB-04.PLD
-	-Demo
+	+Demo
 		Demo\Demo.inc
 		Demo\Defn.inc
 		Demo\Data.inc
@@ -97,7 +97,7 @@ HTServer=localhost
 			Demo\Ints\KbdMouse.inc
 			Demo\Ints\Video.inc
 			Demo\Ints\Util.inc
-		-Demo\Exec
+		+Demo\Exec
 			Demo\Exec\Exec.inc
 			Demo\Exec\Entry.inc
 			Demo\Exec\Init.inc
@@ -110,7 +110,7 @@ HTServer=localhost
 				Demo\Exec\Ints\BadStack.inc
 				Demo\Exec\Ints\BadTSS.inc
 				Demo\Exec\Ints\Fault.inc
-			-Demo\Exec\Dev
+			+Demo\Exec\Dev
 				Demo\Exec\Dev\Dev.inc
 				Demo\Exec\Dev\Timer.inc
 				Demo\Exec\Dev\KbdMouse.inc
@@ -139,7 +139,7 @@ HTServer=localhost
 		Demo\GDT.inc
 		Demo\Sizes.inc
 	EPROM.inc
-	+Boot
+	-Boot
 		Boot\Boot.inc
 		Boot\Defn.inc
 		Boot\Label.inc
@@ -162,7 +162,7 @@ HTServer=localhost
 			Boot\Real\IDE.inc
 			Boot\Real\SDCard.inc
 		Boot\GDT.inc
-		+Prot
+		-Prot
 			Boot\Prot\Prot.inc
 			Boot\Prot\PM.inc
 			Boot\Prot\SRAM.inc
@@ -176,13 +176,25 @@ HTServer=localhost
 	Sizes.inc
 [Open project files]
 0=80386EX.asm
-1=Boot\Prot\DRAM.inc
+1=Demo\Exec\Entry.inc
+2=Demo\Exec\Dev\Video.inc
+3=Options.txt
+4=80386EX.map
 [Selected Project Files]
 Main=80386EX.asm
-Selected=Boot\Prot\DRAM.inc
+Selected=Demo\Exec\Dev\Video.inc
 [80386EX.asm]
 TopLine=1
 Caret=1,1
-[Boot\Prot\DRAM.inc]
-TopLine=21
-Caret=43,33
+[Demo\Exec\Entry.inc]
+TopLine=37
+Caret=13,73
+[Demo\Exec\Dev\Video.inc]
+TopLine=23
+Caret=1,55
+[Options.txt]
+TopLine=1
+Caret=1,1
+[80386EX.map]
+TopLine=19
+Caret=1,1

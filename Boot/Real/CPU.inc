@@ -9,5 +9,5 @@
                 USE16
                
 Boot.CPU:
-                SHL             EDX, 16           ; Move DX to EDX high
+                SHL             EDX, 16           ; Move CPUID in DX to EDX high
                 MOV             EBP, EDX          ; DX_0000 now saved in EBP!

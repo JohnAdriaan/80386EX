@@ -25,7 +25,6 @@
 Demo.Boot:
 
 ; Copy and fill IDT to RAM
-                XOR             EAX, EAX        ; Zeroes
                 XOR             ECX, ECX        ; Can now load just CX (smaller)
 
                 MOV             CX,  Demo.IDT.Num * x86.Desc.Size / x86.DWORD.Size
@@ -49,6 +48,7 @@ Demo.Boot:
              CS REP             MOVSD
 
                 ; Zero out the rest of the GDT
+                XOR             EAX, EAX        ; Zeroes
                 MOV             CX,  (x86.GDT.Num.Max - Demo.GDT.Num) * x86.Desc.Size / x86.DWORD.Size
                 REP             STOSD
 

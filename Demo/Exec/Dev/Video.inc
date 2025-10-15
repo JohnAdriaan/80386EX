@@ -37,6 +37,7 @@ Exec.Dev.Video:
                 REP             STOSW
 
                 ; Enable Vertical Retrace interrupt
+                MOV             DX, Vid.IO.Start + Dev.SBC386EX.VGA3.IO.CRTC.Addr
                 MOV             AX, Dev.SBC386EX.VGA3.CRTC.Value(              \
                                         .Control.1,                            \
                                         Dev.SBC386EX.VGA3.CRTC.Control.1.IB |  \
