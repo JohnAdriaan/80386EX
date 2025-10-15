@@ -63,38 +63,6 @@ Copy.Source     EQU             section.Demo.Ints.start
 
 %assign         Image.Size      Image.Size + Demo.Ints.Size
 ;-------------------------------------------------------------------------------
-; Calculate final User.Code Segment size
-                SEGMENT         Demo.User  VSTART=0  ALIGN=Align.Para
-
-Demo.User.Base  EQU             Demo.Base + Demo.Size
-Demo.User.Limit EQU             $ - $$ - 1
-
-                ALIGN           Align.Para
-
-Demo.User.Size  EQU             $ - $$
-
-%assign         Demo.Size       Demo.Size + Demo.User.Size
-
-%assign         Image.Size      Image.Size + Demo.User.Size
-;-------------------------------------------------------------------------------
-; Calculate final User.LDT Segment size
-                SEGMENT         Demo.User.LDT  ALIGN=Align.Para  NOBITS
-
-Demo.User.LDT.Limit EQU         $ - $$ - 1
-
-                ALIGNB          Align.Para
-
-Demo.User.LDT.Size  EQU         $ - $$
-;-------------------------------------------------------------------------------
-; Calculate final User.Data Segment size
-                SEGMENT         Demo.User.Data  ALIGN=Align.Para  NOBITS
-
-Demo.User.Data.Limit EQU        $ - $$ - 1
-
-                ALIGNB          Align.Para
-
-Demo.User.Data.Size  EQU        $ - $$
-;-------------------------------------------------------------------------------
 ; Calculate final Demo.Exec Segment size
                 SEGMENT         Demo.Exec  VSTART=0  ALIGN=Align.Para
 
@@ -129,6 +97,38 @@ Demo.Exec.LDT.Size  EQU         Demo.Exec.LDT.Pos
 %assign         Demo.Size       Demo.Size + ($ - $$)
 
 %assign         Image.Size      Image.Size + ($ - $$)
+;-------------------------------------------------------------------------------
+; Calculate final User.Code Segment size
+                SEGMENT         Demo.User  VSTART=0  ALIGN=Align.Para
+
+Demo.User.Base  EQU             Demo.Base + Demo.Size
+Demo.User.Limit EQU             $ - $$ - 1
+
+                ALIGN           Align.Para
+
+Demo.User.Size  EQU             $ - $$
+
+%assign         Demo.Size       Demo.Size + Demo.User.Size
+
+%assign         Image.Size      Image.Size + Demo.User.Size
+;-------------------------------------------------------------------------------
+; Calculate final User.LDT Segment size
+                SEGMENT         Demo.User.LDT  ALIGN=Align.Para  NOBITS
+
+Demo.User.LDT.Limit EQU         $ - $$ - 1
+
+                ALIGNB          Align.Para
+
+Demo.User.LDT.Size  EQU         $ - $$
+;-------------------------------------------------------------------------------
+; Calculate final User.Data Segment size
+                SEGMENT         Demo.User.Data  ALIGN=Align.Para  NOBITS
+
+Demo.User.Data.Limit EQU        $ - $$ - 1
+
+                ALIGNB          Align.Para
+
+Demo.User.Data.Size  EQU        $ - $$
 ;-------------------------------------------------------------------------------
 ; Calculate final Demo.GDT Segment size
                 SEGMENT         Demo.GDT  VSTART=0  ALIGN=Align.Para
