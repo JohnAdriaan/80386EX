@@ -3,11 +3,6 @@
 ;
 
 ;-------------------------------------------------------------------------------
-                SEGMENT         Boot.Data
-
-CPU.ID          RESW            1
-
-;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Prot
 
                 USE32
@@ -34,7 +29,4 @@ Boot.Prot.SRAM:
                 MOV             EBX, `0x\r\n`
                 MOV             ESI, SRAM.Size
                 CALL            Hex
-
-                SHRD            EAX, EBP, 16              ; Get Processor ID
-                MOV             [SRAM.Start + CPU.ID], AX ; (See Boot/Real/CPU.inc)
 %endif

@@ -5,6 +5,8 @@
 ;-------------------------------------------------------------------------------
                 SEGMENT         Boot.Data
 
+CPU.ID          RESW            1
+
 DRAM.Limit      RESD            1
 
 ;-------------------------------------------------------------------------------
@@ -64,6 +66,9 @@ Boot.Prot.DRAM:
                 MOV             EBX, `D!\r\n`
                 JS              Boot.Fatal.Hex    ; No DRAM found!
 
+; We now have memory! Can store variables we've been saving...
+                SHR             EBP, 16                   ; Get CPU ID back
+                MOV             [SRAM.Start + CPU.ID], BP ; (See Boot/Real/CPU.inc)
                 MOV             [SRAM.Start + DRAM.Limit], EAX ; Save away RAM limit
 
                 SHR             EAX, 16                   ; Only interested in top half
