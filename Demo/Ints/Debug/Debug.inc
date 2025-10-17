@@ -43,15 +43,15 @@ Debug.Colour.Label  EQU         Dev.VGA.White ; Colour of Labels
 Debug.Colour.Regs   EQU         Dev.VGA.Grey  ; Colour of Regs field
 Debug.Colour.Blank  EQU         Dev.VGA.Grey  ; Colour when there's nothing there
 
-; Here are the scan-codes for the different functions that the debugger can do
+; Here are the kbd scancodes for the different functions that the debugger can do
 Debug.Key.Quit   EQU            Dev.Key.Break | Dev.Key.Esc ; Quit on Esc UP
 Debug.Key.Up     EQU            Dev.Key.Up    ; Scroll up (earlier in memory)
 Debug.Key.Down   EQU            Dev.Key.Down  ; Scroll down (later in memory)
 Debug.Key.PgUp   EQU            Dev.Key.PgUp  ; Lots of .Ups
 Debug.Key.PgDn   EQU            Dev.Key.PgDn  ; Lots of .Downs
 Debug.Key.Format EQU            Dev.Key.Del   ; Toggle between Bytes and DWords
-Debug.Key.Prev   EQU            Dev.Key.Left  ; Previous Segment
-Debug.Key.Next   EQU            Dev.Key.Right ; Next Segment
+Debug.Key.Prev   EQU            Dev.Key.Break | Dev.Key.Left  ; Previous Segment (Up)
+Debug.Key.Next   EQU            Dev.Key.Break | Dev.Key.Right ; Next Segment (Up)
 
 ; Screen coordinates to use
 Debug.VGA.Top    EQU            (Screen.Rows-Debug.VGA.Height+1)/2
