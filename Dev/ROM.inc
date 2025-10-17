@@ -22,6 +22,8 @@ ROM.28C128.Speed EQU            150               ; In nanoseconds
 ROM.28C128.Waits EQU            3
 
 ; This pseudo-29F chip is designed to be the top 16K of any (fast) 29F chip
+; If you choose this, ensure that at programming time you LOAD the buffer at
+; 4000h below the ROM size: e.g. for a 29F010 LOAD at 0_1C000
 ROM.29F16K.Size  EQU            16 * x86.1K.Size  ; In bytes (0_4000h)
 ROM.29F16K.Speed EQU            70                ; In nanoseconds
 ROM.29F16K.Waits EQU            2

@@ -25,18 +25,18 @@
 ; The project file hierarchy is designed to make it easy to know where to go:
 ; `x86`  : Definitions for the basic x86 CPU - and its variants
 ; `Dev`  : Definitions for devices
-; 'Demo' : Let's see what we can do with Protected Mode
-; 'Demo/Ints' : More sophisticated Fault Handlers, IRQ handlers and User INTs
-; 'Demo/Ints/Debug' : A visual debugger to examine registers and memory
-; 'Demo/Exec' : The Executive that sets up and runs the User code
-; 'Demo/Exec/Ints' : The initialisation of the environment for the Fault Handlers
-; 'Demo/Exec/Dev'  : The initialisation of the peripherals, including any IRQ(s)
-; 'Demo/Exec/User' : The initialisation of the environment to run User code
-; 'Demo/Exec/Alloc' : The allocation routines for within System tables
-; 'Demo/User' : The User-mode code run many times for multi-tasking
-; 'Boot' : Boot code, to set up a minimalist environment for better code later
-; 'Boot/Real' : Real-mode boot code, just to get ready for Protected Mode
-; 'Boot/Prot' : Protected-mode boot code, to initialise peripherals
+; `Demo` : Let's see what we can do with Protected Mode
+; `Demo/Ints` : More sophisticated Fault Handlers, IRQ handlers and User INTs
+; `Demo/Ints/Debug` : A visual debugger to examine registers and memory
+; `Demo/Exec` : The Executive that sets up and runs the User code
+; `Demo/Exec/Ints` : The initialisation of the environment for the Fault Handlers
+; `Demo/Exec/Dev`  : The initialisation of the peripherals, including any IRQ(s)
+; `Demo/Exec/User` : The initialisation of the environment to run User code
+; `Demo/Exec/Alloc` : The allocation routines for within System tables
+; `Demo/User` : The User-mode code run many times for multi-tasking
+; `Boot` : Boot code, to set up a minimalist environment for better code later
+; `Boot/Real` : Real-mode boot code, just to get ready for Protected Mode
+; `Boot/Prot` : Protected-mode boot code, to initialise peripherals
 ;===============================================================================
 
                 SECTALIGN         OFF   ; No implicit ALIGN => SECTALIGN effects

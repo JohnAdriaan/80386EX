@@ -4,6 +4,7 @@
 
 ; Different devices have different definitions: for their registers, their
 ; assumed structures, and for their access protocols.
+; These modules provide those EQUates, STRUCtures and SEGMENTs, and maybe macros
 
 ;-------------------------------------------------------------------------------
 %include        "Dev/ROM.inc"     ; Definitions for the ROM chips that could be used
