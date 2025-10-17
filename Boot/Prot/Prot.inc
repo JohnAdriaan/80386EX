@@ -5,9 +5,9 @@
 ; Protected-mode definition and code files
 
 ;-------------------------------------------------------------------------------
-%include        "Boot/Prot/PM.inc"           ; Go into Protected Mode
 ;-------------------------------------------------------------------------------
 %include        "Boot/Prot/DRAM.inc"         ; Init Dynamic RAM (DRAM) and CS
+%include        "Boot/Prot/Entry.inc"        ; Set up Protected Mode
 ;-------------------------------------------------------------------------------
 %include        "Boot/Prot/SRAM.inc"         ; Init Static RAM (SRAM) and CS
 ;-------------------------------------------------------------------------------
