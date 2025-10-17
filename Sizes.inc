@@ -3,6 +3,14 @@
 ;
 
 ;===============================================================================
+; Calculate final Boot.Data Segment size
+                SEGMENT         Boot.Data  START=0  ALIGN=Align.Para  NOBITS
+
+                ALIGNB          Align.Para
+
+Boot.Data.Size  EQU             $ - $$
+
+;-------------------------------------------------------------------------------
 ; Calculate final Boot Segment size
 ; Note this segment falls through to Boot.Real
                 SEGMENT         Boot   ALIGN=Align.Para
@@ -85,22 +93,6 @@ EPROM.Pad       EQU             ROM.Size - Image.Size
                 TIMES           EPROM.Pad DB 0FFh
 
 %assign         Image.Size      Image.Size + EPROM.Pad
-;-------------------------------------------------------------------------------
-; Ensure Boot.Data is not too large
-                SEGMENT         Boot.Data  VSTART=0  NOBITS
-
-Boot.Data.Size  EQU             $ - $$
-
-%ifndef USE_SRAM
-                ; Use minimal DRAM
-%assign         Boot.Data.Pad   (Boot.Data.Size + x86.PARA.Mask) & ~x86.PARA.Mask
-%else ; !USE_SRAM
-                ; Ensure not larger than SRAM
-%assign         Boot.Data.Pad   (SRAM.Top - Boot.Data.Size)
-%endif ; USE_SRAM
-
-                RESB            Boot.Data.Pad
-
 ;-------------------------------------------------------------------------------
 ; Ensure ECB is not too large
                 SEGMENT         ECB  NOBITS

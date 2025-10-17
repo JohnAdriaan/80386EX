@@ -5,9 +5,9 @@
 Demo.Base       EQU             ROM.Start ; ***!!!*** Change when COPY_ROM implemented
 
 ; Calculate final Demo.Data Segment size
-                SEGMENT         Demo.Data  START=0  ALIGN=Align.Para  NOBITS
+                SEGMENT         Demo.Data  FOLLOWS=Boot.Data ALIGN=Align.Para  NOBITS
 
-Demo.Data.Limit EQU             $ - $$ - 1
+Demo.Data.Size  EQU             $ - $$
 
 ;-------------------------------------------------------------------------------
 ; Calculate final Demo.Label Segment size

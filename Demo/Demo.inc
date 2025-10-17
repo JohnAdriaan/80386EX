@@ -25,7 +25,6 @@
                 SEGMENT         Demo
 
 Demo.IDT.Base   EQU             0000_0000h
-Demo.Data.Base  EQU             Demo.IDT.Base + x86.IDT.Size.Max
 Demo.GDT.Base   EQU             Demo.IDT.Base + x86.PAGE.Size
 Demo.Exec.LDT.Base   EQU        Demo.GDT.Base + x86.GDT.Size.Max
 Demo.Exec.Stack.Base EQU        Demo.Exec.LDT.Base + Demo.Exec.LDT.Size
@@ -36,6 +35,7 @@ Screen.Base     EQU             Dev.SBC386EX.VGA3.Mem.Start
 Screen.Cols     EQU             Screen.Width
 Screen.Rows     EQU             Screen.Height
 
+                SEGMENT         Boot.Data       NOBITS ; Define this first - it goes before
                 SEGMENT         Demo.Data       NOBITS
                 SEGMENT         Demo.Label
                 SEGMENT         Demo.IDT

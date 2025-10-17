@@ -5,7 +5,7 @@
 ; This is the definition for the global Data Segment. Note that some
 ; values are populated at Boot
 
-                SEGMENT         Demo.Data  START=0  ALIGN=Align.Para  NOBITS
+                SEGMENT         Demo.Data  NOBITS
 
                 USE32
 
@@ -19,7 +19,7 @@ Data.Key.Buffer RESB            Demo.Buffer_size
 Data.Key.Shifts RESB            1       ; Storage for current Key Shift states
 
 Data.Mouse.Buffer RESB          Demo.Buffer_size
-
+;-------------------------------------------------------------------------------
                 SEGMENT         Demo.Exec
 
 %if 0

@@ -25,9 +25,9 @@ Boot.Kbd.ECX    RESD            20h
 %endmacro
 
 Boot.Prot.KbdMouse:
-                MOV      BYTE   [SRAM.Start + Boot.Kbd], 0
+                MOV      BYTE   [Boot.Data.Base + Boot.Kbd], 0
 
-MOV EDI, SRAM.Start + Boot.Kbd.ECX
+MOV EDI, Boot.Data.Base + Boot.Kbd.ECX
 
 ; First, reset the Controller
                 MOV             AH, Dev.Kbd.Cmd.Ctrl.Test
@@ -80,7 +80,7 @@ MOV EDI, SRAM.Start + Boot.Kbd.ECX
                 OUT             Kbd.Data, AL
 
 ; Keyboard present!
-                OR       BYTE   [SRAM.Start + Boot.Kbd], Boot.Kbd.Kbd
+                OR       BYTE   [Boot.Data.Base + Boot.Kbd], Boot.Kbd.Kbd
 
 ; Now, enable Mouse
                 MOV             AH, Dev.Kbd.Cmd.Mouse.Enable
@@ -105,7 +105,7 @@ MOV EDI, SRAM.Start + Boot.Kbd.ECX
                 JC              .Exit
 
 ; Mouse present!
-                OR       BYTE   [SRAM.Start + Boot.Kbd], Boot.Kbd.Mouse
+                OR       BYTE   [Boot.Data.Base + Boot.Kbd], Boot.Kbd.Mouse
                 EIPtoESI                              ; Success!
                 JMP             .Exit
 
@@ -203,7 +203,7 @@ STOSW
                 SUB             ESI, Boot.Prot.Entry
                 CALL            Hex
 
-                MOV             DL, [SRAM.Start + Boot.Kbd]
+                MOV             DL, [Boot.Data.Base + Boot.Kbd]
                 CMP             DL, 0
                 JE              .End
 

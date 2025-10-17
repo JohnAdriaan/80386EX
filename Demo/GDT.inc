@@ -32,8 +32,8 @@ Demo.GDT.Alias.Limit EQU        (x86.GDT.Size.Max-1) >> x86.PAGE.Shift  ; Let's 
 Demo.GDT.Alias.Type  EQU        x86.Type.Mem(.Data, .DPL0, .RW)
 Demo.GDT.Alias.Gran  EQU        x86.Gran.Mem(.Page, .Small)
 
-Demo.GDT.Data.Base   EQU        Demo.Data.Base
-Demo.GDT.Data.Limit  EQU        Demo.Data.Limit
+Demo.GDT.Data.Base   EQU        Boot.Data.Base
+Demo.GDT.Data.Limit  EQU        Boot.Data.Size + Demo.Data.Size - 1
 Demo.GDT.Data.Type   EQU        x86.Type.Mem(.Data, .DPL0, .RW)
 Demo.GDT.Data.Gran   EQU        x86.Gran.Mem(.Byte, .Big)
 

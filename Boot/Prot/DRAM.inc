@@ -68,8 +68,8 @@ Boot.Prot.DRAM:
 
 ; We now have memory! Can store variables we've been saving...
                 SHR             EBP, 16                   ; Get CPU ID back
-                MOV             [SRAM.Start + CPU.ID], BP ; (See Boot/Real/CPU.inc)
-                MOV             [SRAM.Start + DRAM.Limit], EAX ; Save away RAM limit
+                MOV             [Boot.Data.Base + CPU.ID], BP ; (See Boot/Real/CPU.inc)
+                MOV             [Boot.Data.Base + DRAM.Limit], EAX ; Save away RAM limit
 
                 SHR             EAX, 16                   ; Only interested in top half
                 AND             AX, x86.EX.CSU.MSKH.Mask  ; Isolate MSKH

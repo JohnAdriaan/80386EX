@@ -76,19 +76,19 @@ Boot.RTC:
 ; Get current RTC values
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Read
                 MOV             CH, Dev.RTC.DS1302.Clock.Len
-                MOV             EDI, SRAM.Start + Boot.RTC.Clock
+                MOV             EDI, Boot.Data.Base + Boot.RTC.Clock
                 CALL            Boot.RTC.Read
 
 ; Get current Trickle value
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Clock | Dev.RTC.DS1302.Trickle | Dev.RTC.DS1302.Cmd.Read
                 MOV             CH, 1
-                MOV             EDI, SRAM.Start + Boot.RTC.Trickle
+                MOV             EDI, Boot.Data.Base + Boot.RTC.Trickle
                 CALL            Boot.RTC.Read
 
 ; Get current Data values
                 MOV             AH, Dev.RTC.DS1302.Cmd.Enable | Dev.RTC.DS1302.Cmd.Data | Dev.RTC.DS1302.Cmd.Addr.Burst | Dev.RTC.DS1302.Cmd.Read
                 MOV             CH, Dev.RTC.DS1302.Data.Len
-                MOV             EDI, SRAM.Start + Boot.RTC.Data
+                MOV             EDI, Boot.Data.Base + Boot.RTC.Data
                 CALL            Boot.RTC.Read
                 JMP             Boot.RTC.Exit
 ;...............................................................................
