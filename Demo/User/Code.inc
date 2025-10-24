@@ -39,10 +39,11 @@ User.Entry:
 ;               MOV             [WORD User.Data.Width],CX ; Width and Height
 
                 XOR             EAX, EAX
-                MOV             [WORD User.Data.Turns], EAX
+                MOV             [WORD User.Data.Turns], EAX ; Haven't had a Turn yet
 
+                MOV             [WORD User.Data.Ball], BYTE Demo.User.Ball
                 PUSH            ES
-                POP             DS              ; DS is more efficient to use
+                POP             DS              ; DS is more efficient to use - now
 
                 MOV             EBP,EBX         ; Save this away
 
@@ -124,7 +125,7 @@ User.Entry:
                 CMP             EDI,EAX         ; After all that, did we move?
                 JE              .Increment      ; Nope! Just increment.
                 MOV     BYTE    [EAX], ' '      ; Erase old ball
-                MOV             AL, [User.Ball]
+                MOV             AL, [WORD FS:User.Data.Ball]
                 MOV             [EDI], AL       ; And write in new one
 %if Demo.Window.Height > 3
 .Num:
