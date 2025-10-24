@@ -24,7 +24,7 @@ HTServer=localhost
 	80386EX.lst
 	80386EX.map
 	80386EX.bin
-	-x86
+	+x86
 		x86\x86.inc
 		x86\EFlags.inc
 		x86\Seg.inc
@@ -72,7 +72,7 @@ HTServer=localhost
 			Dev\SBC-386EX\DCTL16-7.PLD
 			Dev\SBC-386EX\VGA3-SEL-02.PLD
 			Dev\SBC-386EX\VGA3-ENB-04.PLD
-	-Demo
+	+Demo
 		Demo\Demo.inc
 		Demo\Defn.inc
 		Demo\Data.inc
@@ -97,7 +97,7 @@ HTServer=localhost
 			Demo\Ints\KbdMouse.inc
 			Demo\Ints\Video.inc
 			Demo\Ints\Util.inc
-		-Demo\Exec
+		+Demo\Exec
 			Demo\Exec\Exec.inc
 			Demo\Exec\Entry.inc
 			Demo\Exec\Init.inc
@@ -116,7 +116,7 @@ HTServer=localhost
 				Demo\Exec\Dev\KbdMouse.inc
 				Demo\Exec\Dev\Video.inc
 				Demo\Exec\Dev\RTC.inc
-			-Demo\Exec\User
+			+Demo\Exec\User
 				Demo\Exec\User\User.inc
 				Demo\Exec\User\LDT.inc
 				Demo\Exec\User\TSS.inc
@@ -130,7 +130,7 @@ HTServer=localhost
 				Demo\Exec\Alloc\TSS.inc
 			Demo\Exec\Clock.inc
 			Demo\Exec\LDT.inc
-		-Demo\User
+		+Demo\User
 			Demo\User\User.inc
 			Demo\User\LDT.inc
 			Demo\User\Data.inc
@@ -176,9 +176,29 @@ HTServer=localhost
 	Sizes.inc
 [Open project files]
 0=80386EX.asm
+1=Options.txt
+2=Demo\User\LDT.inc
+3=demo\ints\debug\desc.inc
+4=x86\Desc.inc
+5=80386EX.lst
 [Selected Project Files]
 Main=80386EX.asm
-Selected=80386EX.asm
+Selected=demo\ints\debug\desc.inc
 [80386EX.asm]
 TopLine=1
 Caret=1,1
+[Options.txt]
+TopLine=1
+Caret=1,1
+[Demo\User\LDT.inc]
+TopLine=1
+Caret=2,1
+[demo\ints\debug\desc.inc]
+TopLine=26
+Caret=68,41
+[x86\Desc.inc]
+TopLine=29
+Caret=53,60
+[80386EX.lst]
+TopLine=3536
+Caret=103,3552

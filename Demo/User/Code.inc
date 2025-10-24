@@ -28,7 +28,7 @@
 
                 SEGMENT         Demo.User
 
-User.Ball.CharAttr EQU          Dev.VGA.CharAttr(Demo.User.Ball, Demo.User.Ball.Colour)
+User.Ball.Attr EQU              Demo.User.Ball.Colour
 
 User.Entry:
                 CLD                             ; Work forwards
@@ -124,7 +124,8 @@ User.Entry:
                 CMP             EDI,EAX         ; After all that, did we move?
                 JE              .Increment      ; Nope! Just increment.
                 MOV     BYTE    [EAX], ' '      ; Erase old ball
-                MOV     WORD    [EDI], User.Ball.CharAttr ; And write in new one
+                MOV             AL, [User.Ball]
+                MOV             [EDI], AL       ; And write in new one
 %if Demo.Window.Height > 3
 .Num:
                 PUSHAD
