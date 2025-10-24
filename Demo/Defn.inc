@@ -36,7 +36,7 @@ Demo.User.Delay        EQU      0_0FFDh ; How long to 'idle' the Bounce animatio
 ; OR in the Dev.Key.Break scancode. This means that the Debugger will only be
 ; invoked (once) when you RELEASE the key, rather than when pressing it.
 Demo.Debug.Key  EQU             Dev.Key.Pause   ; Also labelled "Break"
-;Xemo.Debug.Key  EQU             Dev.Key.Break | Dev.Key.SysRq ; Debug on SysRq UP
+;Demo.Debug.Key  EQU             Dev.Key.Break | Dev.Key.SysRq ; Debug on SysRq UP
 
 ; Another macro for debugging. Enable Single Step debugging - after it's set up!
 %macro          TRACE           0

@@ -41,6 +41,8 @@ Demo.Exec.Entry:
                 ; Everything's ready! We can start to create User-mode Programs
                 CALL            Exec.User
 
+                Dev.Lites       0          ; At this stage, we're working. Turn Lites off
+
                 CLD
                 MOV             AX, x86.Selector(Demo.GDT.Video, .GDT, .RPL0)
                 MOV             ES, AX

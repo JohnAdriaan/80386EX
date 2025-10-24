@@ -49,7 +49,7 @@ Debug.Key.Up     EQU            Dev.Key.Up    ; Scroll up (earlier in memory)
 Debug.Key.Down   EQU            Dev.Key.Down  ; Scroll down (later in memory)
 Debug.Key.PgUp   EQU            Dev.Key.PgUp  ; Lots of .Ups
 Debug.Key.PgDn   EQU            Dev.Key.PgDn  ; Lots of .Downs
-Debug.Key.Format EQU            Dev.Key.Del   ; Toggle between Bytes and DWords
+Debug.Key.Format EQU            Dev.Key.Break | Dev.Key.Del   ; Toggle between Bytes and DWords
 Debug.Key.Prev   EQU            Dev.Key.Break | Dev.Key.Left  ; Previous Segment (Up)
 Debug.Key.Next   EQU            Dev.Key.Break | Dev.Key.Right ; Next Segment (Up)
 

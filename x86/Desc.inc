@@ -56,6 +56,10 @@ x86.Desc.Type.DPL2    EQU       0100_0000b
 x86.Desc.Type.DPL1    EQU       0010_0000b
 x86.Desc.Type.DPL0    EQU       0000_0000b
 
+x86.Desc.Type.DPL.Mask EQU      0110_0000b
+x86.Desc.Type.DPL.LAR.Mask  EQU 0110_0000_0000_0000b
+x86.Desc.Type.DPL.LAR.Shift EQU 13
+
 x86.Desc.Type.Sys     EQU       0000_0000b
 x86.Desc.Type.Mem     EQU       0001_0000b
 

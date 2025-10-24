@@ -35,18 +35,19 @@ Screen.Base     EQU             Dev.SBC386EX.VGA3.Mem.Start
 Screen.Cols     EQU             Screen.Width
 Screen.Rows     EQU             Screen.Height
 
+; This is the sequence of Segments. This is important, since some don't need copying!
                 SEGMENT         Boot.Data       NOBITS ; Define this first - it goes before
                 SEGMENT         Demo.Data       NOBITS
-                SEGMENT         Demo.Label
-                SEGMENT         Demo.IDT
-                SEGMENT         Demo.Boot
-                SEGMENT         Demo.Ints
-                SEGMENT         Demo.Exec
-                SEGMENT         Demo.Exec.LDT
-                SEGMENT         Demo.User
+                SEGMENT         Demo.Label             ; Not used
+                SEGMENT         Demo.IDT               ; Used during Demo.Boot
+                SEGMENT         Demo.Boot              ; This copies to xRAM
+                SEGMENT         Demo.Ints              ; Copy this to xRAM
+                SEGMENT         Demo.Exec              ; Copy this to xRAM
+                SEGMENT         Demo.User              ; Copy this to xRAM
+                SEGMENT         Demo.Exec.LDT          ; Used during Demo.Boot
+                SEGMENT         Demo.GDT               ; Used during Demo.Boot
                 SEGMENT         Demo.User.LDT   NOBITS
                 SEGMENT         Demo.User.Data  NOBITS
-                SEGMENT         Demo.GDT
 
 ; At this point we're still in Boot-time Linear addressing.
 ; Be careful with addresses!
