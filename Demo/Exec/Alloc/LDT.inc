@@ -32,7 +32,7 @@ Exec.Alloc.LDT:
                 MOV             [%$Base], EAX
 
                 MOV             EBX, EAX         ; Base to allocate
-                MOV             DL,  x86.Type.Mem(.Data, .DPL0, .RW) & ~Demo.System.Present
+                MOV             DL,  x86.Type.Mem(.Data, .DPL0, .W) & ~Demo.System.Present
                 MOV             DH,  x86.Gran.Mem(.Byte, .Small) ; Will become LDT later
                 CALL            Exec.Alloc.GDT.Mem ; Get Descriptor to use
                 TEST            EAX, EAX          ; Any left?
@@ -51,7 +51,7 @@ Exec.Alloc.LDT:
                 ; Set up second entry as an alias for this very LDT
                 MOV             EAX, [%$Base]           ; Pass Base in
                 MOV             ECX, [%$Size]           ; Size
-                MOV             DL, x86.Type.Mem(.Data, .DPL0, .RW) & ~Demo.System.Present
+                MOV             DL, x86.Type.Mem(.Data, .DPL0, .W) & ~Demo.System.Present
                 MOV             DH, x86.Gran.Mem(.Byte, .Small)
                 CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT entry
 

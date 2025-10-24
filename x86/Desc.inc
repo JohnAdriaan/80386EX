@@ -57,8 +57,8 @@ x86.Desc.Type.DPL1    EQU       0010_0000b
 x86.Desc.Type.DPL0    EQU       0000_0000b
 
 x86.Desc.Type.DPL.Mask EQU      0110_0000b
-x86.Desc.Type.DPL.LAR.Mask  EQU 0110_0000_0000_0000b
-x86.Desc.Type.DPL.LAR.Shift EQU 13
+x86.Desc.Type.DPL.LAR.Mask  EQU x86.Desc.Type.DPL.Mask << 8 ; Convert to 16 bits
+x86.Desc.Type.DPL.LAR.Shift EQU 13         ; To isolate DPL from LAR instruction
 
 x86.Desc.Type.Sys     EQU       0000_0000b
 x86.Desc.Type.Mem     EQU       0001_0000b
@@ -84,16 +84,21 @@ x86.Desc.Sys.Type.286   EQU     0000_0000b      ; '286 is the original ones
 ;-------------------------------------------------------------------------------
 
 ; These are the .Type.Type field values and modifiers for Memory Descriptors
-x86.Desc.Mem.Type.Code     EQU  0000_1000b
 x86.Desc.Mem.Type.Data     EQU  0000_0000b
-x86.Desc.Mem.Type.Conform  EQU  0000_0100b ; Code can be executed at different PLs
-x86.Desc.Mem.Type.Expand   EQU  0000_0100b ; Base is TOP, Limit is size BELOW that
-x86.Desc.Mem.Type.Stack    EQU  0000_0100b ; (Best used for Stacks)
-x86.Desc.Mem.Type.RW       EQU  0000_0010b ; Data Read & Writeable
-x86.Desc.Mem.Type.RNoW     EQU  0000_0000b ; Data Read & not Writeable
-x86.Desc.Mem.Type.R        EQU  0000_0010b ; Code Readable
-x86.Desc.Mem.Type.NoR      EQU  0000_0000b ; Code not Readable
+x86.Desc.Mem.Type.Code     EQU  0000_1000b
+x86.Desc.Mem.Type.Stack    EQU  x86.Desc.Mem.Type.Data.Expand ; See below
 x86.Desc.Mem.Type.Accessed EQU  0000_0001b ; Set when Descriptor loaded
+
+x86.Desc.Mem.Type.Data.Expand EQU 0000_0100b ; Expand: Best used for Stacks
+x86.Desc.Mem.Type.Data.W   EQU  0000_0010b ; Data Read & Writeable
+x86.Desc.Mem.Type.Data.NoW EQU  0000_0000b ; Data Read & No Write
+
+x86.Desc.Mem.Type.Code.Conform EQU 0000_0100b ; Code can be executed at different PLs
+x86.Desc.Mem.Type.Code.R   EQU  0000_0010b ; Code Readable
+x86.Desc.Mem.Type.Code.NoR EQU  0000_0000b ; Code & No Read
+
+x86.Desc.Mem.Type.Stack.W  EQU  0000_0010b ; Stack Read & Writeable (duh!)
+
 
 ; These are the bitfields of the .Gran field in Memory Descriptors
 x86.Desc.Mem.Gran.LimitHi EQU   0000_1111b
@@ -124,7 +129,7 @@ x86.Desc.Mem.Gran.Avail EQU     0001_0000b ; Available for system use
 ; Parameters are: Code or Data or Stack, DPL 0-3, and RW or NoRW
 %define         x86.Type.Mem(Type, DPL, RW) (\
                 x86.Desc.Type.Present | x86.Desc.Type.Mem | \
-                x86.Desc.Type%+ DPL | x86.Desc.Mem.Type%+ Type | x86.Desc.Mem.Type%+ RW \
+                x86.Desc.Type%+ DPL | x86.Desc.Mem.Type%+ Type | x86.Desc.Mem.Type%+Type %+ RW \
                 )
 
 ; Parameters are: Gran or Byte, and Big or Small / Def32 or Def16

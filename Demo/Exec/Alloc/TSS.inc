@@ -38,7 +38,7 @@ Demo.Exec.TSS.EFlags EQU        x86.EFlags.IF | x86.EFlags.1 ; | x86.EFlags.TF ;
                 MOV             [%$Base],EAX
                 MOV             [%$Size],ECX
 
-                MOV             DL, x86.Type.Mem(.Data, .DPL0, .RW)
+                MOV             DL, x86.Type.Mem(.Data, .DPL0, .W)
                 MOV             DH, x86.Gran.Mem(.Byte, .Small)
                 CALL            Exec.Alloc.GDT.Mem ; Get Descriptor to use
                 TEST            EAX, EAX          ; Any left?

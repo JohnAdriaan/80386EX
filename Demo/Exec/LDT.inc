@@ -22,17 +22,17 @@ AT Demo.LDT.Alloc.GDT,    DW              %1
 
 Demo.Exec.LDT.Alias.Base  EQU        Demo.Exec.LDT.Base
 Demo.Exec.LDT.Alias.Limit EQU        Demo.Exec.LDT.Limit
-Demo.Exec.LDT.Alias.Type  EQU        x86.Type.Mem(.Data, .DPL0, .RW)
+Demo.Exec.LDT.Alias.Type  EQU        x86.Type.Mem(.Data, .DPL0, .W)
 Demo.Exec.LDT.Alias.Gran  EQU        x86.Gran.Mem(.Byte, .Small)
 
 Demo.Exec.LDT.IDT.Base    EQU        Demo.IDT.Base
 Demo.Exec.LDT.IDT.Limit   EQU        x86.IDT.Size.Max - 1
-Demo.Exec.LDT.IDT.Type    EQU        x86.Type.Mem(.Data, .DPL0, .RW)
+Demo.Exec.LDT.IDT.Type    EQU        x86.Type.Mem(.Data, .DPL0, .W)
 Demo.Exec.LDT.IDT.Gran    EQU        x86.Gran.Mem(.Byte, .Small)
 
 Demo.Exec.LDT.Stack.Top   EQU        Demo.Exec.Stack.Top  ; Let's play with Expand-Down Descriptors
 Demo.Exec.LDT.Stack.Limit EQU        (0-Demo.Exec.Stack.Size) >> x86.PAGE.Shift - 1
-Demo.Exec.LDT.Stack.Type  EQU        x86.Type.Mem(.Stack, .DPL0, .RW)
+Demo.Exec.LDT.Stack.Type  EQU        x86.Type.Mem(.Stack, .DPL0, .W)
 Demo.Exec.LDT.Stack.Gran  EQU        x86.Gran.Mem(.Page, .Big)
 
 Demo.Exec.LDT.Code.Base   EQU        Demo.Exec.Base

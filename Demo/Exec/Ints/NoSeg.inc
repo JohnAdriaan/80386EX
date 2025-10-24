@@ -69,7 +69,7 @@ Exec.Ints.NoSeg.Present:
                 PUSH            EDX
                 CALL            Exec.Ints.Fault.TSS   ; Find TSS Backlink
 
-                MOV             AL,  x86.Type.Mem(.Data, .DPL0, .RW) ; Alias' .Type (writable)
+                MOV             AL,  x86.Type.Mem(.Data, .DPL0, .W) ; Alias' .Type (writable)
                 MOVZX           ESI, WORD [FS:WORD x86.TSS.LDT] ; Point to faulting LDT
                 ADD             EBX, x86.Desc_size ; Point to LDT alias in my LDT
 

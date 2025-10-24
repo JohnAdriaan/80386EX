@@ -34,7 +34,7 @@ Boot.GDT:
 ; Data Segment is all of the Address Space
 .Data.Base      EQU             DRAM.Start
 .Data.Limit     EQU             (x86.EX.Addr.Size - 1) >> x86.PAGE.Shift
-.Data.Type      EQU             x86.Type.Mem(.Data, .DPL0, .RW) | x86.Desc.Mem.Type.Accessed
+.Data.Type      EQU             x86.Type.Mem(.Data, .DPL0, .W) | x86.Desc.Mem.Type.Accessed
 .Data.Gran      EQU             x86.Gran.Mem(.Page, .Big)
 
 .NULL           EQU             $

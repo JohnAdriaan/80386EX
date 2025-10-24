@@ -29,33 +29,33 @@ AT Demo.GDT.Alloc.Pseudo.Base,  DD             %1
 
 Demo.GDT.Alias.Base  EQU        Demo.GDT.Base
 Demo.GDT.Alias.Limit EQU        (x86.GDT.Size.Max-1) >> x86.PAGE.Shift  ; Let's use Granular limits
-Demo.GDT.Alias.Type  EQU        x86.Type.Mem(.Data, .DPL0, .RW)
+Demo.GDT.Alias.Type  EQU        x86.Type.Mem(.Data, .DPL0, .W)
 Demo.GDT.Alias.Gran  EQU        x86.Gran.Mem(.Page, .Small)
 
 Demo.GDT.Data.Base   EQU        Boot.Data.Base
 Demo.GDT.Data.Limit  EQU        Boot.Data.Size + Demo.Data.Size - 1
-Demo.GDT.Data.Type   EQU        x86.Type.Mem(.Data, .DPL0, .RW)
+Demo.GDT.Data.Type   EQU        x86.Type.Mem(.Data, .DPL0, .W)
 Demo.GDT.Data.Gran   EQU        x86.Gran.Mem(.Byte, .Big)
 
 %ifdef USE_SRAM
 Demo.GDT.SRAM.Base   EQU        SRAM.Start
 Demo.GDT.SRAM.Limit  EQU        SRAM.Size - 1
-Demo.GDT.SRAM.Type   EQU        x86.Type.Mem(.Data, .DPL0, .RW)
+Demo.GDT.SRAM.Type   EQU        x86.Type.Mem(.Data, .DPL0, .W)
 Demo.GDT.SRAM.Gran   EQU        x86.Gran.Mem(.Byte, .Small)
 %endif
 
 Demo.GDT.Screen.Base  EQU       Screen.Base
 Demo.GDT.Screen.Limit EQU       Screen.Rows * Screen.Cols * 2 - 1
 %ifdef USE_DOUBLEBUFFER
-Demo.GDT.Screen.Type  EQU       x86.Type.Mem(.Data, .DPL0, .RW) ; Only let Video Int access it
+Demo.GDT.Screen.Type  EQU       x86.Type.Mem(.Data, .DPL0, .W) ; Only let Video Int access it
 %else
-Demo.GDT.Screen.Type  EQU       x86.Type.Mem(.Data, .DPL3, .RW) ; Let anyone access it
+Demo.GDT.Screen.Type  EQU       x86.Type.Mem(.Data, .DPL3, .W) ; Let anyone access it
 %endif
 Demo.GDT.Screen.Gran  EQU       x86.Gran.Mem(.Byte, .Small)
 
 Demo.GDT.Ints.Base   EQU        Demo.Ints.Base
 Demo.GDT.Ints.Limit  EQU        Demo.Ints.Limit
-Demo.GDT.Ints.Type   EQU        x86.Type.Mem(.Code, .DPL0, .RW) ; Uses lookup tables
+Demo.GDT.Ints.Type   EQU        x86.Type.Mem(.Code, .DPL0, .R) ; Uses lookup tables
 Demo.GDT.Ints.Gran   EQU        x86.Gran.Mem(.Byte, .Def32)
 
 Demo.GDT.Exec.LDT.Base  EQU     Demo.Exec.LDT.Base

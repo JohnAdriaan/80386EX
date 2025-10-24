@@ -57,7 +57,7 @@ Exec.Init:
                 MOV             EAX, (SRAM.Start + SRAM.Size - Screen.Size) & ~x86.PAGE.Mask
 %endif
                 MOV             ECX, Screen.Size
-                MOV             DL, x86.Type.Mem(.Data, .DPL3, .RW) ; Allow anyone to access it
+                MOV             DL, x86.Type.Mem(.Data, .DPL3, .W) ; Allow anyone to access it
                 MOV             DH, x86.Gran.Mem(.Byte, .Small)
                 CALL            Exec.Alloc.GDT.Mem
 ;               CMP             AX, Demo.GDT.Video ; Assume this will work!

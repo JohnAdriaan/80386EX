@@ -86,7 +86,7 @@ Exec.Alloc.DT.Sys:
 Exec.Alloc.DT.Mem:
                 TEST            DL, x86.Desc.Mem.Type.Code
                 JNZ             .Scale          ; Code cannot be Expand-Down
-                TEST            DL, x86.Desc.Mem.Type.Expand
+                TEST            DL, x86.Desc.Mem.Type.Data.Expand
                 JZ              .Scale          ; Not Expand-Down either
                 ADD             EAX, ECX        ; It is! Add Size to Base
                 NEG             ECX             ; And negate ECX to exclude size
