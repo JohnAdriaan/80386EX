@@ -39,7 +39,7 @@ Ints.Debug.Desc.Check:
                 JNZ             .End             ; Nope. Keep looking!
 
                 LAR             EDX,EAX          ; Get DPL into (E)DX
-                AND             DX, x86.Desc.Type.DPL.LAR.Mask  ; Isolate DPL
+                AND             EDX,x86.Desc.Type.DPL.LAR.Mask  ; Isolate DPL
                 SHR             EDX,x86.Desc.Type.DPL.LAR.Shift ; Move to RPL
                 OR              EAX,EDX          ; Update DS with it (we're CPL0, so...)
                 MOV             DS,EAX           ; Found!
