@@ -57,7 +57,7 @@ Demo.Ints.Size  EQU             $ - $$
 
 %ifdef COPY_ROM
 Copy.Source     EQU             section.Demo.Ints.start
-%endif ; COPY_ROM
+%endif
 
 %assign         Demo.Size       Demo.Size + Demo.Ints.Size
 
@@ -80,23 +80,6 @@ Demo.Exec.Size  EQU             $ - $$
 %ifdef COPY_ROM
 Copy.Size       EQU             Demo.Exec.Base + Demo.Exec.Size - Copy.Dest
 %endif
-;-------------------------------------------------------------------------------
-; Calculate final Exec.LDT Segment size
-                SEGMENT         Demo.Exec.LDT  VSTART=0  ALIGN=Align.Para
-
-Demo.Exec.LDT.Num EQU           ($ - $$) / x86.Desc.Size
-
-Demo.Exec.LDT.Num.Max EQU       Demo.Exec.LDT.Pos / x86.Desc.Size
-
-Demo.Exec.LDT.Limit EQU         Demo.Exec.LDT.Pos-1
-
-Demo.Exec.LDT.Size  EQU         Demo.Exec.LDT.Pos
-
-                ALIGN           Align.Para, DB 0FFh
-
-%assign         Demo.Size       Demo.Size + ($ - $$)
-
-%assign         Image.Size      Image.Size + ($ - $$)
 ;-------------------------------------------------------------------------------
 ; Calculate final User.Code Segment size
                 SEGMENT         Demo.User  VSTART=0  ALIGN=Align.Para
@@ -129,6 +112,23 @@ Demo.User.Data.Limit EQU        $ - $$ - 1
                 ALIGNB          Align.Para
 
 Demo.User.Data.Size  EQU        $ - $$
+;-------------------------------------------------------------------------------
+; Calculate final Exec.LDT Segment size
+                SEGMENT         Demo.Exec.LDT  VSTART=0  ALIGN=Align.Para
+
+Demo.Exec.LDT.Num EQU           ($ - $$) / x86.Desc.Size
+
+Demo.Exec.LDT.Num.Max EQU       Demo.Exec.LDT.Pos / x86.Desc.Size
+
+Demo.Exec.LDT.Limit EQU         Demo.Exec.LDT.Pos-1
+
+Demo.Exec.LDT.Size  EQU         Demo.Exec.LDT.Pos
+
+                ALIGN           Align.Para, DB 0FFh
+
+%assign         Demo.Size       Demo.Size + ($ - $$)
+
+%assign         Image.Size      Image.Size + ($ - $$)
 ;-------------------------------------------------------------------------------
 ; Calculate final Demo.GDT Segment size
                 SEGMENT         Demo.GDT  VSTART=0  ALIGN=Align.Para
