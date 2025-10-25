@@ -17,6 +17,7 @@
 
 %push Exec.Start ; Let's not leave these %defines just lying around...
 
+; These are set up in Exec.User
 %define         %$Pos           EBP - 4
 %define         %$LDT           EBP - 8
 
@@ -29,7 +30,7 @@ Exec.User.Top   EQU             1
 Exec.User.Left  EQU             (Screen.Width % Demo.Window.Width) / 2
 
 Exec.User:
-                ENTER           8, 0
+                ENTER           8, 0            ; %$Pos and %$LDT
 
                 XOR             EDX, EDX        ; Zero high part of EDX
                 MOV             DL,  .Left
