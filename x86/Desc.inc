@@ -86,10 +86,10 @@ x86.Desc.Sys.Type.286   EQU     0000_0000b      ; '286 is the original ones
 ; These are the .Type.Type field values and modifiers for Memory Descriptors
 x86.Desc.Mem.Type.Data     EQU  0000_0000b
 x86.Desc.Mem.Type.Code     EQU  0000_1000b
-x86.Desc.Mem.Type.Stack    EQU  x86.Desc.Mem.Type.Data.Expand ; See below
+x86.Desc.Mem.Type.Stack    EQU  x86.Desc.Mem.Type.Data|x86.Desc.Mem.Type.Data.Expand|x86.Desc.Mem.Type.Stack.W ; See below
 x86.Desc.Mem.Type.Accessed EQU  0000_0001b ; Set when Descriptor loaded
 
-x86.Desc.Mem.Type.Data.Expand EQU 0000_0100b ; Expand: Best used for Stacks
+x86.Desc.Mem.Type.Data.Expand  EQU 0000_0100b ; Expand: Best used for Stacks
 x86.Desc.Mem.Type.Data.W   EQU  0000_0010b ; Data Read & Writeable
 x86.Desc.Mem.Type.Data.NoW EQU  0000_0000b ; Data Read & No Write
 
@@ -97,7 +97,7 @@ x86.Desc.Mem.Type.Code.Conform EQU 0000_0100b ; Code can be executed at differen
 x86.Desc.Mem.Type.Code.R   EQU  0000_0010b ; Code Readable
 x86.Desc.Mem.Type.Code.NoR EQU  0000_0000b ; Code & No Read
 
-x86.Desc.Mem.Type.Stack.W  EQU  0000_0010b ; Stack Read & Writeable (duh!)
+x86.Desc.Mem.Type.Stack.W  EQU  x86.Desc.Mem.Type.Data.W ; Stack Read & Writeable (duh!)
 
 
 ; These are the bitfields of the .Gran field in Memory Descriptors
@@ -129,7 +129,7 @@ x86.Desc.Mem.Gran.Avail EQU     0001_0000b ; Available for system use
 ; Parameters are: Code or Data or Stack, DPL 0-3, and RW or NoRW
 %define         x86.Type.Mem(Type, DPL, RW) (\
                 x86.Desc.Type.Present | x86.Desc.Type.Mem | \
-                x86.Desc.Type%+ DPL | x86.Desc.Mem.Type%+ Type | x86.Desc.Mem.Type%+Type %+ RW \
+                x86.Desc.Type%+ DPL | x86.Desc.Mem.Type%+ Type | x86.Desc.Mem.Type%+ Type%+ RW \
                 )
 
 ; Parameters are: Gran or Byte, and Big or Small / Def32 or Def16

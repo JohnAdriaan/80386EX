@@ -51,7 +51,7 @@ Ints.Debug.Desc.Check:
                 LAR             EAX,EAX          ; One more thing...
                 TEST            AH, x86.Desc.Mem.Type.Code  ; Is it Code?
                 JNZ             .Found                      ; OK, good
-                TEST            AH, x86.Desc.Mem.Type.Stack ; No. Is it a Stack?
+                TEST            AH, x86.Desc.Mem.Type.Data.Expand ; ExpandDown?
                 JZ              .Found                      ; No! Phew!
 
                 XCHG            EBX,EDX          ; Yes, so everything's upside down!
