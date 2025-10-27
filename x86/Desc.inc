@@ -46,6 +46,9 @@ Align.Desc      EQU             x86.Desc.Size
 .BaseHi         RESB            1
                 ENDSTRUC
 
+; Simplest .Type
+x86.Desc.Type.None    EQU       0000_0000b
+
 ; The .Type field in both .Sys and .Mem structures above have the same format.
 ; These are the bitfields of the .Type field
 x86.Desc.Type.Present EQU       1000_0000b

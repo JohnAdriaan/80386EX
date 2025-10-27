@@ -8,6 +8,7 @@ Exec.Ints.BadTSS:
                 MOV             AX,  Demo.IDT.BadTSS      ; This is the IDT Entry
                 MOV             BX,  Demo.Exec.LDT.BadTSS ; This is the LDT triple
                 MOV             EDX, .Handler             ; This is the handler
+                MOV             SI,  Demo.Exec.LDT.BadTSS.LDT
                 CALL            Exec.Ints.Fault           ; Set it up
                 RET
 

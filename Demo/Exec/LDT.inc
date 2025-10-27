@@ -47,9 +47,9 @@ Demo.Exec.LDT.IDT    x86.Desc.Mem    Demo.Exec.LDT.IDT.Base,   Demo.Exec.LDT.IDT
 Demo.Exec.LDT.Stack  x86.Desc.Mem    Demo.Exec.LDT.Stack.Top,  Demo.Exec.LDT.Stack.Limit, Demo.Exec.LDT.Stack.Type, Demo.Exec.LDT.Stack.Gran
 Demo.Exec.LDT.Code   x86.Desc.Mem    Demo.Exec.LDT.Code.Base,  Demo.Exec.LDT.Code.Limit,  Demo.Exec.LDT.Code.Type,  Demo.Exec.LDT.Code.Gran
 
-Demo.Exec.LDT.Defined     EQU        $ - $$
+Demo.Exec.LDT.Initial     EQU        $ - $$
 
-%assign              Demo.Exec.LDT.Pos   Demo.Exec.LDT.Defined
+%assign              Demo.Exec.LDT.Pos Demo.Exec.LDT.Initial
 
 Demo.Exec.LDT.NoSeg          EQU       Demo.Exec.LDT.Pos
 Demo.Exec.LDT.NoSeg.TSS      EQU       Demo.Exec.LDT.Pos + x86.Desc.Size
@@ -57,6 +57,7 @@ Demo.Exec.LDT.NoSeg.TSS      EQU       Demo.Exec.LDT.Pos + x86.Desc.Size
 ;Demo.Exec.LDT.NoSeg.TSS      x86.Desc.Mem  0, 0, 0, 0 ; Alias for TSS to read Backlink
 ;Demo.Exec.LDT.NoSeg.Alias    x86.Desc.Mem  0, 0, 0, 0 ; Alias for Faulting TSS
 ;Demo.Exec.LDT.NoSeg.LDT      x86.Desc.Mem  0, 0, 0, 0 ; Alias for Faulting LDT
+Demo.Exec.LDT.NoSeg.LDT      EQU       Demo.Exec.LDT.Pos + 3*x86.Desc.Size
 
 %assign              Demo.Exec.LDT.Pos Demo.Exec.LDT.Pos + 4 * x86.Desc.Size
 
@@ -65,6 +66,7 @@ Demo.Exec.LDT.Double.TSS     EQU       Demo.Exec.LDT.Pos + x86.Desc.Size
 ;Demo.Exec.LDT.Double.Stack   x86.Desc.Mem  0, 0, 0, 0 ; Stack for Double Fault handler
 ;Demo.Exec.LDT.Double.TSS     x86.Desc.Mem  0, 0, 0, 0 ; Alias for TSS to read Backlink
 ;Demo.Exec.LDT.Double.Alias   x86.Desc.Mem  0, 0, 0, 0 ; Alias for Faulting TSS
+Demo.Exec.LDT.Double.LDT     EQU       0
 
 %assign              Demo.Exec.LDT.Pos Demo.Exec.LDT.Pos + 3 * x86.Desc.Size
 
@@ -74,6 +76,7 @@ Demo.Exec.LDT.BadStack.TSS   EQU       Demo.Exec.LDT.Pos + x86.Desc.Size
 ;Demo.Exec.LDT.BadStack.TSS   x86.Desc.Mem  0, 0, 0, 0 ; Alias for TSS to read Backlink
 ;Demo.Exec.LDT.BadStack.Alias x86.Desc.Mem  0, 0, 0, 0 ; Alias for Faulting TSS
 ;Demo.Exec.LDT.BadStack.LDT   x86.Desc.Mem  0, 0, 0, 0 ; Alias for Faulting LDT
+Demo.Exec.LDT.BadStack.LDT   EQU       Demo.Exec.LDT.Pos + 3*x86.Desc.Size
 
 %assign              Demo.Exec.LDT.Pos Demo.Exec.LDT.Pos + 4 * x86.Desc.Size
 
@@ -82,6 +85,7 @@ Demo.Exec.LDT.BadTSS.TSS     EQU       Demo.Exec.LDT.Pos + x86.Desc.Size
 ;Demo.Exec.LDT.BadTSS.Stack   x86.Desc.Mem  0, 0, 0, 0 ; Stack for BadTSS Fault handler
 ;Demo.Exec.LDT.BadTSS.TSS     x86.Desc.Mem  0, 0, 0, 0 ; Alias for TSS to read Backlink
 ;Demo.Exec.LDT.BadTSS.Alias   x86.Desc.Mem  0, 0, 0, 0 ; Alias for Faulting TSS
+Demo.Exec.LDT.BadTSS.LDT     EQU       0
 
 %assign              Demo.Exec.LDT.Pos Demo.Exec.LDT.Pos + 3 * x86.Desc.Size
 
