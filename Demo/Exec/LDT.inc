@@ -31,7 +31,7 @@ Demo.Exec.LDT.IDT.Type    EQU        x86.Type.Mem(.Data, .DPL0, .W)
 Demo.Exec.LDT.IDT.Gran    EQU        x86.Gran.Mem(.Byte, .Small)
 
 Demo.Exec.LDT.Stack.Top   EQU        Demo.Exec.Stack.Top  ; Let's play with Expand-Down Descriptors
-Demo.Exec.LDT.Stack.Limit EQU        (0-Demo.Exec.Stack.Size) >> x86.PAGE.Shift - 1
+Demo.Exec.LDT.Stack.Limit EQU        (0 - Demo.Exec.Stack.Size) >> x86.PAGE.Shift & x86.DWORD.Mask - 1
 Demo.Exec.LDT.Stack.Type  EQU        x86.Type.Mem(.Stack, .DPL0, .W)
 Demo.Exec.LDT.Stack.Gran  EQU        x86.Gran.Mem(.Page, .Big)
 

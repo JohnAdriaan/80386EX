@@ -5,7 +5,7 @@
 %ifdef COPY_ROM
 Demo.Base       EQU             Copy.Dest
 %else
-Demo.Base       EQU             ROM.Start
+Demo.Base       EQU             ROM.Start + Demo.Start
 %endif
 
 ; Calculate final Demo.Data Segment size
@@ -52,6 +52,11 @@ Demo.Boot.Size  EQU             $ - $$
 ; Calculate final Demo.Ints Segment size
                 SEGMENT         Demo.Ints  VSTART=0  ALIGN=Align.Para
 
+; This is where the Demo actually starts (within the ROM)
+Demo.Start      EQU             Demo.Size
+; So restart size calculation
+%assign         Demo.Size       0
+
 Demo.Ints.Base  EQU             Demo.Base + Demo.Size
 Demo.Ints.Limit EQU             $ - $$ - 1
 
@@ -60,7 +65,7 @@ Demo.Ints.Limit EQU             $ - $$ - 1
 Demo.Ints.Size  EQU             $ - $$
 
 %ifdef COPY_ROM
-Copy.Source     EQU             ROM.Start + section.Demo.Ints.start
+Copy.Source     EQU             section.Demo.Ints.start
 %endif
 
 %assign         Demo.Size       Demo.Size + Demo.Ints.Size
@@ -82,7 +87,7 @@ Demo.Exec.Size  EQU             $ - $$
 %assign         Image.Size      Image.Size + Demo.Exec.Size
 
 %ifdef COPY_ROM
-Copy.Size       EQU             Demo.Exec.Base + Demo.Exec.Size - Copy.Dest
+Copy.Size       EQU             Demo.Ints.Size + Demo.Exec.Size + Demo.User.Size
 %endif
 ;-------------------------------------------------------------------------------
 ; Calculate final User.Code Segment size
