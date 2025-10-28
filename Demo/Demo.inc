@@ -24,7 +24,15 @@
 
                 SEGMENT         Demo
 
+%ifdef COPY_ROM_DRAM
+Copy.Dest       EQU             0000_0000_0000_0000h
+Demo.IDT.Base   EQU             (Copy.Size + x86.PAGE.Size - 1) & ~x86.PAGE.Mask
+%else
+%ifdef COPY_ROM
+Copy.Dest       EQU             SRAM.Start
+%endif
 Demo.IDT.Base   EQU             0000_0000h
+%endif
 Demo.GDT.Base   EQU             Demo.IDT.Base + x86.PAGE.Size
 Demo.Exec.LDT.Base   EQU        Demo.GDT.Base + x86.GDT.Size.Max
 Demo.Exec.Stack.Base EQU        Demo.Exec.LDT.Base + Demo.Exec.LDT.Size

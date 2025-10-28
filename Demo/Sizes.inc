@@ -2,7 +2,11 @@
 ; Demo.Sizes.inc
 ;
 
-Demo.Base       EQU             ROM.Start ; ***!!!*** Change when COPY_ROM implemented
+%ifdef COPY_ROM
+Demo.Base       EQU             Copy.Dest
+%else
+Demo.Base       EQU             ROM.Start
+%endif
 
 ; Calculate final Demo.Data Segment size
                 SEGMENT         Demo.Data  FOLLOWS=Boot.Data ALIGN=Align.Para  NOBITS
@@ -56,7 +60,7 @@ Demo.Ints.Limit EQU             $ - $$ - 1
 Demo.Ints.Size  EQU             $ - $$
 
 %ifdef COPY_ROM
-Copy.Source     EQU             section.Demo.Ints.start
+Copy.Source     EQU             ROM.Start + section.Demo.Ints.start
 %endif
 
 %assign         Demo.Size       Demo.Size + Demo.Ints.Size
