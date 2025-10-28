@@ -34,10 +34,10 @@ Copy.Dest       EQU             SRAM.Start
 Demo.IDT.Base   EQU             0000_0000h
 %endif
 Demo.GDT.Base   EQU             Demo.IDT.Base + x86.PAGE.Size
-Demo.Exec.LDT.Base   EQU        Demo.GDT.Base + x86.GDT.Size.Max
-Demo.Exec.Stack.Base EQU        Demo.Exec.LDT.Base + Demo.Exec.LDT.Size
+Demo.Exec.LDT.Base   EQU        Demo.IDT.Base + x86.IDT.Size.Max ; Shoehorn here
+Demo.Exec.Stack.Base EQU        Demo.GDT.Base + x86.GDT.Size.Max
 Demo.Exec.Stack.Top  EQU        Demo.Exec.Stack.Base + Demo.Exec.Stack.Size
-Demo.First      EQU             Demo.Exec.Stack.Top ; First unallocated RAM
+Demo.First      EQU             Demo.Exec.Stack.Top      ; First unallocated RAM
 
 Screen.Base     EQU             Dev.SBC386EX.VGA3.Mem.Start
 Screen.Cols     EQU             Screen.Width
