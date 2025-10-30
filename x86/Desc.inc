@@ -27,6 +27,31 @@ x86.Desc.Size   EQU             x86.Desc_size
 
 Align.Desc      EQU             x86.Desc.Size
 
+
+x86.Desc.Type.Shift   EQU       40
+
+; Simplest .Type
+x86.Desc.Type.None    EQU       0000_0000b
+
+; The .Type field in both .Sys and .Mem structures have the same format.
+; These are the bitfields of the .Type field
+x86.Desc.Type.Present EQU       1000_0000b
+
+; These are the different Descriptor Privilege Levels
+x86.Desc.Type.DPL3    EQU       0110_0000b
+x86.Desc.Type.DPL2    EQU       0100_0000b
+x86.Desc.Type.DPL1    EQU       0010_0000b
+x86.Desc.Type.DPL0    EQU       0000_0000b
+
+x86.Desc.Type.DPL.Mask EQU      0110_0000b
+x86.Desc.Type.DPL.LAR.Mask  EQU x86.Desc.Type.DPL.Mask << 8 ; Convert to 16 bits
+x86.Desc.Type.DPL.LAR.Shift EQU 13         ; To isolate DPL from LAR instruction
+
+x86.Desc.Type.Sys     EQU       0000_0000b
+x86.Desc.Type.Mem     EQU       0001_0000b
+
+x86.Desc.Type.Type    EQU       0000_1111b
+
 ; The following is the structure of a System Descriptor
                 STRUC           x86.Desc.Sys
 .OffsetLo       RESW            1
@@ -46,31 +71,13 @@ Align.Desc      EQU             x86.Desc.Size
 .BaseHi         RESB            1
                 ENDSTRUC
 
-; Simplest .Type
-x86.Desc.Type.None    EQU       0000_0000b
-
-; The .Type field in both .Sys and .Mem structures above have the same format.
-; These are the bitfields of the .Type field
-x86.Desc.Type.Present EQU       1000_0000b
-
-; These are the different Descriptor Privilege Levels
-x86.Desc.Type.DPL3    EQU       0110_0000b
-x86.Desc.Type.DPL2    EQU       0100_0000b
-x86.Desc.Type.DPL1    EQU       0010_0000b
-x86.Desc.Type.DPL0    EQU       0000_0000b
-
-x86.Desc.Type.DPL.Mask EQU      0110_0000b
-x86.Desc.Type.DPL.LAR.Mask  EQU x86.Desc.Type.DPL.Mask << 8 ; Convert to 16 bits
-x86.Desc.Type.DPL.LAR.Shift EQU 13         ; To isolate DPL from LAR instruction
-
-x86.Desc.Type.Sys     EQU       0000_0000b
-x86.Desc.Type.Mem     EQU       0001_0000b
-
-x86.Desc.Type.Type    EQU       0000_1111b
 
 ;-------------------------------------------------------------------------------
 
-; These are the .Type.Type field values and modifiers for System Descriptors
+; These are the .Sys.Type field values and modifiers for System Descriptors
+x86.Desc.Sys.Type.Mask  EQU     0000_1111b
+
+x86.Desc.Sys.Type.None  EQU     x86.Desc.Type.None
 x86.Desc.Sys.Type.TSS   EQU     0000_0001b      ; Task State Segment
 x86.Desc.Sys.Type.LDT   EQU     0000_0010b      ; Local Descriptor Table
 x86.Desc.Sys.Type.Busy  EQU     0000_0011b      ; Busy TSS
@@ -123,21 +130,26 @@ x86.Desc.Mem.Gran.Avail EQU     0001_0000b ; Available for system use
 ; fields that need to be set, making for long source lines, and it's easy to
 ; forget one! Each of these assume only one thing: they're .Present
 
-; Parameters are: TSS or LDT or Call or Task or Int or Trap, DPL 0-3, 286 or 386
+; Parameters are: .None or .TSS or .LDT or .Call or .Task or .Int or .Trap, .DPL0-3, .286 or .386
 %define         x86.Type.Sys(Type, DPL, x86) (\
                 x86.Desc.Type.Present | x86.Desc.Type.Sys | \
                 x86.Desc.Type%+ DPL | x86.Desc.Sys.Type%+ Type | x86.Desc.Sys.Type%+ x86 \
                 )
 
-; Parameters are: Code or Data or Stack, DPL 0-3, and RW or NoRW
+; Parameters are: .Code or .Data or .Stack, .DPL 0-3, and .W or .NoW / .R or .NoR
 %define         x86.Type.Mem(Type, DPL, RW) (\
                 x86.Desc.Type.Present | x86.Desc.Type.Mem | \
                 x86.Desc.Type%+ DPL | x86.Desc.Mem.Type%+ Type | x86.Desc.Mem.Type%+ Type%+ RW \
                 )
 
-; Parameters are: Gran or Byte, and Big or Small / Def32 or Def16
+; Parameters are: .Gran or .Byte, and .Big or .Small / .Def32 or .Def16
 %define         x86.Gran.Mem(Gran, Size) (\
                 x86.Desc.Mem.Gran%+ Gran | x86.Desc.Mem.Gran%+ Size \
+                )
+
+; Parameter is `3CH`
+%define         x86.Desc.ASCII(Mask) (\
+                (Mask >> x86.WORD.Bits) | ((Mask & x86.WORD.Mask) << x86.WORD.Bits) \
                 )
 
 ; A helper macro, making it easy to allocate a System Descriptor in a Table.

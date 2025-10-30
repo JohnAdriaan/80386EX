@@ -53,6 +53,13 @@ Exec.Ints.Fault:
                 MOV             DH, x86.Gran.Mem(.Byte,  .Big)
                 CALL            Exec.Alloc.DT.Mem
 
+                MOV             EAX, EDI
+                OR              EBX, x86.Seg.LDT
+                MOV             ECX, Exec.Ints.Fault.Stack.Size
+                MOV             EDI, ECX
+                NEG             EDI
+                CALL            Exec.Alloc.RAM.Fill
+
                 ; Allocate TSS
                 SLDT            AX            ; My LDT
                 CALL            Exec.Alloc.TSS
@@ -92,12 +99,6 @@ Exec.Ints.Fault:
                 ADD             EBX, x86.Desc_size ; Point to Faulting TSS Alias
                 MOV             [ES:EBX + x86.Desc.Type], BYTE x86.Desc.Type.None
 
-                ; Clear Faulting LDT Alias (if present)
-                TEST            SI, SI
-                JZ              .IDT
-                MOV             [ES:SI + x86.Desc.Type], BYTE x86.Desc.Type.None
-
-.IDT:
                 ; Finally, update IDT Entry to tell it it's now handled by a TSS
                 XOR             EAX, EAX
                 MOV             EBX, [%$IDT.Entry]

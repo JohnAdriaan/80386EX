@@ -58,7 +58,7 @@ Ints.Buffer.Pop.External:
 ; switch away from it either!
 Ints.Switch:
 
-.Type.Mask      EQU             x86.Desc.Type.Present | x86.Desc.Type.Sys | x86.Desc.Type.Type
+.Type.Mask      EQU             x86.Desc.Type.Present | x86.Desc.Type.Sys | x86.Desc.Sys.Type.Mask
 .TSS.Idle       EQU             x86.Type.Sys(.TSS, .DPL0, .386) ; Target!
 
                 STR             EAX             ; Get current TSS

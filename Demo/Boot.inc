@@ -25,6 +25,7 @@
                 USE32
 
 Demo.Boot:
+                CLD
                 XOR             ECX, ECX        ; Can now load just CX (smaller)
 
 %ifdef COPY_ROM
@@ -51,8 +52,8 @@ Demo.Boot:
                 MOV             EDI, Demo.GDT.Base
              CS REP             MOVSD
 
-                ; Zero out the rest of the GDT
-                XOR             EAX, EAX        ; Zeroes
+                ; 'Zero' out the rest of the GDT - Strategic placement of x86.Desc.Type.None
+                MOV             EAX, x86.Desc.ASCII(`GDT`)
                 MOV             CX,  (x86.GDT.Num.Max - Demo.GDT.Num) * x86.Desc.Size / x86.DWORD.Size
                 REP             STOSD
 
@@ -62,8 +63,15 @@ Demo.Boot:
                 MOV             EDI, Demo.Exec.LDT.Base
              CS REP             MOVSD
 
-;               MOV             CL,  (Demo.Exec.LDT.Num.Max - Demo.Exec.LDT.Num) * x86.Desc.Size / x86.DWORD.Size
-;               REP             STOSD           ; Gonna be overwritten immediately anyway...
+                MOV             EAX, x86.Desc.ASCII(`LDT`)
+                MOV             CL,  (Demo.Exec.LDT.Num.Max - Demo.Exec.LDT.Num) * x86.Desc.Size / x86.DWORD.Size
+                REP             STOSD
+
+; ASCII fill Stack0 for debugging
+                MOV             EAX, `Stk0`
+                MOV             ECX, Demo.Exec.Stack.Size / x86.DWORD.Size
+                MOV             EDI, Demo.Exec.Stack.Base
+                REP             STOSD
 
 ; Now that everything's copied, point (in order) to GDT, IDT, and LDT
             O32 LGDT            [Demo.GDT.Base + Demo.GDT.Alloc.Pseudo]

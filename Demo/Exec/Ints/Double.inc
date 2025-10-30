@@ -8,7 +8,7 @@ Exec.Ints.Double:
                 MOV             AX,  Demo.IDT.Double      ; This is the IDT Entry
                 MOV             BX,  Demo.Exec.LDT.Double ; This is the LDT triple
                 MOV             EDX, .Handler             ; This is the handler
-                MOV             SI,  Demo.Exec.LDT.Double.LDT
+                MOV             EDI, `Dble`               ; Stack filler
                 CALL            Exec.Ints.Fault           ; Set it up
                 RET
 

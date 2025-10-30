@@ -9,7 +9,7 @@
 Exec.User.LDT:
                 ; Allocate an LDT
                 MOV             ECX, Demo.User.LDT.Size ; Need this many bytes (zeroes high)
-                CALL            Exec.Alloc.LDT
+                CALL            Exec.Alloc.LDT          ; Stored in ES
                 TEST            EAX, EAX                ; Any left?
                 JZ              .Failed                 ; Nope! Finished
 
@@ -23,7 +23,7 @@ Exec.User.LDT:
 
                 MOV             DL, x86.Type.Mem(.Stack, .DPL0, .W) & ~Demo.System.Present
                 MOV             DH, x86.Gran.Mem(.Byte, .Small)
-                CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry
+                CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry in ES
                 CMP             AX, Demo.User.LDT.Stack0
                 JNE             .Failed
 
@@ -35,7 +35,7 @@ Exec.User.LDT:
 
                 MOV             DL, x86.Type.Mem(.Stack, .DPL3, .W) & ~Demo.System.Present
                 MOV             DH, x86.Gran.Mem(.Byte, .Small)
-                CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry
+                CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry in ES
                 CMP             AX, Demo.User.LDT.Stack3
                 JNE             .Failed
 
@@ -47,7 +47,7 @@ Exec.User.LDT:
 
                 MOV             DL, x86.Type.Mem(.Data, .DPL3, .W) & ~Demo.System.Present
                 MOV             DH, x86.Gran.Mem(.Byte, .Big)
-                CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry
+                CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry in ES
                 CMP             AX, Demo.User.LDT.Data
                 JNE             .Failed
 
@@ -56,12 +56,12 @@ Exec.User.LDT:
                 MOV             CX,  Demo.User.Limit+1
                 MOV             DL,  x86.Type.Mem(.Code, .DPL3, .R) & ~Demo.System.Present
                 MOV             DH,  x86.Gran.Mem(.Byte, .Def32)
-                CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry
+                CALL            Exec.Alloc.LDT.Mem      ; Allocate LDT Entry in ES
                 CMP             AX,  Demo.User.LDT.Code
                 JNE             .Failed
 
                 ; Now enable the LDT
-                CALL            Exec.Alloc.LDT.Enable   ; Finished!
+                CALL            Exec.Alloc.LDT.Enable   ; Finished! ES is now zero
 
                 MOV             EAX, [%$LDT]            ; LDT descriptor
                 JMP             .End

@@ -41,6 +41,23 @@ Exec.Alloc.RAM:
                 RET
 
 ;...............................................................................
+; This function fills the (4-byte multiple) block of RAM
+; Input:  EAX = Value to fill
+;         BX  = Segment to fill
+;         ECX = Bytes to fill
+;         EDI = Start address
+; Output: ES, EAX and BX preserved
+;         ECX, EDI destroyed
+Exec.Alloc.RAM.Fill:
+                PUSH            ES
+                MOV             ES, BX
+                SHR             ECX, 2
+                REP             STOSD
+                POP             ES
+                RET
+
+
+;...............................................................................
 ; This function zeroes out the block of passed-in RAM.
 ; Input:  ES  = Segment to zero
 ;         ECX = Size to zero
